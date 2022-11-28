@@ -327,7 +327,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EDDF264DF0A06F7BD36701F6 /* Pods-ios.staging debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Staging";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ios/Preview Content\"";
 				DEVELOPMENT_TEAM = KN55ZYC8QK;
@@ -348,7 +348,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ED8909A3780D07685D1EA3D8 /* Pods-ios.staging release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Staging";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ios/Preview Content\"";
 				DEVELOPMENT_TEAM = KN55ZYC8QK;
