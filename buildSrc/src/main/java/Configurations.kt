@@ -24,3 +24,10 @@ object Plugins {
     const val KOTLIN_SERIALIZATION = "plugin.serialization"
     const val KOTLINX_SERIALIZATION = "kotlinx-serialization"
 }
+
+object XcodeConfiguration {
+    const val STAGING_DEBUG = "Staging Debug"
+    const val PRODUCTION_DEBUG ="Production Debug"
+    const val STAGING_RELEASE = "Staging Release"
+    const val PRODUCTION_RELEASE = "Production Release"
+}

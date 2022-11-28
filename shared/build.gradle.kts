@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
+
 plugins {
     kotlin(Plugins.MULTIPLATFORM)
     kotlin(Plugins.COCOAPODS)
@@ -19,6 +21,10 @@ kotlin {
         framework {
             baseName = "shared"
         }
+        xcodeConfigurationToNativeBuildType[XcodeConfiguration.STAGING_DEBUG] = NativeBuildType.DEBUG
+        xcodeConfigurationToNativeBuildType[XcodeConfiguration.STAGING_RELEASE] = NativeBuildType.RELEASE
+        xcodeConfigurationToNativeBuildType[XcodeConfiguration.PRODUCTION_DEBUG] = NativeBuildType.DEBUG
+        xcodeConfigurationToNativeBuildType[XcodeConfiguration.PRODUCTION_RELEASE] = NativeBuildType.RELEASE
     }
 
     sourceSets {
