@@ -6,8 +6,8 @@ buildscript {
     }
 
     dependencies {
-        classpath(Deps.Gradle.GRADLE)
-        classpath(Deps.Gradle.KOTLIN_GRADLE_PLUGIN)
+        classpath(Dependencies.Gradle.GRADLE)
+        classpath(Dependencies.Gradle.KOTLIN_GRADLE_PLUGIN)
     }
 }
 

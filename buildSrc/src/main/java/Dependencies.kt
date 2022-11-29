@@ -21,7 +21,7 @@ object Versions {
     const val TIMBER = "4.7.1"
 }
 
-object Deps {
+object Dependencies {
     object Gradle {
         const val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
         const val GRADLE = "com.android.tools.build:gradle:${Versions.GRADLE}"

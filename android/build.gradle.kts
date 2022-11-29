@@ -39,11 +39,11 @@ android {
 dependencies {
     implementation(project(Modules.SHARED))
 
-    with(Deps.AndroidX) {
+    with(Dependencies.AndroidX) {
         implementation(ACTIVITY_COMPOSE)
     }
 
-    with(Deps.Compose) {
+    with(Dependencies.Compose) {
         implementation(UI)
         implementation(UI_GRAPHICS)
         implementation(MATERIAL)
@@ -51,11 +51,11 @@ dependencies {
         implementation(UI_TOOLING)
     }
 
-    with(Deps.Log) {
+    with(Dependencies.Log) {
         implementation(TIMBER)
     }
 
-    with(Deps.Test) {
+    with(Dependencies.Test) {
         implementation(JUNIT)
         implementation(COROUTINES)
     }
