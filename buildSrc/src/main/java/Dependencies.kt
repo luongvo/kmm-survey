@@ -22,6 +22,7 @@ object Versions {
 
     const val KOTLIN = "1.7.10"
     const val KOTLIN_COROUTINES = "1.6.4"
+    const val KOVER = "0.6.1"
 
     const val TIMBER = "4.7.1"
 }

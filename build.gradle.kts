@@ -14,6 +14,7 @@ buildscript {
 
 plugins {
     id(Plugins.DETEKT).version(Versions.DETEKT)
+    id(Plugins.KOVER_PACKAGE).version(Versions.KOVER)
 }
 
 allprojects {
@@ -49,5 +50,20 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
     reports {
         html.required.set(true)
         xml.required.set(true)
+    }
+}
+
+koverMerged {
+    enable()
+
+    val generatedFiles = emptySet<String>()
+
+    val excludedPackages = emptySet<String>()
+
+    val excludedFiles = generatedFiles + excludedPackages
+    filters {
+        classes {
+            excludes += excludedFiles
+        }
     }
 }

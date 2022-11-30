@@ -42,3 +42,6 @@ jobs:
 
       - name: Run Lint
         run: ./gradlew lintStagingDebug
+
+      - name: Run unit tests with Kover
+        run: ./gradlew koverMergedXmlReport
