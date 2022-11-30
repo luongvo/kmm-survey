@@ -12,6 +12,10 @@ buildscript {
     }
 }
 
+plugins {
+    id(Plugins.DETEKT).version(Versions.DETEKT)
+}
+
 allprojects {
     repositories {
         google()
@@ -21,4 +25,29 @@ allprojects {
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
+}
+
+detekt {
+    toolVersion = Versions.DETEKT
+
+    source = files(
+        "android/src",
+        "shared/src"
+    )
+    parallel = false
+    config = files("detekt-config.yml")
+    buildUponDefaultConfig = false
+    disableDefaultRuleSets = false
+
+    ignoreFailures = false
+
+    ignoredBuildTypes = listOf(BuildTypes.RELEASE)
+    ignoredFlavors = listOf(Flavors.PRODUCTION)
+}
+
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+    }
 }

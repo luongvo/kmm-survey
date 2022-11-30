@@ -11,6 +11,8 @@ object Versions {
     const val COMPOSE = "1.3.0"
     const val COMPOSE_NAVIGATION = "2.5.2"
 
+    const val DETEKT = "1.21.0"
+
     const val FIREBASE_BOM = "31.1.0"
 
     const val GOOGLE_SERVICES = "4.3.13"
