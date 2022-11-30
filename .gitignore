@@ -47,5 +47,9 @@ local.properties
 xcuserdata
 
 # Android
+# Google services
+google-services.json
+# Keystore
+config/release.keystore
 
 # iOS

@@ -1,8 +1,5 @@
 name: Android - Deploy Staging build to Firebase
 
-# SECRETS needed:
-### FIREBASE_TOKEN
-
 on:
   push:
     branches:
@@ -20,7 +17,8 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
 
-      - uses: actions/checkout@v3
+      - name: Checkout source code
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
