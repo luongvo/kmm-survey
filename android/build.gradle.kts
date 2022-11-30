@@ -1,6 +1,7 @@
 plugins {
     id(Plugins.ANDROID_APPLICATION)
     kotlin(Plugins.ANDROID)
+    id(Plugins.GOOGLE_SERVICES)
 }
 
 val keystoreProperties = rootDir.loadGradleProperties("signing.properties")
@@ -86,6 +87,11 @@ dependencies {
         implementation(MATERIAL)
         implementation(NAVIGATION)
         implementation(UI_TOOLING)
+    }
+
+    with(Dependencies.Firebase) {
+        implementation(platform(FIREBASE_BOM))
+        implementation(FIREBASE_ANALYTICS)
     }
 
     with(Dependencies.Log) {

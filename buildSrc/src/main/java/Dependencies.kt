@@ -11,6 +11,9 @@ object Versions {
     const val COMPOSE = "1.3.0"
     const val COMPOSE_NAVIGATION = "2.5.2"
 
+    const val FIREBASE_BOM = "31.1.0"
+
+    const val GOOGLE_SERVICES = "4.3.13"
     const val GRADLE = "7.0.4"
 
     const val JUNIT = "4.13.2"
@@ -37,6 +40,12 @@ object Dependencies {
         const val UI_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
         const val MATERIAL = "androidx.compose.material:material:${Versions.COMPOSE}"
         const val NAVIGATION = "androidx.navigation:navigation-compose:${Versions.COMPOSE_NAVIGATION}"
+    }
+
+    object Firebase {
+        const val GOOGLE_SERVICES = "com.google.gms:google-services:${Versions.GOOGLE_SERVICES}"
+        const val FIREBASE_BOM = "com.google.firebase:firebase-bom:${Versions.FIREBASE_BOM}"
+        const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
     }
 
     object Log {
