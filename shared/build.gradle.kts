@@ -1,7 +1,7 @@
 plugins {
-    kotlin("multiplatform")
-    kotlin("native.cocoapods")
-    id("com.android.library")
+    kotlin(Plugins.MULTIPLATFORM)
+    kotlin(Plugins.COCOAPODS)
+    id(Plugins.ANDROID_LIBRARY)
 }
 
 kotlin {
@@ -53,9 +53,9 @@ kotlin {
 
 android {
     namespace = "vn.luongvo.kmm.survey"
-    compileSdk = 32
+    compileSdk = Versions.ANDROID_COMPILE_SDK_VERSION
     defaultConfig {
-        minSdk = 24
-        targetSdk = 32
+        minSdk = Versions.ANDROID_MIN_SDK_VERSION
+        targetSdk = Versions.ANDROID_TARGET_SDK_VERSION
     }
 }
