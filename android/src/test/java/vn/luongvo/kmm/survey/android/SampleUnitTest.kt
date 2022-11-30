@@ -3,7 +3,7 @@ package vn.luongvo.kmm.survey.android
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class AndroidTest {
+class SampleUnitTest {
 
     @Test
     fun testExample() {
