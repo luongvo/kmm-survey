@@ -39,3 +39,6 @@ jobs:
 
       - name: Run Detekt
         run: ./gradlew detekt
+
+      - name: Run Lint
+        run: ./gradlew lintStagingDebug
