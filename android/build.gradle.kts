@@ -63,7 +63,7 @@ android {
         }
     }
 
-    flavorDimensions += Flavors.DIMENSION
+    flavorDimensions += Flavors.DIMENSION_VERSION
     productFlavors {
         create(Flavors.STAGING) {
             applicationIdSuffix = ".staging"
