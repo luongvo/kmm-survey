@@ -3,7 +3,7 @@ package vn.luongvo.kmm.survey
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-class CommonGreetingTest {
+class CommonTest {
 
     @Test
     fun testExample() {
