@@ -2,7 +2,7 @@ name: Review pull request
 
 on:
   pull_request:
-    types: [ opened, reopened, edited, synchronize ]
+    types: [ opened, reopened, edited, synchronize, ready_for_review ]
 
 jobs:
   review_pull_request:
