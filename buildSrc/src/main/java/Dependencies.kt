@@ -11,6 +11,8 @@ object Versions {
     const val COMPOSE = "1.3.0"
     const val COMPOSE_NAVIGATION = "2.5.2"
 
+    const val DETEKT = "1.21.0"
+
     const val FIREBASE_BOM = "31.1.0"
 
     const val GOOGLE_SERVICES = "4.3.13"
@@ -20,6 +22,7 @@ object Versions {
 
     const val KOTLIN = "1.7.10"
     const val KOTLIN_COROUTINES = "1.6.4"
+    const val KOVER = "0.6.1"
 
     const val TIMBER = "4.7.1"
 }

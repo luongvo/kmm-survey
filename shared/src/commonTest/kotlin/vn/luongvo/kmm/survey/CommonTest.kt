@@ -3,10 +3,10 @@ package vn.luongvo.kmm.survey
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-class IosGreetingTest {
+class CommonTest {
 
     @Test
     fun testExample() {
-        assertTrue(Greeting().greeting().contains("iOS"), "Check iOS is mentioned")
+        assertTrue(Greeting().greeting().contains("Hello"), "Check 'Hello' is mentioned")
     }
 }

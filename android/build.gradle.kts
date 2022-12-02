@@ -2,6 +2,7 @@ plugins {
     id(Plugins.ANDROID_APPLICATION)
     kotlin(Plugins.ANDROID)
     id(Plugins.GOOGLE_SERVICES)
+    id(Plugins.KOVER)
 }
 
 val keystoreProperties = rootDir.loadGradleProperties("signing.properties")
@@ -71,6 +72,16 @@ android {
         }
 
         create(Flavors.PRODUCTION) {}
+    }
+
+    testOptions {
+        unitTests.all {
+            if (it.name != "testStagingDebugUnitTest") {
+                it.extensions.configure(kotlinx.kover.api.KoverTaskExtension::class) {
+                    isDisabled.set(true)
+                }
+            }
+        }
     }
 }
 

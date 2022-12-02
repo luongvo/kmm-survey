@@ -4,6 +4,7 @@ plugins {
     kotlin(Plugins.MULTIPLATFORM)
     kotlin(Plugins.COCOAPODS)
     id(Plugins.ANDROID_LIBRARY)
+    id(Plugins.KOVER)
 }
 
 kotlin {
