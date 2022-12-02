@@ -23,6 +23,8 @@ object Plugins {
 
     const val KOTLIN_SERIALIZATION = "plugin.serialization"
     const val KOTLINX_SERIALIZATION = "kotlinx-serialization"
+
+    const val GOOGLE_SERVICES = "com.google.gms.google-services"
 }
 
 object XcodeConfiguration {

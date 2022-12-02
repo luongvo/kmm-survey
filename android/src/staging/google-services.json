@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "835959262689",
+    "project_id": "kmm-survey",
+    "storage_bucket": "kmm-survey.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835959262689:android:d9b8f785d7bf477a0896a0",
+        "android_client_info": {
+          "package_name": "vn.luongvo.kmm.survey.android.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835959262689-9je6a0cec7ebnrp918q06hilt8e9ihac.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHjDdrJXMSz4uNpxJ7eK-KLYepKDR5Lq8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835959262689-9je6a0cec7ebnrp918q06hilt8e9ihac.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
