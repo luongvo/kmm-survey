@@ -8,6 +8,8 @@ object Versions {
 
     const val ANDROIDX_ACTIVITY_COMPOSE = "1.5.1"
 
+    const val BUILD_KONFIG = "0.13.3"
+
     const val COMPOSE = "1.3.0"
     const val COMPOSE_NAVIGATION = "2.5.2"
 
@@ -31,6 +33,7 @@ object Dependencies {
     object Gradle {
         const val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
         const val GRADLE = "com.android.tools.build:gradle:${Versions.GRADLE}"
+        const val BUILD_KONFIG = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:${Versions.BUILD_KONFIG}"
     }
 
     object AndroidX {

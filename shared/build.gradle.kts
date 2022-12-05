@@ -1,9 +1,11 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 
 plugins {
     kotlin(Plugins.MULTIPLATFORM)
     kotlin(Plugins.COCOAPODS)
     id(Plugins.ANDROID_LIBRARY)
+    id(Plugins.BUILD_KONFIG)
     id(Plugins.KOVER)
 }
 
@@ -64,5 +66,47 @@ android {
     defaultConfig {
         minSdk = Versions.ANDROID_MIN_SDK_VERSION
         targetSdk = Versions.ANDROID_TARGET_SDK_VERSION
+    }
+}
+
+val buildKonfigProperties = rootDir.loadGradleProperties("buildKonfig.properties")
+buildkonfig {
+    packageName = "vn.luongvo.kmm.survey"
+
+    // Default for Flavors.STAGING
+    defaultConfigs {
+        buildConfigField(
+            STRING,
+            "CLIENT_ID",
+            buildKonfigProperties.getProperty("STAGING_CLIENT_ID")
+        )
+        buildConfigField(
+            STRING,
+            "CLIENT_SECRET",
+            buildKonfigProperties.getProperty("STAGING_CLIENT_SECRET")
+        )
+        buildConfigField(
+            STRING,
+            "BASE_URL",
+            buildKonfigProperties.getProperty("STAGING_BASE_URL")
+        )
+    }
+
+    defaultConfigs(Flavors.PRODUCTION) {
+        buildConfigField(
+            STRING,
+            "CLIENT_ID",
+            buildKonfigProperties.getProperty("PRODUCTION_CLIENT_ID")
+        )
+        buildConfigField(
+            STRING,
+            "CLIENT_SECRET",
+            buildKonfigProperties.getProperty("PRODUCTION_CLIENT_SECRET")
+        )
+        buildConfigField(
+            STRING,
+            "BASE_URL",
+            buildKonfigProperties.getProperty("PRODUCTION_BASE_URL")
+        )
     }
 }
