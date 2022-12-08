@@ -1,0 +1,56 @@
+name: Android - Deploy Staging build to Firebase
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+jobs:
+  deploy_android_staging_to_firebase:
+    name: Deploy android staging to Firebase
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Checkout source code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup BuildKonfig Properties
+        env:
+          BUILD_KONFIG_PROPERTIES: ${{ secrets.BUILD_KONFIG_PROPERTIES }}
+        run: |
+          echo $BUILD_KONFIG_PROPERTIES | base64 --decode > buildKonfig.properties
+
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches/modules-*
+            ~/.gradle/caches/jars-*
+            ~/.gradle/caches/build-cache-*
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - uses: chkfung/android-version-actions@v1.1
+        with:
+          gradlePath: android/build.gradle.kts
+          versionCode: ${{ github.run_number }}
+
+      - name: Build Staging APK
+        run: ./gradlew assembleStagingDebug
+
+      - name: Deploy staging to Firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: '1:835959262689:android:d9b8f785d7bf477a0896a0'
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_DISTRIBUTION_CREDENTIAL_JSON }}
+          groups: nimble
+          file: android/build/outputs/apk/staging/debug/android-staging-debug.apk

@@ -2,19 +2,68 @@
 
 A Nimble Survey KMM project.
 
-## Usage
+## Get Started
+
+### Usage
 
 Clone the repository
 
 `git clone git@github.com:luongvo/kmm-survey.git`
 
+### Environments
+
+- Build types
+  - `debug`
+  - `release`
+
+- Environment
+  - `staging`: local development and testing distribution.
+  - `production`: production deployment.
+
+## Linter and static code analysis
+
+- Lint:
+
+```
+$ ./gradlew lint
+```
+
+Report is located at: `./android/build/reports/` and `./shared/build/reports/`
+
+- Detekt
+
+```
+$ ./gradlew detekt
+```
+
+Report is located at: `./build/reports/detekt`
+
+## Testing
+
+- Run unit testing:
+
+```
+$ ./gradlew android:testStagingDebugUnitTest
+$ ./gradlew shared:testDebugUnitTest
+```
+
+- Run unit testing with coverage:
+
+```
+$ ./gradlew koverMergedHtmlReport
+```
+
+Report is located at: `./build/reports/kover/`
+
 ## License
 
-This project is Copyright (c) 2014 and onwards Nimble. It is free software and may be redistributed under the terms specified in the [LICENSE] file.
+This project is Copyright (c) 2014 and onwards Nimble. It is free software and may be redistributed under the terms
+specified in the [LICENSE] file.
 
 [LICENSE]: /LICENSE
 
 ## About
+
 <a href="https://nimblehq.co/">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://assets.nimblehq.co/logo/dark/logo-dark-text-160.png">
