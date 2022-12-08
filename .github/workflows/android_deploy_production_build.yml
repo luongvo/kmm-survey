@@ -22,6 +22,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup BuildKonfig Properties
+        env:
+          BUILD_KONFIG_PROPERTIES: ${{ secrets.BUILD_KONFIG_PROPERTIES }}
+        run: |
+          echo $BUILD_KONFIG_PROPERTIES | base64 --decode > buildKonfig.properties
+
       - name: Setup Google Services
         env:
           ANDROID_PRODUCTION_GOOGLE_SERVICES_JSON: ${{ secrets.ANDROID_PRODUCTION_GOOGLE_SERVICES_JSON }}
