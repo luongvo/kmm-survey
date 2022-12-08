@@ -1,3 +1,8 @@
+Note: for a release PR, append this parameter `?template=release_template.md` to the current URL to apply the release PR
+template, e.g. `{Github PR URL}?template=release_template.md`
+
+--
+
 - Close #
 
 ## What happened 👀
