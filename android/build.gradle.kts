@@ -91,7 +91,6 @@ dependencies {
     with(Dependencies.AndroidX) {
         implementation(ACTIVITY_COMPOSE)
     }
-
     with(Dependencies.Compose) {
         implementation(UI)
         implementation(UI_GRAPHICS)
@@ -99,12 +98,14 @@ dependencies {
         implementation(NAVIGATION)
         implementation(UI_TOOLING)
     }
-
     with(Dependencies.Firebase) {
         implementation(platform(FIREBASE_BOM))
         implementation(FIREBASE_ANALYTICS)
     }
-
+    with(Dependencies.Koin) {
+        implementation(ANDROID)
+        implementation(COMPOSE)
+    }
     with(Dependencies.Log) {
         implementation(TIMBER)
     }

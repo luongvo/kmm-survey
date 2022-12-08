@@ -18,6 +18,8 @@ object Plugins {
     const val ANDROID_APPLICATION = "com.android.application"
     const val ANDROID_LIBRARY = "com.android.library"
 
+    const val BUILD_KONFIG = "com.codingfeline.buildkonfig"
+
     const val COCOAPODS = "native.cocoapods"
 
     const val DETEKT = "io.gitlab.arturbosch.detekt"

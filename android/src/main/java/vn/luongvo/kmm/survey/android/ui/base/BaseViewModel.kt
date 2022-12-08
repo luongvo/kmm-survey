@@ -1,24 +1,21 @@
 package vn.luongvo.kmm.survey.android.ui.base
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import vn.luongvo.kmm.survey.android.lib.IsLoading
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
-import vn.luongvo.kmm.survey.android.util.DispatchersProvider
 
 interface BaseInput
 
 interface BaseOutput
 
 @Suppress("PropertyName")
-abstract class BaseViewModel(private val dispatchersProvider: DispatchersProvider) : ViewModel() {
+abstract class BaseViewModel : ViewModel() {
 
-    abstract val input: BaseInput
-
-    abstract val output: BaseOutput
+    // TODO update in https://github.com/luongvo/kmm-survey/issues/8
+//    abstract val input: BaseInput
+//
+//    abstract val output: BaseOutput
 
     private var loadingCount: Int = 0
 
@@ -54,8 +51,9 @@ abstract class BaseViewModel(private val dispatchersProvider: DispatchersProvide
         }
     }
 
-    fun execute(coroutineDispatcher: CoroutineDispatcher = dispatchersProvider.io, job: suspend () -> Unit) =
-        viewModelScope.launch(coroutineDispatcher) {
-            job.invoke()
-        }
+    // TODO update in https://github.com/luongvo/kmm-survey/issues/8
+//    fun execute(coroutineDispatcher: CoroutineDispatcher = dispatchersProvider.io, job: suspend () -> Unit) =
+//        viewModelScope.launch(coroutineDispatcher) {
+//            job.invoke()
+//        }
 }
