@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import vn.luongvo.kmm.survey.domain.repository.AuthRepository
 
 interface LogInUseCase {
+
     operator fun invoke(email: String, password: String): Flow<String>
 }
 

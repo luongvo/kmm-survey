@@ -8,6 +8,7 @@ import vn.luongvo.kmm.survey.data.remote.apiclient.builder.path
 import vn.luongvo.kmm.survey.data.remote.body.LoginRequestBody
 
 interface AuthRemoteDataSource {
+
     fun logIn(body: LoginRequestBody): Flow<String>
 }
 
