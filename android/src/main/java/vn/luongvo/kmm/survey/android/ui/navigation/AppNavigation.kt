@@ -4,19 +4,26 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.*
 import androidx.navigation.compose.*
 import vn.luongvo.kmm.survey.android.ui.screens.home.HomeScreen
+import vn.luongvo.kmm.survey.android.ui.screens.login.LoginScreen
 
 @Composable
 fun AppNavigation(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = AppDestination.Home.destination
+    startDestination: String = AppDestination.Login.destination
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
+        composable(AppDestination.Login) {
+            LoginScreen(
+                // TODO handle navigation later
+                // navigator = { destination -> navController.navigate(destination) }
+            )
+        }
         composable(AppDestination.Home) {
             HomeScreen(
-                // TODO
+                // TODO handle navigation later
                 // navigator = { destination -> navController.navigate(destination) }
             )
         }

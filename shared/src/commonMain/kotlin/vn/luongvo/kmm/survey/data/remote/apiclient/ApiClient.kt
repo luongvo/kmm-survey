@@ -20,12 +20,6 @@ class ApiClient(
 ) {
 
     val httpClient: HttpClient
-    val json = Json {
-        prettyPrint = true
-        isLenient = true
-        encodeDefaults = true
-        ignoreUnknownKeys = true
-    }
 
     init {
         Napier.takeLogarithm()
@@ -41,7 +35,14 @@ class ApiClient(
             }
 
             install(ContentNegotiation) {
-                json(json)
+                json(
+                    Json {
+                        prettyPrint = true
+                        isLenient = true
+                        encodeDefaults = true
+                        ignoreUnknownKeys = true
+                    }
+                )
             }
         }
     }
