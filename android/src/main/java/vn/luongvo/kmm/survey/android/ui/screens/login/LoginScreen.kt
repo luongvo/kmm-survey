@@ -35,6 +35,9 @@ fun LoginScreen(viewModel: LoginViewModel = getViewModel()) {
             password = it
             // TODO https://github.com/luongvo/kmm-survey/issues/8
         },
+        onLogInClick = {
+            // TODO https://github.com/luongvo/kmm-survey/issues/8
+        },
     )
 }
 
@@ -44,6 +47,7 @@ private fun LoginScreenContent(
     password: String,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
+    onLogInClick: () -> Unit,
 ) {
     Box {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -55,7 +59,7 @@ private fun LoginScreenContent(
             modifier = Modifier
                 .align(Alignment.Center)
                 .wrapContentHeight()
-                .offset(0f.dp, (-229f).dp)
+                .offset(0.dp, (-229).dp)
         )
 
         Column(
@@ -65,14 +69,14 @@ private fun LoginScreenContent(
                 .wrapContentHeight()
                 .padding(horizontal = dimensions.paddingLarge)
         ) {
-            CustomTextField(
+            PrimaryTextField(
                 value = email,
                 onValueChange = onEmailChange,
                 placeholder = stringResource(id = R.string.login_email),
                 keyboardType = KeyboardType.Email,
             )
             Box {
-                CustomTextField(
+                PrimaryTextField(
                     value = password,
                     onValueChange = onPasswordChange,
                     placeholder = stringResource(id = R.string.login_password),
@@ -86,14 +90,12 @@ private fun LoginScreenContent(
                     modifier = Modifier
                         .wrapContentHeight()
                         .align(Alignment.CenterEnd)
-                        .padding(end = 12f.dp)
+                        .padding(end = 12.dp)
                 )
             }
-            CustomButton(
+            PrimaryButton(
                 text = stringResource(id = R.string.login_button),
-                onClick = {
-                    // TODO https://github.com/luongvo/kmm-survey/issues/8
-                },
+                onClick = onLogInClick,
             )
         }
     }
@@ -107,7 +109,8 @@ fun LoginScreenPreview() {
             email = "",
             password = "",
             onEmailChange = {},
-            onPasswordChange = {}
+            onPasswordChange = {},
+            onLogInClick = {}
         )
     }
 }

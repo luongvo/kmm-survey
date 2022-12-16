@@ -20,7 +20,7 @@ import vn.luongvo.kmm.survey.android.ui.theme.White18
 import vn.luongvo.kmm.survey.android.ui.theme.White30
 
 @Composable
-fun CustomTextField(
+fun PrimaryTextField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
@@ -63,8 +63,8 @@ fun CustomTextField(
 
 @Preview
 @Composable
-fun CustomTextFieldPreview() {
-    CustomTextField(
+fun PrimaryTextFieldPreview() {
+    PrimaryTextField(
         value = "",
         placeholder = "Email",
         onValueChange = {}

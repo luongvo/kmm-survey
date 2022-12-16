@@ -13,7 +13,7 @@ import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.shapes
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 
 @Composable
-fun CustomButton(
+fun PrimaryButton(
     text: String,
     onClick: () -> Unit
 ) {
@@ -37,8 +37,8 @@ fun CustomButton(
 
 @Preview
 @Composable
-fun CustomButtonPreview() {
-    CustomButton(
+fun PrimaryButtonPreview() {
+    PrimaryButton(
         text = "Button Text",
         onClick = {}
     )

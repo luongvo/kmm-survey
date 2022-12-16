@@ -27,11 +27,11 @@ private val Typography = Typography(
         fontWeight = FontWeight.Bold
     ),
     h4 = TextStyle(
-        fontSize = 26.sp,
+        fontSize = 34.sp,
         fontWeight = FontWeight.Bold
     ),
     h5 = TextStyle(
-        fontSize = 34.sp,
+        fontSize = 26.sp,
         fontWeight = FontWeight.Bold
     ),
     button = TextStyle(

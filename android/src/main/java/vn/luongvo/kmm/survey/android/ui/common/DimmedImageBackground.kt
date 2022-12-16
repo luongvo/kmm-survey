@@ -29,7 +29,7 @@ fun DimmedImageBackground(@DrawableRes imageRes: Int) {
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier
                     .matchParentSize()
-                    .blur(radius = 25f.dp)
+                    .blur(radius = 25.dp)
             )
             Box(
                 modifier = Modifier
