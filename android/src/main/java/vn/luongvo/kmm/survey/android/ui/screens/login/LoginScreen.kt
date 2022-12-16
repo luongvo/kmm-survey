@@ -2,10 +2,11 @@ package vn.luongvo.kmm.survey.android.ui.screens.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.*
@@ -14,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
+import vn.luongvo.kmm.survey.android.ui.theme.AppTheme
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 
@@ -54,7 +56,6 @@ private fun LoginScreenContent(
                 .align(Alignment.Center)
                 .wrapContentHeight()
                 .offset(0f.dp, (-229f).dp)
-                .scale(1.0f / 1.2f)
         )
 
         Column(
@@ -70,13 +71,24 @@ private fun LoginScreenContent(
                 placeholder = stringResource(id = R.string.login_email),
                 keyboardType = KeyboardType.Email,
             )
-            CustomTextField(
-                value = password,
-                onValueChange = onPasswordChange,
-                placeholder = stringResource(id = R.string.login_password),
-                visualTransformation = PasswordVisualTransformation(),
-                imeAction = ImeAction.Done,
-            )
+            Box {
+                CustomTextField(
+                    value = password,
+                    onValueChange = onPasswordChange,
+                    placeholder = stringResource(id = R.string.login_password),
+                    visualTransformation = PasswordVisualTransformation(),
+                    imeAction = ImeAction.Done,
+                )
+                Text(
+                    text = stringResource(id = R.string.login_forgot),
+                    color = Color.White.copy(alpha = 0.5f),
+                    style = AppTheme.typography.body2,
+                    modifier = Modifier
+                        .wrapContentHeight()
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 12f.dp)
+                )
+            }
             CustomButton(
                 text = stringResource(id = R.string.login_button),
                 onClick = {
