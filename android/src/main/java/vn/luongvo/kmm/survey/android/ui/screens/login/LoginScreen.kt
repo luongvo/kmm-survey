@@ -28,6 +28,8 @@ import vn.luongvo.kmm.survey.android.ui.theme.White50
 private const val FirstPhaseAnimDuration = 800
 private const val StayPhaseAnimDuration = 500
 private const val LastPhaseAnimDuration = 700
+private const val BlurRadius = 25f
+private val LogoOffset = Offset(0f, -229f)
 
 @Composable
 fun LoginScreen(viewModel: LoginViewModel = getViewModel()) {
@@ -58,9 +60,18 @@ private fun LoginScreenContent(
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onLogInClick: () -> Unit,
+    initialLogoVisible: Boolean = false,
+    initialLogoOffset: Offset = Offset(0f, 0f),
+    initialLogoScale: Float = 1.2f,
+    initialBlurState: Float = 0f,
+    initialAlphaState: Float = 0f
 ) {
-    var blurState by remember { mutableStateOf(0f) }
-    var alphaState by remember { mutableStateOf(0f) }
+    var logoVisible by remember { mutableStateOf(initialLogoVisible) }
+    var logoOffsetState by remember { mutableStateOf(initialLogoOffset) }
+    var logoScaleState by remember { mutableStateOf(initialLogoScale) }
+    var alphaState by remember { mutableStateOf(initialAlphaState) }
+    var blurState by remember { mutableStateOf(initialBlurState) }
+
     val animateBlurState by animateFloatAsState(
         targetValue = blurState,
         tween(
@@ -75,9 +86,6 @@ private fun LoginScreenContent(
             delayMillis = StayPhaseAnimDuration
         )
     )
-    var logoVisible by remember { mutableStateOf(false) }
-    var logoOffsetState by remember { mutableStateOf(Offset(0f, 0f)) }
-    var logoScaleState by remember { mutableStateOf(1.2f) }
     val logoOffsetAnimate by animateOffsetAsState(
         targetValue = logoOffsetState,
         tween(
@@ -95,10 +103,10 @@ private fun LoginScreenContent(
     LaunchedEffect(Unit) {
         delay(FirstPhaseAnimDuration.toLong())
         logoVisible = true
-        blurState = 25f
+        blurState = BlurRadius
         alphaState = 1f
-        logoOffsetState = Offset(0f, -229f)
-        logoScaleState = 1.0f
+        logoOffsetState = LogoOffset
+        logoScaleState = 1f
     }
 
     Box {
@@ -195,7 +203,12 @@ fun LoginScreenPreview() {
             password = "",
             onEmailChange = {},
             onPasswordChange = {},
-            onLogInClick = {}
+            onLogInClick = {},
+            initialLogoVisible = true,
+            initialLogoOffset = LogoOffset,
+            initialLogoScale = 1f,
+            initialBlurState = BlurRadius,
+            initialAlphaState = 1f
         )
     }
 }
