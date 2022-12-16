@@ -8,13 +8,16 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Transparent
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.tooling.preview.Preview
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.shapes
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
+import vn.luongvo.kmm.survey.android.ui.theme.White18
+import vn.luongvo.kmm.survey.android.ui.theme.White30
 
 @Composable
 fun CustomTextField(
@@ -37,13 +40,13 @@ fun CustomTextField(
         },
         singleLine = true,
         colors = TextFieldDefaults.textFieldColors(
-            textColor = Color.White,
-            backgroundColor = Color.White.copy(0.18f),
-            cursorColor = Color.White,
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-            placeholderColor = Color.White.copy(0.3f)
+            textColor = White,
+            backgroundColor = White18,
+            cursorColor = White,
+            unfocusedIndicatorColor = Transparent,
+            focusedIndicatorColor = Transparent,
+            disabledIndicatorColor = Transparent,
+            placeholderColor = White30
         ),
         visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(

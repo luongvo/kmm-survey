@@ -6,7 +6,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.*
@@ -15,9 +14,10 @@ import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
-import vn.luongvo.kmm.survey.android.ui.theme.AppTheme
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
+import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
+import vn.luongvo.kmm.survey.android.ui.theme.White50
 
 @Composable
 fun LoginScreen(viewModel: LoginViewModel = getViewModel()) {
@@ -81,8 +81,8 @@ private fun LoginScreenContent(
                 )
                 Text(
                     text = stringResource(id = R.string.login_forgot),
-                    color = Color.White.copy(alpha = 0.5f),
-                    style = AppTheme.typography.body2,
+                    color = White50,
+                    style = typography.body2,
                     modifier = Modifier
                         .wrapContentHeight()
                         .align(Alignment.CenterEnd)

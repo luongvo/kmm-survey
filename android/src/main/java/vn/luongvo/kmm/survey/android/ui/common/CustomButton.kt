@@ -5,7 +5,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.tooling.preview.Preview
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.shapes
@@ -20,7 +21,7 @@ fun CustomButton(
         shape = shapes.medium,
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color.White
+            backgroundColor = White
         ),
         modifier = Modifier
             .fillMaxWidth()
@@ -28,7 +29,7 @@ fun CustomButton(
     ) {
         Text(
             text = text,
-            color = Color.Black,
+            color = Black,
             style = typography.button
         )
     }
