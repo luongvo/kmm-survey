@@ -1,16 +1,22 @@
 package vn.luongvo.kmm.survey.android.ui.screens.login
 
+import androidx.compose.animation.*
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
@@ -18,6 +24,10 @@ import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.android.ui.theme.White50
+
+private const val FirstPhaseAnimDuration = 800
+private const val StayPhaseAnimDuration = 500
+private const val LastPhaseAnimDuration = 700
 
 @Composable
 fun LoginScreen(viewModel: LoginViewModel = getViewModel()) {
@@ -49,55 +59,130 @@ private fun LoginScreenContent(
     onPasswordChange: (String) -> Unit,
     onLogInClick: () -> Unit,
 ) {
+    var blurState by remember { mutableStateOf(0f) }
+    var alphaState by remember { mutableStateOf(0f) }
+    val animateBlurState by animateFloatAsState(
+        targetValue = blurState,
+        tween(
+            durationMillis = LastPhaseAnimDuration,
+            delayMillis = StayPhaseAnimDuration
+        )
+    )
+    val animateAlphaState by animateFloatAsState(
+        targetValue = alphaState,
+        tween(
+            durationMillis = LastPhaseAnimDuration,
+            delayMillis = StayPhaseAnimDuration
+        )
+    )
+    var logoVisible by remember { mutableStateOf(false) }
+    var logoOffsetState by remember { mutableStateOf(Offset(0f, 0f)) }
+    var logoScaleState by remember { mutableStateOf(1.2f) }
+    val logoOffsetAnimate by animateOffsetAsState(
+        targetValue = logoOffsetState,
+        tween(
+            durationMillis = LastPhaseAnimDuration,
+            delayMillis = StayPhaseAnimDuration
+        )
+    )
+    val logoScaleAnimate by animateFloatAsState(
+        targetValue = logoScaleState,
+        tween(
+            durationMillis = LastPhaseAnimDuration,
+            delayMillis = StayPhaseAnimDuration
+        )
+    )
+    LaunchedEffect(Unit) {
+        delay(FirstPhaseAnimDuration.toLong())
+        logoVisible = true
+        blurState = 25f
+        alphaState = 1f
+        logoOffsetState = Offset(0f, -229f)
+        logoScaleState = 1.0f
+    }
+
     Box {
         Box(modifier = Modifier.fillMaxSize()) {
-            DimmedImageBackground(imageRes = R.drawable.bg_login)
+            DimmedImageBackground(
+                imageRes = R.drawable.bg_login,
+                blurRadius = animateBlurState.dp,
+                gradientAlpha = animateAlphaState
+            )
         }
-        Image(
-            painter = painterResource(id = R.drawable.ic_nimble_logo),
-            contentDescription = null,
+        AnimatedVisibility(
+            visible = logoVisible,
+            enter = fadeIn(),
+            exit = fadeOut(),
             modifier = Modifier
                 .align(Alignment.Center)
                 .wrapContentHeight()
-                .offset(0.dp, (-229).dp)
-        )
-
-        Column(
-            verticalArrangement = Arrangement.spacedBy(dimensions.paddingMedium),
-            modifier = Modifier
-                .fillMaxSize()
-                .wrapContentHeight()
-                .padding(horizontal = dimensions.paddingLarge)
         ) {
-            PrimaryTextField(
-                value = email,
-                onValueChange = onEmailChange,
-                placeholder = stringResource(id = R.string.login_email),
-                keyboardType = KeyboardType.Email,
-            )
-            Box {
-                PrimaryTextField(
-                    value = password,
-                    onValueChange = onPasswordChange,
-                    placeholder = stringResource(id = R.string.login_password),
-                    visualTransformation = PasswordVisualTransformation(),
-                    imeAction = ImeAction.Done,
-                )
-                Text(
-                    text = stringResource(id = R.string.login_forgot),
-                    color = White50,
-                    style = typography.body2,
-                    modifier = Modifier
-                        .wrapContentHeight()
-                        .align(Alignment.CenterEnd)
-                        .padding(end = 12.dp)
-                )
-            }
-            PrimaryButton(
-                text = stringResource(id = R.string.login_button),
-                onClick = onLogInClick,
+            Image(
+                painter = painterResource(id = R.drawable.ic_nimble_logo),
+                contentDescription = null,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .wrapContentHeight()
+                    .padding(all = dimensions.paddingLarge)
+                    .offset(logoOffsetAnimate.x.dp, logoOffsetAnimate.y.dp)
+                    .scale(logoScaleAnimate)
             )
         }
+        LoginForm(
+            modifier = Modifier.alpha(animateAlphaState),
+            email = email,
+            password = password,
+            onEmailChange = onEmailChange,
+            onPasswordChange = onPasswordChange,
+            onLogInClick = onLogInClick
+        )
+    }
+}
+
+@Composable
+private fun LoginForm(
+    modifier: Modifier,
+    email: String,
+    password: String,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onLogInClick: () -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(dimensions.paddingMedium),
+        modifier = modifier
+            .fillMaxSize()
+            .wrapContentHeight()
+            .padding(horizontal = dimensions.paddingLarge)
+    ) {
+        PrimaryTextField(
+            value = email,
+            onValueChange = onEmailChange,
+            placeholder = stringResource(id = R.string.login_email),
+            keyboardType = KeyboardType.Email,
+        )
+        Box {
+            PrimaryTextField(
+                value = password,
+                onValueChange = onPasswordChange,
+                placeholder = stringResource(id = R.string.login_password),
+                visualTransformation = PasswordVisualTransformation(),
+                imeAction = ImeAction.Done,
+            )
+            Text(
+                text = stringResource(id = R.string.login_forgot),
+                color = White50,
+                style = typography.body2,
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 12.dp)
+            )
+        }
+        PrimaryButton(
+            text = stringResource(id = R.string.login_button),
+            onClick = onLogInClick,
+        )
     }
 }
 

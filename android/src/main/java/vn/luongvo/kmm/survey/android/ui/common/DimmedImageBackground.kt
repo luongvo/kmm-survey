@@ -12,11 +12,15 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
 import vn.luongvo.kmm.survey.android.ui.theme.Black20
 
 @Composable
-fun DimmedImageBackground(@DrawableRes imageRes: Int) {
+fun DimmedImageBackground(
+    @DrawableRes imageRes: Int,
+    blurRadius: Dp,
+    gradientAlpha: Float
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -29,7 +33,7 @@ fun DimmedImageBackground(@DrawableRes imageRes: Int) {
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier
                     .matchParentSize()
-                    .blur(radius = 25.dp)
+                    .blur(radius = blurRadius)
             )
             Box(
                 modifier = Modifier
@@ -37,8 +41,8 @@ fun DimmedImageBackground(@DrawableRes imageRes: Int) {
                     .background(
                         brush = Brush.verticalGradient(
                             colors = listOf(
-                                Black20,
-                                Black
+                                Black.copy(alpha = gradientAlpha * Black20.alpha),
+                                Black.copy(alpha = gradientAlpha)
                             )
                         )
                     )
