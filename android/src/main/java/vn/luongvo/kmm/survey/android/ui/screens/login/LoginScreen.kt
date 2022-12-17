@@ -110,13 +110,11 @@ private fun LoginScreenContent(
     }
 
     Box {
-        Box(modifier = Modifier.fillMaxSize()) {
-            DimmedImageBackground(
-                imageRes = R.drawable.bg_login,
-                blurRadius = animateBlurState.dp,
-                gradientAlpha = animateAlphaState
-            )
-        }
+        DimmedImageBackground(
+            imageRes = R.drawable.bg_login,
+            blurRadius = animateBlurState.dp,
+            gradientAlpha = animateAlphaState
+        )
         AnimatedVisibility(
             visible = logoVisible,
             enter = fadeIn(),

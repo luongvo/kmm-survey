@@ -21,32 +21,26 @@ fun DimmedImageBackground(
     blurRadius: Dp,
     gradientAlpha: Float
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Black)
-    ) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            Image(
-                painter = painterResource(id = imageRes),
-                contentDescription = null,
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier
-                    .matchParentSize()
-                    .blur(radius = blurRadius)
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Black.copy(alpha = gradientAlpha * Black20.alpha),
-                                Black.copy(alpha = gradientAlpha)
-                            )
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = imageRes),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .matchParentSize()
+                .blur(radius = blurRadius)
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Black.copy(alpha = gradientAlpha * Black20.alpha),
+                            Black.copy(alpha = gradientAlpha)
                         )
                     )
-            )
-        }
+                )
+        )
     }
 }
