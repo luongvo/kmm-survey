@@ -25,9 +25,9 @@ import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.android.ui.theme.White50
 
-private const val FirstPhaseAnimDuration = 800
-private const val StayPhaseAnimDuration = 500
-private const val LastPhaseAnimDuration = 700
+private const val FirstPhaseDurationInMilliseconds = 800
+private const val StayPhaseDurationInMilliseconds = 500
+private const val LastPhaseDurationInMilliseconds = 700
 private const val BlurRadius = 25f
 private val LogoOffset = Offset(0f, -229f)
 
@@ -72,36 +72,31 @@ private fun LoginScreenContent(
     var alphaState by remember { mutableStateOf(initialAlphaState) }
     var blurState by remember { mutableStateOf(initialBlurState) }
 
+    val floatTweenSpec = tween<Float>(
+        durationMillis = LastPhaseDurationInMilliseconds,
+        delayMillis = StayPhaseDurationInMilliseconds
+    )
     val animateBlurState by animateFloatAsState(
         targetValue = blurState,
-        tween(
-            durationMillis = LastPhaseAnimDuration,
-            delayMillis = StayPhaseAnimDuration
-        )
+        floatTweenSpec
     )
     val animateAlphaState by animateFloatAsState(
         targetValue = alphaState,
-        tween(
-            durationMillis = LastPhaseAnimDuration,
-            delayMillis = StayPhaseAnimDuration
-        )
+        floatTweenSpec
+    )
+    val logoScaleAnimate by animateFloatAsState(
+        targetValue = logoScaleState,
+        floatTweenSpec
     )
     val logoOffsetAnimate by animateOffsetAsState(
         targetValue = logoOffsetState,
         tween(
-            durationMillis = LastPhaseAnimDuration,
-            delayMillis = StayPhaseAnimDuration
-        )
-    )
-    val logoScaleAnimate by animateFloatAsState(
-        targetValue = logoScaleState,
-        tween(
-            durationMillis = LastPhaseAnimDuration,
-            delayMillis = StayPhaseAnimDuration
+            durationMillis = LastPhaseDurationInMilliseconds,
+            delayMillis = StayPhaseDurationInMilliseconds
         )
     )
     LaunchedEffect(Unit) {
-        delay(FirstPhaseAnimDuration.toLong())
+        delay(FirstPhaseDurationInMilliseconds.toLong())
         logoVisible = true
         blurState = BlurRadius
         alphaState = 1f
@@ -127,8 +122,6 @@ private fun LoginScreenContent(
                 painter = painterResource(id = R.drawable.ic_nimble_logo),
                 contentDescription = null,
                 modifier = Modifier
-                    .align(Alignment.Center)
-                    .wrapContentHeight()
                     .padding(all = dimensions.paddingLarge)
                     .offset(logoOffsetAnimate.x.dp, logoOffsetAnimate.y.dp)
                     .scale(logoScaleAnimate)
