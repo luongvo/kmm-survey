@@ -1,19 +1,18 @@
-package vn.luongvo.kmm.survey.data.remote.apiclient
+package vn.luongvo.kmm.survey.data.remote
 
 import io.github.aakira.napier.*
 import io.github.aakira.napier.LogLevel
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.engine.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.plugins.logging.LogLevel.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.json.Json
+import vn.luongvo.kmm.survey.data.extensions.path
 
 class ApiClient(
     engine: HttpClientEngine,
@@ -47,14 +46,13 @@ class ApiClient(
         }
     }
 
-    inline fun <reified T> body(builder: HttpRequestBuilder): Flow<T> {
-        return flow {
-            val data = httpClient.request(
-                builder.apply {
-                    contentType(ContentType.Application.Json)
-                }
-            ).body<T>()
-            emit(data)
-        }
-    }
+    suspend inline fun <reified T> post(path: String, requestBody: Any): T =
+        httpClient.request(
+            HttpRequestBuilder().apply {
+                method = HttpMethod.Post
+                path(path)
+                setBody(requestBody)
+                contentType(ContentType.Application.Json)
+            }
+        ).body()
 }
