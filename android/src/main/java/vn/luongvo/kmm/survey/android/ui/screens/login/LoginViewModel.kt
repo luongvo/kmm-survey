@@ -11,7 +11,7 @@ class LoginViewModel(
     private val logInUseCase: LogInUseCase
 ) : BaseViewModel() {
 
-    init {
+    fun logIn() {
         // TODO sample request to verify network layer implementation
         viewModelScope.launch {
             logInUseCase(
@@ -22,7 +22,7 @@ class LoginViewModel(
                     Timber.e(e)
                 }
                 .collect {
-                    Timber.d(it)
+                    Timber.d(it.toString())
                 }
         }
     }

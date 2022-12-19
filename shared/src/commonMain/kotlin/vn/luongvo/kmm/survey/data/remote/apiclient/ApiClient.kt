@@ -53,9 +53,8 @@ class ApiClient(
                 builder.apply {
                     contentType(ContentType.Application.Json)
                 }
-            ).bodyAsText()
-            // TODO Parse JSON:API here
-            emit(data as T)
+            ).body<T>()
+            emit(data)
         }
     }
 }

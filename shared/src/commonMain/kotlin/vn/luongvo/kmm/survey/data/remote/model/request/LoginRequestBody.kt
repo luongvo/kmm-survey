@@ -1,4 +1,4 @@
-package vn.luongvo.kmm.survey.data.remote.body
+package vn.luongvo.kmm.survey.data.remote.model.request
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
