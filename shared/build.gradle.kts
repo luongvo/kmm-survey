@@ -46,6 +46,7 @@ kotlin {
                     implementation(CONTENT_NEGOTIATION)
                     implementation(JSON)
                     implementation(AUTH)
+                    implementation(JSON_API)
                 }
                 with(Dependencies.Log) {
                     implementation(NAPIER)

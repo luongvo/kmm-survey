@@ -20,9 +20,18 @@ plugins {
 }
 
 allprojects {
+    val buildProperties = rootDir.loadGradleProperties("buildKonfig.properties")
     repositories {
         google()
         mavenCentral()
+        maven {
+            name = "Github Packages"
+            url = uri("https://maven.pkg.github.com/nimblehq/jsonapi-kotlin")
+            credentials {
+                username = buildProperties.getProperty("GITHUB_USER")
+                password = buildProperties.getProperty("GITHUB_TOKEN")
+            }
+        }
     }
 }
 

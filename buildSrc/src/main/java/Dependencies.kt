@@ -20,6 +20,7 @@ object Versions {
     const val GOOGLE_SERVICES = "4.3.13"
     const val GRADLE = "7.0.4"
 
+    const val JSON_API = "0.1.0"
     const val JUNIT = "4.13.2"
 
     const val KOIN = "3.2.2"
@@ -76,6 +77,7 @@ object Dependencies {
         const val SERIALIZATION = "io.ktor:ktor-client-serialization:${Versions.KTOR}"
         const val ANDROID = "io.ktor:ktor-client-android:${Versions.KTOR}"
         const val IOS = "io.ktor:ktor-client-ios:${Versions.KTOR}"
+        const val JSON_API = "co.nimblehq.jsonapi:core:${Versions.JSON_API}"
     }
 
     object Log {
