@@ -15,6 +15,6 @@ class AuthRepositoryImpl(
     override fun logIn(email: String, password: String): Flow<Token> = flowTransform {
         authRemoteDataSource
             .logIn(LoginRequestBody(email = email, password = password))
-            .toToken()
+            .data.attributes.toToken()
     }
 }
