@@ -30,6 +30,7 @@ object Plugins {
     const val KOTLINX_SERIALIZATION = "kotlinx-serialization"
     const val KOVER = "kover"
     const val KOVER_PACKAGE = "org.jetbrains.kotlinx.kover"
+    const val KSP = "com.google.devtools.ksp"
 
     const val MULTIPLATFORM = "multiplatform"
 }

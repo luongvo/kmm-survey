@@ -10,8 +10,10 @@ object Versions {
 
     const val BUILD_KONFIG = "0.13.3"
 
-    const val COMPOSE = "1.3.0"
+    const val COMPOSE_COMPILER = "1.3.2"
+    const val COMPOSE_MATERIAL = "1.3.1"
     const val COMPOSE_NAVIGATION = "2.5.2"
+    const val COMPOSE_UI = "1.3.2"
 
     const val DETEKT = "1.21.0"
 
@@ -22,16 +24,21 @@ object Versions {
 
     const val JSON_API = "0.1.0"
     const val JUNIT = "4.13.2"
+    const val JVM_TARGET = "1.8"
 
     const val KOIN = "3.2.2"
     const val KOIN_ANDROID = "3.3.0"
-    const val KOTLIN = "1.7.10"
+    const val KOTEST = "5.5.4"
+    const val KOTLIN = "1.7.20"
     const val KOTLIN_COROUTINES = "1.6.4"
-    const val KOTLIN_SERIALIZATION = "1.7.10"
     const val KOVER = "0.6.1"
     const val KTOR = "2.1.1"
+    const val KSP = "1.7.20-1.0.6"
+
+    const val MOCKATIVE = "1.3.0"
 
     const val NAPIER = "2.6.1"
+
     const val TIMBER = "4.7.1"
 }
 
@@ -40,7 +47,7 @@ object Dependencies {
         const val BUILD_KONFIG = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:${Versions.BUILD_KONFIG}"
         const val GRADLE = "com.android.tools.build:gradle:${Versions.GRADLE}"
         const val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
-        const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlin:kotlin-serialization:${Versions.KOTLIN_SERIALIZATION}"
+        const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlin:kotlin-serialization:${Versions.KOTLIN}"
     }
 
     object AndroidX {
@@ -48,10 +55,10 @@ object Dependencies {
     }
 
     object Compose {
-        const val UI = "androidx.compose.ui:ui:${Versions.COMPOSE}"
-        const val UI_GRAPHICS = "androidx.compose.ui:ui-graphics:${Versions.COMPOSE}"
-        const val UI_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
-        const val MATERIAL = "androidx.compose.material:material:${Versions.COMPOSE}"
+        const val UI = "androidx.compose.ui:ui:${Versions.COMPOSE_UI}"
+        const val UI_GRAPHICS = "androidx.compose.ui:ui-graphics:${Versions.COMPOSE_UI}"
+        const val UI_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE_UI}"
+        const val MATERIAL = "androidx.compose.material:material:${Versions.COMPOSE_MATERIAL}"
         const val NAVIGATION = "androidx.navigation:navigation-compose:${Versions.COMPOSE_NAVIGATION}"
     }
 
@@ -86,7 +93,15 @@ object Dependencies {
     }
 
     object Test {
-        const val JUNIT = "junit:junit:${Versions.JUNIT}"
         const val COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.KOTLIN_COROUTINES}"
+
+        const val JUNIT = "junit:junit:${Versions.JUNIT}"
+
+        const val KOTEST_FRAMEWORK = "io.kotest:kotest-framework-engine:${Versions.KOTEST}"
+        const val KOTEST_ASSERTIONS = "io.kotest:kotest-assertions-core:${Versions.KOTEST}"
+        const val KOTEST_PROPERTY = "io.kotest:kotest-property:${Versions.KOTEST}"
+
+        const val MOCKATIVE = "io.mockative:mockative:${Versions.MOCKATIVE}"
+        const val MOCKATIVE_PROCESSOR = "io.mockative:mockative-processor:${Versions.MOCKATIVE}"
     }
 }
