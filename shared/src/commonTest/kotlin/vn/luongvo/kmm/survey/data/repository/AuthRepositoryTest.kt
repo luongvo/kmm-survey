@@ -27,7 +27,7 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun `when logIn is called - it returns token`() = runTest {
+    fun `when calling logIn successfully - it returns token`() = runTest {
         given(mockAuthRemoteDataSource)
             .suspendFunction(mockAuthRemoteDataSource::logIn)
             .whenInvokedWith(any())
@@ -39,7 +39,7 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun `when login is called - it throws error`() = runTest {
+    fun `when calling logIn fails - it throws error`() = runTest {
         val mockThrowable = Throwable()
         given(mockAuthRemoteDataSource)
             .suspendFunction(mockAuthRemoteDataSource::logIn)
