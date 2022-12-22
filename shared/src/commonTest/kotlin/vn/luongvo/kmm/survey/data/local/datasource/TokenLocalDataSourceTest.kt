@@ -6,7 +6,7 @@ import io.kotest.matchers.shouldBe
 import io.mockative.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import vn.luongvo.kmm.survey.test.token
+import vn.luongvo.kmm.survey.test.Fake.token
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 

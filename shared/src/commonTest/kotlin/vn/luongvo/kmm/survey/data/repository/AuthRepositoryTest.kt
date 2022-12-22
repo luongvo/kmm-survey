@@ -9,8 +9,8 @@ import vn.luongvo.kmm.survey.data.local.datasource.TokenLocalDataSource
 import vn.luongvo.kmm.survey.data.remote.datasource.AuthRemoteDataSource
 import vn.luongvo.kmm.survey.data.remote.model.response.toToken
 import vn.luongvo.kmm.survey.domain.repository.AuthRepository
-import vn.luongvo.kmm.survey.test.token
-import vn.luongvo.kmm.survey.test.tokenResponse
+import vn.luongvo.kmm.survey.test.Fake.token
+import vn.luongvo.kmm.survey.test.Fake.tokenResponse
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 

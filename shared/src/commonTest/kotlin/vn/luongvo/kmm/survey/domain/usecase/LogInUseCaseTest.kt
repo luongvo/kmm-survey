@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import vn.luongvo.kmm.survey.domain.repository.AuthRepository
-import vn.luongvo.kmm.survey.test.token
+import vn.luongvo.kmm.survey.test.Fake.token
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
