@@ -1,20 +1,17 @@
 package vn.luongvo.kmm.survey.di.module
 
-import com.russhwolf.settings.KeychainSettings
-import com.russhwolf.settings.Settings
+import com.russhwolf.settings.*
 import io.ktor.client.engine.darwin.*
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import vn.luongvo.kmm.survey.BuildConfig
+import platform.Foundation.NSBundle
 
-private const val SERVICE_NAME = BuildConfig.LIBRARY_PACKAGE_NAME
-
+@OptIn(ExperimentalSettingsImplementation::class)
 actual fun platformModule(): Module = module {
     single { Darwin.create() }
 
+    val serviceName = NSBundle.mainBundle().bundleIdentifier ?: ""
     single<Settings> {
-        KeychainSettings(
-            BuildConfig.LIBRARY_PACKAGE_NAME
-        )
+        KeychainSettings(serviceName)
     }
 }
