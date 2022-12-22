@@ -7,9 +7,9 @@ buildscript {
 
     dependencies {
         classpath(Dependencies.Gradle.GRADLE)
-        classpath(Dependencies.Gradle.KOTLIN_GRADLE_PLUGIN)
         classpath(Dependencies.Gradle.BUILD_KONFIG)
-        classpath(Dependencies.Gradle.KOTLIN_SERIALIZATION)
+        classpath(Dependencies.Kotlin.KOTLIN_GRADLE_PLUGIN)
+        classpath(Dependencies.Kotlin.KOTLIN_SERIALIZATION)
         classpath(Dependencies.Firebase.GOOGLE_SERVICES)
     }
 }
