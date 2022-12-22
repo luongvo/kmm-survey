@@ -40,6 +40,7 @@ object Versions {
     const val NAPIER = "2.6.1"
 
     const val TIMBER = "4.7.1"
+    const val TURBINE = "0.12.1"
 }
 
 object Dependencies {
@@ -103,5 +104,7 @@ object Dependencies {
 
         const val MOCKATIVE = "io.mockative:mockative:${Versions.MOCKATIVE}"
         const val MOCKATIVE_PROCESSOR = "io.mockative:mockative-processor:${Versions.MOCKATIVE}"
+
+        const val TURBINE = "app.cash.turbine:turbine:${Versions.TURBINE}"
     }
 }

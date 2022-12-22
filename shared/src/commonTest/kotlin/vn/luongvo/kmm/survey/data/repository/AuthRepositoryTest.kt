@@ -1,10 +1,9 @@
 package vn.luongvo.kmm.survey.data.repository
 
+import app.cash.turbine.test
 import io.kotest.matchers.shouldBe
 import io.mockative.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.test.runTest
 import vn.luongvo.kmm.survey.data.remote.datasource.AuthRemoteDataSource
 import vn.luongvo.kmm.survey.data.remote.model.response.toToken
@@ -33,21 +32,22 @@ class AuthRepositoryTest {
             .whenInvokedWith(any())
             .thenReturn(tokenResponse)
 
-        repository.logIn("email", "password").collect {
-            it shouldBe tokenResponse.toToken()
+        repository.logIn("email", "password").test {
+            awaitItem() shouldBe tokenResponse.toToken()
+            awaitComplete()
         }
     }
 
     @Test
     fun `when calling logIn fails - it throws error`() = runTest {
-        val mockThrowable = Throwable()
+        val throwable = Throwable()
         given(mockAuthRemoteDataSource)
             .suspendFunction(mockAuthRemoteDataSource::logIn)
             .whenInvokedWith(any())
-            .thenThrow(mockThrowable)
+            .thenThrow(throwable)
 
-        repository.logIn("email", "password").catch {
-            it shouldBe mockThrowable
-        }.collect()
+        repository.logIn("email", "password").test {
+            awaitError() shouldBe throwable
+        }
     }
 }

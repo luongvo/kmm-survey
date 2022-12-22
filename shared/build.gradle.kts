@@ -63,6 +63,7 @@ kotlin {
                     implementation(KOTEST_ASSERTIONS)
                     implementation(KOTEST_PROPERTY)
                     implementation(MOCKATIVE)
+                    implementation(TURBINE)
                 }
             }
         }

@@ -1,9 +1,11 @@
 package vn.luongvo.kmm.survey.domain.usecase
 
+import app.cash.turbine.test
 import io.kotest.matchers.shouldBe
 import io.mockative.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import vn.luongvo.kmm.survey.domain.repository.AuthRepository
 import vn.luongvo.kmm.survey.test.token
@@ -30,8 +32,9 @@ class LogInUseCaseTest {
             .whenInvokedWith(any(), any())
             .thenReturn(flowOf(token))
 
-        useCase("email", "password").collect {
-            it shouldBe token
+        useCase("email", "password").test {
+            awaitItem() shouldBe token
+            awaitComplete()
         }
     }
 
@@ -45,8 +48,8 @@ class LogInUseCaseTest {
                 flow { throw throwable }
             )
 
-        useCase("email", "password").catch {
-            it shouldBe throwable
-        }.collect()
+        useCase("email", "password").test {
+            awaitError() shouldBe throwable
+        }
     }
 }
