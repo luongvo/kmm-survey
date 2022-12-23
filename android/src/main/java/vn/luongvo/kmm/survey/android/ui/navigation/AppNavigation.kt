@@ -17,7 +17,7 @@ fun AppNavigation(
     ) {
         composable(AppDestination.Login) {
             LoginScreen(
-                 navigator = { destination -> navController.navigate(destination) }
+                navigator = { destination -> navController.navigate(destination) }
             )
         }
         composable(AppDestination.Home) {
@@ -45,6 +45,14 @@ private fun NavGraphBuilder.composable(
 private fun NavHostController.navigate(destination: AppDestination) {
     when (destination) {
         is AppDestination.Up -> popBackStack()
+        is AppDestination.Home -> navigate(
+            route = destination.destination,
+            navOptions {
+                popUpTo(
+                    route = AppDestination.Login.route
+                ) { inclusive = true }
+            }
+        )
         else -> navigate(route = destination.destination)
     }
 }

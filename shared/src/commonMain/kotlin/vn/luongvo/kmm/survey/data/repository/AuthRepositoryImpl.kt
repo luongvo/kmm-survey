@@ -1,6 +1,7 @@
 package vn.luongvo.kmm.survey.data.repository
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import vn.luongvo.kmm.survey.data.extensions.flowTransform
 import vn.luongvo.kmm.survey.data.local.datasource.TokenLocalDataSource
 import vn.luongvo.kmm.survey.data.remote.datasource.AuthRemoteDataSource
@@ -23,4 +24,9 @@ class AuthRepositoryImpl(
     override fun saveToken(token: Token) {
         tokenLocalDataSource.saveToken(token)
     }
+
+    override val isLoggedIn: Flow<Boolean>
+        get() = flowOf(
+            tokenLocalDataSource.tokenType.isNotBlank() && tokenLocalDataSource.accessToken.isNotBlank()
+        )
 }

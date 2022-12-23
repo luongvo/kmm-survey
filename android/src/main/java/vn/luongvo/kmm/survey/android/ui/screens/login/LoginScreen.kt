@@ -43,6 +43,7 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val isLoading by viewModel.isLoading.collectAsState()
+    val isLoggedIn by viewModel.isLoggedIn.collectAsState()
 
     val context = LocalContext.current
     LaunchedEffect(viewModel.error) {
@@ -53,14 +54,20 @@ fun LoginScreen(
         viewModel.navigator.collect { destination -> navigator(destination) }
     }
 
-    LoginScreenContent(
-        email = email,
-        password = password,
-        onEmailChange = { email = it },
-        onPasswordChange = { password = it },
-        onLogInClick = { viewModel.logIn(email, password) },
-        isLoading = isLoading
-    )
+    LaunchedEffect(Unit) {
+        viewModel.init()
+    }
+
+    if (isLoggedIn == false) {
+        LoginScreenContent(
+            email = email,
+            password = password,
+            onEmailChange = { email = it },
+            onPasswordChange = { password = it },
+            onLogInClick = { viewModel.logIn(email, password) },
+            isLoading = isLoading
+        )
+    }
 }
 
 @Composable
