@@ -17,8 +17,7 @@ fun AppNavigation(
     ) {
         composable(AppDestination.Login) {
             LoginScreen(
-                // TODO handle navigation later
-                // navigator = { destination -> navController.navigate(destination) }
+                 navigator = { destination -> navController.navigate(destination) }
             )
         }
         composable(AppDestination.Home) {

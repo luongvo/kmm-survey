@@ -1,9 +1,11 @@
 package vn.luongvo.kmm.survey.android.ui.screens.login
 
+import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -11,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.*
@@ -20,6 +23,7 @@ import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
+import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
@@ -32,24 +36,32 @@ private const val BlurRadius = 25f
 private val LogoOffset = Offset(0f, -229f)
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel = getViewModel()) {
+fun LoginScreen(
+    viewModel: LoginViewModel = getViewModel(),
+    navigator: (destination: AppDestination) -> Unit
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val isLoading by viewModel.isLoading.collectAsState()
+
+    val context = LocalContext.current
+    LaunchedEffect(viewModel.error) {
+        viewModel.error.collect { error ->
+            Toast.makeText(context, error.message ?: "", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    LaunchedEffect(viewModel.navigator) {
+        viewModel.navigator.collect { destination -> navigator(destination) }
+    }
 
     LoginScreenContent(
         email = email,
         password = password,
-        onEmailChange = {
-            email = it
-            // TODO https://github.com/luongvo/kmm-survey/issues/8
-        },
-        onPasswordChange = {
-            password = it
-            // TODO https://github.com/luongvo/kmm-survey/issues/8
-        },
-        onLogInClick = {
-            // TODO https://github.com/luongvo/kmm-survey/issues/8
-        },
+        onEmailChange = { email = it },
+        onPasswordChange = { password = it },
+        onLogInClick = { viewModel.logIn(email, password) },
+        isLoading = isLoading
     )
 }
 
@@ -60,6 +72,7 @@ private fun LoginScreenContent(
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onLogInClick: () -> Unit,
+    isLoading: Boolean,
     initialLogoVisible: Boolean = false,
     initialLogoOffset: Offset = Offset(0f, 0f),
     initialLogoScale: Float = 1.2f,
@@ -135,6 +148,14 @@ private fun LoginScreenContent(
             onPasswordChange = onPasswordChange,
             onLogInClick = onLogInClick
         )
+
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize()
+            )
+        }
     }
 }
 
@@ -185,8 +206,8 @@ private fun LoginForm(
     }
 }
 
-@Preview
 @Composable
+@Preview(showSystemUi = true)
 fun LoginScreenPreview() {
     ComposeTheme {
         LoginScreenContent(
@@ -195,6 +216,7 @@ fun LoginScreenPreview() {
             onEmailChange = {},
             onPasswordChange = {},
             onLogInClick = {},
+            isLoading = false,
             initialLogoVisible = true,
             initialLogoOffset = LogoOffset,
             initialLogoScale = 1f,

@@ -1,7 +1,9 @@
 package vn.luongvo.kmm.survey.android.ui.base
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import vn.luongvo.kmm.survey.android.lib.IsLoading
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 
@@ -19,9 +21,9 @@ abstract class BaseViewModel : ViewModel() {
 
     private var loadingCount: Int = 0
 
-    private val _showLoading = MutableStateFlow(false)
-    val showLoading: StateFlow<IsLoading>
-        get() = _showLoading
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<IsLoading>
+        get() = _isLoading
 
     protected val _error = MutableSharedFlow<Throwable>()
     val error: SharedFlow<Throwable>
@@ -36,7 +38,7 @@ abstract class BaseViewModel : ViewModel() {
      */
     protected fun showLoading() {
         if (loadingCount == 0) {
-            _showLoading.value = true
+            _isLoading.value = true
         }
         loadingCount++
     }
@@ -47,13 +49,12 @@ abstract class BaseViewModel : ViewModel() {
     protected fun hideLoading() {
         loadingCount--
         if (loadingCount == 0) {
-            _showLoading.value = false
+            _isLoading.value = false
         }
     }
 
-    // TODO update in https://github.com/luongvo/kmm-survey/issues/8
-//    fun execute(coroutineDispatcher: CoroutineDispatcher = dispatchersProvider.io, job: suspend () -> Unit) =
-//        viewModelScope.launch(coroutineDispatcher) {
-//            job.invoke()
-//        }
+    protected fun launch(job: suspend () -> Unit) =
+        viewModelScope.launch {
+            job.invoke()
+        }
 }
