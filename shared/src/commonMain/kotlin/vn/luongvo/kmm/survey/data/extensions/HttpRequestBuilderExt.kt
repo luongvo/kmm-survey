@@ -1,4 +1,4 @@
-package vn.luongvo.kmm.survey.data.remote.apiclient.builder
+package vn.luongvo.kmm.survey.data.extensions
 
 import io.ktor.client.request.*
 import vn.luongvo.kmm.survey.BuildKonfig

@@ -23,7 +23,11 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
+        kotlinCompilerExtensionVersion = Versions.COMPOSE_COMPILER
+    }
+
+    kotlinOptions {
+        jvmTarget = Versions.JVM_TARGET
     }
 
     packagingOptions {

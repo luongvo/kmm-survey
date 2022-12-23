@@ -1,5 +1,6 @@
-package vn.luongvo.kmm.survey.data.remote.apiclient
+package vn.luongvo.kmm.survey.data.remote
 
+import co.nimblehq.jsonapi.json.JsonApi
 import io.github.aakira.napier.*
 import io.github.aakira.napier.LogLevel
 import io.ktor.client.*
@@ -11,15 +12,20 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.json.Json
+import vn.luongvo.kmm.survey.data.extensions.path
 
 class ApiClient(
     engine: HttpClientEngine,
 ) {
 
     val httpClient: HttpClient
+    val json = Json {
+        prettyPrint = true
+        isLenient = true
+        encodeDefaults = true
+        ignoreUnknownKeys = true
+    }
 
     init {
         Napier.takeLogarithm()
@@ -35,27 +41,20 @@ class ApiClient(
             }
 
             install(ContentNegotiation) {
-                json(
-                    Json {
-                        prettyPrint = true
-                        isLenient = true
-                        encodeDefaults = true
-                        ignoreUnknownKeys = true
-                    }
-                )
+                json(json)
             }
         }
     }
 
-    inline fun <reified T> body(builder: HttpRequestBuilder): Flow<T> {
-        return flow {
-            val data = httpClient.request(
-                builder.apply {
-                    contentType(ContentType.Application.Json)
-                }
-            ).bodyAsText()
-            // TODO Parse JSON:API here
-            emit(data as T)
-        }
+    suspend inline fun <reified T> post(path: String, requestBody: Any): T {
+        val body = httpClient.request(
+            HttpRequestBuilder().apply {
+                method = HttpMethod.Post
+                path(path)
+                setBody(requestBody)
+                contentType(ContentType.Application.Json)
+            }
+        ).bodyAsText()
+        return JsonApi(json).decodeFromJsonApiString(body)
     }
 }
