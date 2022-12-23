@@ -1,6 +1,5 @@
 package vn.luongvo.kmm.survey.android.ui.screens.login
 
-import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
@@ -28,6 +27,7 @@ import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.android.ui.theme.White50
+import vn.luongvo.kmm.survey.android.util.showToast
 
 private const val FirstPhaseDurationInMilliseconds = 800
 private const val StayPhaseDurationInMilliseconds = 500
@@ -46,9 +46,7 @@ fun LoginScreen(
 
     val context = LocalContext.current
     LaunchedEffect(viewModel.error) {
-        viewModel.error.collect { error ->
-            Toast.makeText(context, error.message ?: "", Toast.LENGTH_SHORT).show()
-        }
+        viewModel.error.collect { error -> error.showToast(context) }
     }
 
     LaunchedEffect(viewModel.navigator) {

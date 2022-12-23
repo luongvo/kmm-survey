@@ -1,16 +1,23 @@
 package vn.luongvo.kmm.survey.data.extensions
 
-import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.flow
+import co.nimblehq.jsonapi.model.JsonApiException
+import kotlinx.coroutines.flow.*
+import vn.luongvo.kmm.survey.domain.exceptions.ApiException
 import kotlin.experimental.ExperimentalTypeInference
 
-@Suppress("TooGenericExceptionCaught")
 @OptIn(ExperimentalTypeInference::class)
 fun <T> flowTransform(@BuilderInference block: suspend FlowCollector<T>.() -> T) = flow {
-    val result = try {
-        block()
-    } catch (exception: Exception) {
-        throw exception
-    }
-    emit(result)
+    runCatching { block() }
+        .onSuccess { emit(it) }
+        .onFailure { throw it.mapError() }
 }
+
+private fun Throwable.mapError(): Throwable =
+    when (this) {
+        is JsonApiException -> ApiException(
+            code = errors.first().code,
+            message = errors.first().detail,
+            cause = this
+        )
+        else -> this
+    }

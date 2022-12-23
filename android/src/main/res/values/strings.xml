@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">KMM Survey</string>
 
+    <string name="generic_error">Unexpected error!</string>
+
     <string name="login_button">Log in</string>
     <string name="login_email">Email</string>
     <string name="login_forgot">Forgot?</string>
