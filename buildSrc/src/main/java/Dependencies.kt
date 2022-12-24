@@ -109,9 +109,7 @@ object Dependencies {
 
         const val JUNIT = "junit:junit:${Versions.JUNIT}"
 
-        const val KOTEST_FRAMEWORK = "io.kotest:kotest-framework-engine:${Versions.KOTEST}"
         const val KOTEST_ASSERTIONS = "io.kotest:kotest-assertions-core:${Versions.KOTEST}"
-        const val KOTEST_PROPERTY = "io.kotest:kotest-property:${Versions.KOTEST}"
 
         const val MOCKATIVE = "io.mockative:mockative:${Versions.MOCKATIVE}"
         const val MOCKATIVE_PROCESSOR = "io.mockative:mockative-processor:${Versions.MOCKATIVE}"
