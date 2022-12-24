@@ -1,5 +1,6 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/luongvo/kmm-survey/review_pull_request.yml)
 ![GitHub top language](https://img.shields.io/github/languages/top/luongvo/kmm-survey)
+[![codecov](https://codecov.io/gh/luongvo/kmm-survey/branch/develop/graph/badge.svg?token=ZGBHJ5WKWR)](https://codecov.io/gh/luongvo/kmm-survey)
 [![Firebase App Distribution](https://img.shields.io/badge/Firebase-Android-green)](https://appdistribution.firebase.dev/i/11223fc5713bc511)
 [![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 
