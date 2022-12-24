@@ -115,7 +115,7 @@ dependencies {
     }
 
     with(Dependencies.Test) {
-        implementation(JUNIT)
-        implementation(COROUTINES)
+        testImplementation(JUNIT)
+        testImplementation(COROUTINES)
     }
 }
