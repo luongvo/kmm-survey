@@ -117,5 +117,8 @@ dependencies {
     with(Dependencies.Test) {
         testImplementation(JUNIT)
         testImplementation(COROUTINES)
+        testImplementation(KOTEST_ASSERTIONS)
+        testImplementation(MOCKK)
+        testImplementation(TURBINE)
     }
 }

@@ -13,10 +13,11 @@ class LoginViewModel(
 ) : BaseViewModel() {
 
     private val _isLoggedIn = MutableStateFlow<Boolean?>(null)
-    val isLoggedIn: StateFlow<Boolean?> = _isLoggedIn.asStateFlow()
+    val isLoggedIn: StateFlow<Boolean?> = _isLoggedIn
 
     fun init() {
         isLoggedInUseCase()
+            .catch { e -> _error.emit(e) }
             .onEach { isLoggedIn ->
                 _isLoggedIn.emit(isLoggedIn)
                 if (isLoggedIn) {
