@@ -16,6 +16,7 @@ android {
         targetSdk = Versions.ANDROID_TARGET_SDK_VERSION
         versionCode = Versions.ANDROID_VERSION_CODE
         versionName = Versions.ANDROID_VERSION_NAME
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildFeatures {
@@ -32,7 +33,7 @@ android {
 
     packagingOptions {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/{AL2.0,LGPL2.1,*.md}"
         }
     }
 
@@ -86,6 +87,13 @@ android {
                 }
             }
         }
+        animationsDisabled = true
+        // https://github.com/mockk/mockk/issues/297#issuecomment-901924678
+        packagingOptions {
+            jniLibs {
+                useLegacyPackaging = true
+            }
+        }
     }
 }
 
@@ -115,10 +123,13 @@ dependencies {
     }
 
     with(Dependencies.Test) {
-        testImplementation(JUNIT)
         testImplementation(COROUTINES)
+        testImplementation(JUNIT)
         testImplementation(KOTEST_ASSERTIONS)
         testImplementation(MOCKK)
         testImplementation(TURBINE)
+
+        androidTestImplementation(COMPOSE_UI_TEST_JUNIT)
+        androidTestImplementation(MOCKK_ANDROID)
     }
 }
