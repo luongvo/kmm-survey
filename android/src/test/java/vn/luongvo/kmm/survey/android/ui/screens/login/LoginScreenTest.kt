@@ -50,7 +50,7 @@ class LoginScreenTest {
     }
 
     @Test
-    fun when_entering_the_Login_screen__it_shows_UI_correctly() = initComposable {
+    fun `when entering the Login screen, it shows UI correctly`() = initComposable {
         waitForAnimationEnd()
 
         onNodeWithText(context.getString(R.string.login_email)).assertIsDisplayed()
@@ -60,7 +60,7 @@ class LoginScreenTest {
     }
 
     @Test
-    fun when_entering_the_Login_screen_with_logged_in_status__it_navigates_to_Home_screen() {
+    fun `when entering the Login screen with logged in status, it navigates to the Home screen`() {
         every { mockIsLoggedInUseCase() } returns flowOf(true)
         initComposable {
             waitForIdle()
@@ -69,7 +69,7 @@ class LoginScreenTest {
     }
 
     @Test
-    fun when_logging_in_successfully__it_navigates_to_Home_screen() = initComposable {
+    fun `when logging in successfully, it navigates to the Home screen`() = initComposable {
         waitForAnimationEnd()
 
         onNodeWithContentDescription(LoginEmailField).performTextInput("luong@nimblehq.co")
@@ -80,7 +80,7 @@ class LoginScreenTest {
     }
 
     @Test
-    fun when_logging_in_fails__it_shows_the_error_dialog() = initComposable {
+    fun `when logging in fails, it shows an error dialog`() = initComposable {
         val expectedError = ApiException(
             message = "Your email or password is incorrect. Please try again.",
             code = "code"
