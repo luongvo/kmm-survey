@@ -19,6 +19,9 @@ import vn.luongvo.kmm.survey.domain.exceptions.ApiException
 import vn.luongvo.kmm.survey.domain.usecase.IsLoggedInUseCase
 import vn.luongvo.kmm.survey.domain.usecase.LogInUseCase
 
+private const val LoginAnimationDurationInMilliseconds =
+    FirstPhaseDurationInMilliseconds + StayPhaseDurationInMilliseconds + LastPhaseDurationInMilliseconds
+
 @RunWith(AndroidJUnit4::class)
 class LoginScreenTest {
 
@@ -94,7 +97,7 @@ class LoginScreenTest {
         onNodeWithContentDescription(LoginButton).performClick()
         waitForIdle()
 
-        onNodeWithText(expectedError.message ?: "").assertIsDisplayed()
+        onNodeWithText(expectedError.message.orEmpty()).assertIsDisplayed()
         onNodeWithText(context.getString(R.string.generic_ok)).assertIsDisplayed().performClick()
     }
 
@@ -109,6 +112,6 @@ class LoginScreenTest {
     }
 
     private fun ComposeContentTestRule.waitForAnimationEnd() {
-        mainClock.advanceTimeBy(800 + 500 + 700)
+        mainClock.advanceTimeBy(LoginAnimationDurationInMilliseconds.toLong())
     }
 }

@@ -60,7 +60,7 @@ class ApiClient(
                         }
 
                         refreshTokens {
-                            val token = refreshTokenUseCase(refreshToken = oldTokens?.refreshToken ?: "")
+                            val token = refreshTokenUseCase(refreshToken = oldTokens?.refreshToken.orEmpty())
                                 .last()
                             BearerTokens(token.accessToken, token.refreshToken)
                         }
