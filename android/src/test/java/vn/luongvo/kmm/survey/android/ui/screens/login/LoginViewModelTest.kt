@@ -39,32 +39,20 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `when calling init successfully with false, it shows login page`() = runTest {
+    fun `when checking user logged in successfully with false, it shows login page`() = runTest {
         viewModel.init()
 
         viewModel.isLoggedIn.value shouldBe false
     }
 
     @Test
-    fun `when calling init successfully with true, it navigates to Home screen`() = runTest {
+    fun `when checking user logged in successfully with true, it navigates to Home screen`() = runTest {
         every { mockIsLoggedInUseCase() } returns flowOf(true)
         viewModel.navigator.test {
             viewModel.init()
 
             viewModel.isLoggedIn.value shouldBe true
             expectMostRecentItem() shouldBe AppDestination.Home
-        }
-    }
-
-    @Test
-    fun `when calling init fails, it emits error`() = runTest {
-        val error = Exception()
-        every { mockIsLoggedInUseCase() } returns flow { throw error }
-
-        viewModel.error.test {
-            viewModel.init()
-
-            expectMostRecentItem() shouldBe error
         }
     }
 

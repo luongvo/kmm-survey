@@ -17,7 +17,6 @@ class LoginViewModel(
 
     fun init() {
         isLoggedInUseCase()
-            .catch { e -> _error.emit(e) }
             .onEach { isLoggedIn ->
                 _isLoggedIn.emit(isLoggedIn)
                 if (isLoggedIn) {
