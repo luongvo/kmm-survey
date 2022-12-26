@@ -56,9 +56,7 @@ kotlin {
                 implementation(kotlin("test"))
                 with(Dependencies.Test) {
                     implementation(COROUTINES)
-                    implementation(KOTEST_FRAMEWORK)
                     implementation(KOTEST_ASSERTIONS)
-                    implementation(KOTEST_PROPERTY)
                     implementation(MOCKATIVE)
                     implementation(TURBINE)
                 }

@@ -1,33 +1,46 @@
 package vn.luongvo.kmm.survey.android.ui.screens.login
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.launch
-import timber.log.Timber
+import kotlinx.coroutines.flow.*
 import vn.luongvo.kmm.survey.android.ui.base.BaseViewModel
-import vn.luongvo.kmm.survey.data.local.datasource.TokenLocalDataSource
+import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
+import vn.luongvo.kmm.survey.domain.usecase.IsLoggedInUseCase
 import vn.luongvo.kmm.survey.domain.usecase.LogInUseCase
 
 class LoginViewModel(
-    private val logInUseCase: LogInUseCase,
-    private val tokenLocalDataSource: TokenLocalDataSource
+    private val isLoggedInUseCase: IsLoggedInUseCase,
+    private val logInUseCase: LogInUseCase
 ) : BaseViewModel() {
 
-    fun logIn() {
-        // TODO sample request to verify network layer implementation
-        viewModelScope.launch {
-            logInUseCase(
-                email = "luong@nimblehq.co",
-                password = "12345678"
-            )
-                .catch { e ->
-                    Timber.e(e)
+    private val _isLoggedIn = MutableStateFlow<Boolean?>(null)
+    val isLoggedIn: StateFlow<Boolean?> = _isLoggedIn
+
+    fun init() {
+        isLoggedInUseCase()
+            .onEach { isLoggedIn ->
+                _isLoggedIn.emit(isLoggedIn)
+                if (isLoggedIn) {
+                    navigateToHome()
                 }
-                .collect {
-                    Timber.d("tokenType=${tokenLocalDataSource.tokenType}")
-                    Timber.d("accessToken=${tokenLocalDataSource.accessToken}")
-                    Timber.d("refreshToken=${tokenLocalDataSource.refreshToken}")
-                }
-        }
+            }
+            .launchIn(viewModelScope)
+    }
+
+    fun logIn(email: String, password: String) {
+        logInUseCase(
+            email = email,
+            password = password
+        )
+            .injectLoading()
+            .catch { e -> _error.emit(e) }
+            .onEach {
+                _isLoggedIn.emit(true)
+                navigateToHome()
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private suspend fun navigateToHome() {
+        _navigator.emit(AppDestination.Home)
     }
 }

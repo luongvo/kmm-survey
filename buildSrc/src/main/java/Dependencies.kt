@@ -37,6 +37,7 @@ object Versions {
     const val KSP = "1.7.20-1.0.6"
 
     const val MOCKATIVE = "1.3.0"
+    const val MOCKK = "1.13.3"
 
     const val NAPIER = "2.6.1"
 
@@ -109,12 +110,11 @@ object Dependencies {
 
         const val JUNIT = "junit:junit:${Versions.JUNIT}"
 
-        const val KOTEST_FRAMEWORK = "io.kotest:kotest-framework-engine:${Versions.KOTEST}"
         const val KOTEST_ASSERTIONS = "io.kotest:kotest-assertions-core:${Versions.KOTEST}"
-        const val KOTEST_PROPERTY = "io.kotest:kotest-property:${Versions.KOTEST}"
 
         const val MOCKATIVE = "io.mockative:mockative:${Versions.MOCKATIVE}"
         const val MOCKATIVE_PROCESSOR = "io.mockative:mockative-processor:${Versions.MOCKATIVE}"
+        const val MOCKK = "io.mockk:mockk:${Versions.MOCKK}"
 
         const val TURBINE = "app.cash.turbine:turbine:${Versions.TURBINE}"
     }

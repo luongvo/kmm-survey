@@ -67,4 +67,46 @@ class AuthRepositoryTest {
             .with(eq(token))
             .wasInvoked(exactly = 1.time)
     }
+
+    @Test
+    fun `when calling isLoggedIn with valid token - it returns true`() = runTest {
+        given(mockTokenLocalDataSource)
+            .invocation { mockTokenLocalDataSource.tokenType }
+            .thenReturn("tokenType")
+        given(mockTokenLocalDataSource)
+            .invocation { mockTokenLocalDataSource.accessToken }
+            .thenReturn("accessToken")
+
+        repository.isLoggedIn.test {
+            awaitItem() shouldBe true
+            awaitComplete()
+        }
+    }
+
+    @Test
+    fun `when calling isLoggedIn with invalid or non-exist token - it returns false`() = runTest {
+        given(mockTokenLocalDataSource)
+            .invocation { mockTokenLocalDataSource.tokenType }
+            .thenReturn("tokenType")
+        given(mockTokenLocalDataSource)
+            .invocation { mockTokenLocalDataSource.accessToken }
+            .thenReturn("")
+
+        repository.isLoggedIn.test {
+            awaitItem() shouldBe false
+            awaitComplete()
+        }
+
+        given(mockTokenLocalDataSource)
+            .invocation { mockTokenLocalDataSource.tokenType }
+            .thenReturn("")
+        given(mockTokenLocalDataSource)
+            .invocation { mockTokenLocalDataSource.accessToken }
+            .thenReturn("accessToken")
+
+        repository.isLoggedIn.test {
+            awaitItem() shouldBe false
+            awaitComplete()
+        }
+    }
 }
