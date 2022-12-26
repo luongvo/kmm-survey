@@ -67,11 +67,19 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
 koverMerged {
     enable()
 
-    val generatedFiles = emptySet<String>()
-
-    val excludedPackages = emptySet<String>()
-
-    val excludedFiles = generatedFiles + excludedPackages
+    val excludedFiles = listOf(
+        "com.russhwolf.settings.*",
+        "io.mockative.*",
+        "*.BuildConfig",
+        "*.BuildKonfig",                        // BuildKonfig generated
+        "*.ComposableSingletons*",              // Jetpack Compose generated
+        "vn.luongvo.kmm.survey.android.di.*",   // Koin
+        "vn.luongvo.kmm.survey.di.*",           // Koin
+        "*.*Test",                              // Test files
+        "*.*Test*",                             // Test cases
+        "*.*Mock",                              // mockative @Mock generated
+        "*.test.*",                             // Test util package
+    )
     filters {
         classes {
             excludes += excludedFiles
