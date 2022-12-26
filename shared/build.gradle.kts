@@ -36,9 +36,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                with(Dependencies.Koin) {
-                    implementation(CORE)
-                }
+                implementation(Dependencies.Koin.CORE)
                 with(Dependencies.Ktor) {
                     implementation(CORE)
                     implementation(SERIALIZATION)
@@ -49,9 +47,8 @@ kotlin {
                     implementation(AUTH)
                     implementation(JSON_API)
                 }
-                with(Dependencies.Log) {
-                    implementation(NAPIER)
-                }
+                implementation(Dependencies.Settings.SETTINGS)
+                implementation(Dependencies.Log.NAPIER)
             }
         }
         val commonTest by getting {
@@ -70,9 +67,8 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                with(Dependencies.Ktor) {
-                    implementation(ANDROID)
-                }
+                implementation(Dependencies.Ktor.ANDROID)
+                implementation(Dependencies.AndroidX.SECURITY_CRYPTO_KTX)
             }
         }
         val androidTest by getting
@@ -86,9 +82,7 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
-                with(Dependencies.Ktor) {
-                    implementation(IOS)
-                }
+                implementation(Dependencies.Ktor.IOS)
             }
         }
         val iosX64Test by getting

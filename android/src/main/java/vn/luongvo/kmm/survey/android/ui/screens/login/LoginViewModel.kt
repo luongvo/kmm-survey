@@ -5,10 +5,12 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import vn.luongvo.kmm.survey.android.ui.base.BaseViewModel
+import vn.luongvo.kmm.survey.data.local.datasource.TokenLocalDataSource
 import vn.luongvo.kmm.survey.domain.usecase.LogInUseCase
 
 class LoginViewModel(
-    private val logInUseCase: LogInUseCase
+    private val logInUseCase: LogInUseCase,
+    private val tokenLocalDataSource: TokenLocalDataSource
 ) : BaseViewModel() {
 
     fun logIn() {
@@ -22,7 +24,9 @@ class LoginViewModel(
                     Timber.e(e)
                 }
                 .collect {
-                    Timber.d(it.toString())
+                    Timber.d("tokenType=${tokenLocalDataSource.tokenType}")
+                    Timber.d("accessToken=${tokenLocalDataSource.accessToken}")
+                    Timber.d("refreshToken=${tokenLocalDataSource.refreshToken}")
                 }
         }
     }

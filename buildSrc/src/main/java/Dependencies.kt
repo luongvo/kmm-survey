@@ -7,6 +7,7 @@ object Versions {
     const val ANDROID_VERSION_NAME = "0.2.0"
 
     const val ANDROIDX_ACTIVITY_COMPOSE = "1.5.1"
+    const val ANDROIDX_SECURITY_CRYPTO = "1.1.0-alpha04"
 
     const val BUILD_KONFIG = "0.13.3"
 
@@ -39,6 +40,8 @@ object Versions {
 
     const val NAPIER = "2.6.1"
 
+    const val SETTINGS = "1.0.0-RC"
+
     const val TIMBER = "4.7.1"
     const val TURBINE = "0.12.1"
 }
@@ -47,12 +50,16 @@ object Dependencies {
     object Gradle {
         const val BUILD_KONFIG = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:${Versions.BUILD_KONFIG}"
         const val GRADLE = "com.android.tools.build:gradle:${Versions.GRADLE}"
+    }
+
+    object Kotlin {
         const val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
         const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlin:kotlin-serialization:${Versions.KOTLIN}"
     }
 
     object AndroidX {
         const val ACTIVITY_COMPOSE = "androidx.activity:activity-compose:${Versions.ANDROIDX_ACTIVITY_COMPOSE}"
+        const val SECURITY_CRYPTO_KTX = "androidx.security:security-crypto-ktx:${Versions.ANDROIDX_SECURITY_CRYPTO}"
     }
 
     object Compose {
@@ -86,6 +93,10 @@ object Dependencies {
         const val ANDROID = "io.ktor:ktor-client-android:${Versions.KTOR}"
         const val IOS = "io.ktor:ktor-client-ios:${Versions.KTOR}"
         const val JSON_API = "co.nimblehq.jsonapi:core:${Versions.JSON_API}"
+    }
+
+    object Settings {
+        const val SETTINGS = "com.russhwolf:multiplatform-settings:${Versions.SETTINGS}"
     }
 
     object Log {

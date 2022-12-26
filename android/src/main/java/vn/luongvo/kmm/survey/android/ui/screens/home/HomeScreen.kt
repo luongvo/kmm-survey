@@ -5,7 +5,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import vn.luongvo.kmm.survey.Greeting
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 
 @Composable
@@ -14,7 +13,7 @@ fun HomeScreen() {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
-        Text(text = Greeting().greeting())
+        Text(text = "Home")
     }
 }
 

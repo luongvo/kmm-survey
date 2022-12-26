@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import vn.luongvo.kmm.survey.domain.repository.AuthRepository
-import vn.luongvo.kmm.survey.test.token
+import vn.luongvo.kmm.survey.test.Fake.token
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
@@ -36,6 +36,11 @@ class LogInUseCaseTest {
             awaitItem() shouldBe token
             awaitComplete()
         }
+
+        verify(mockRepository)
+            .function(mockRepository::saveToken)
+            .with(eq(token))
+            .wasInvoked(exactly = 1.time)
     }
 
     @Test
@@ -51,5 +56,10 @@ class LogInUseCaseTest {
         useCase("email", "password").test {
             awaitError() shouldBe throwable
         }
+
+        verify(mockRepository)
+            .function(mockRepository::saveToken)
+            .with(any())
+            .wasNotInvoked()
     }
 }
