@@ -5,6 +5,8 @@ import io.github.aakira.napier.*
 import io.github.aakira.napier.LogLevel
 import io.ktor.client.*
 import io.ktor.client.engine.*
+import io.ktor.client.plugins.auth.*
+import io.ktor.client.plugins.auth.providers.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.plugins.logging.LogLevel.*
@@ -14,9 +16,11 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 import vn.luongvo.kmm.survey.data.extensions.path
+import vn.luongvo.kmm.survey.data.local.datasource.TokenLocalDataSource
 
 class ApiClient(
     engine: HttpClientEngine,
+    tokenLocalDataSource: TokenLocalDataSource? = null
 ) {
 
     val httpClient: HttpClient
@@ -43,15 +47,31 @@ class ApiClient(
             install(ContentNegotiation) {
                 json(json)
             }
+
+            tokenLocalDataSource?.let {
+                install(Auth) {
+                    bearer {
+                        loadTokens {
+                            BearerTokens(tokenLocalDataSource.accessToken, tokenLocalDataSource.refreshToken)
+                        }
+                    }
+                }
+            }
         }
     }
 
-    suspend inline fun <reified T> post(path: String, requestBody: Any): T {
+    suspend inline fun <reified T> get(path: String): T =
+        request(path, HttpMethod.Get)
+
+    suspend inline fun <reified T> post(path: String, requestBody: Any): T =
+        request(path, HttpMethod.Post, requestBody)
+
+    suspend inline fun <reified T> request(path: String, method: HttpMethod, requestBody: Any? = null): T {
         val body = httpClient.request(
             HttpRequestBuilder().apply {
-                method = HttpMethod.Post
+                this.method = method
                 path(path)
-                setBody(requestBody)
+                requestBody?.let { setBody(requestBody) }
                 contentType(ContentType.Application.Json)
             }
         ).bodyAsText()
