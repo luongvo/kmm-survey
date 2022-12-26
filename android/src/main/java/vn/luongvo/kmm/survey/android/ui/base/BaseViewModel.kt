@@ -1,5 +1,6 @@
 package vn.luongvo.kmm.survey.android.ui.base
 
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.*
 import vn.luongvo.kmm.survey.android.lib.IsLoading
@@ -14,9 +15,7 @@ abstract class BaseViewModel : ViewModel() {
     val isLoading: StateFlow<IsLoading>
         get() = _isLoading
 
-    protected val _error = MutableSharedFlow<Throwable>()
-    val error: SharedFlow<Throwable>
-        get() = _error
+    var error by mutableStateOf<Throwable?>(null)
 
     protected val _navigator = MutableSharedFlow<AppDestination>()
     val navigator: SharedFlow<AppDestination>

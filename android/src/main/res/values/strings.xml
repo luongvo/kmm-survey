@@ -3,6 +3,7 @@
     <string name="app_name">KMM Survey</string>
 
     <string name="generic_error">Unexpected error!</string>
+    <string name="generic_ok">OK</string>
 
     <string name="login_button">Log in</string>
     <string name="login_email">Email</string>

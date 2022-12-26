@@ -7,12 +7,14 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import io.mockk.every
 import io.mockk.mockk
-import junit.framework.Assert.assertEquals
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.*
+import org.junit.Assert.assertEquals
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.ui.screens.MainActivity
+import vn.luongvo.kmm.survey.domain.exceptions.ApiException
 import vn.luongvo.kmm.survey.domain.usecase.IsLoggedInUseCase
 import vn.luongvo.kmm.survey.domain.usecase.LogInUseCase
 
@@ -76,6 +78,25 @@ class LoginScreenTest {
             onNodeWithContentDescription(LoginButton).performClick()
 
             assertEquals(expectedAppDestination, AppDestination.Home)
+        }
+    }
+
+    @Test
+    fun when_logging_in_fails__it_shows_the_error_dialog() {
+        val expectedError = ApiException(
+            message = "Your email or password is incorrect. Please try again.",
+            code = "code"
+        )
+        every { mockLogInUseCase(any(), any()) } returns flow { throw expectedError }
+
+        composeRule.run {
+            waitForAnimationEnd()
+
+            onNodeWithContentDescription(LoginEmailField).performTextInput("luong@nimblehq.co")
+            onNodeWithContentDescription(LoginPasswordField).performTextInput("1234567")
+            onNodeWithContentDescription(LoginButton).performClick()
+            waitForIdle()
+            onNodeWithText(expectedError.message ?: "").assertIsDisplayed()
         }
     }
 
