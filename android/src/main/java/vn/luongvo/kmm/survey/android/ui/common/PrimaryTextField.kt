@@ -11,6 +11,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.tooling.preview.Preview
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
@@ -26,7 +28,8 @@ fun PrimaryTextField(
     placeholder: String,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardType: KeyboardType = KeyboardType.Text,
-    imeAction: ImeAction = ImeAction.Next
+    imeAction: ImeAction = ImeAction.Next,
+    contentDescription: String = ""
 ) {
     val focusManager = LocalFocusManager.current
     TextField(
@@ -58,6 +61,7 @@ fun PrimaryTextField(
             .fillMaxWidth()
             .size(dimensions.inputHeight)
             .clip(shapes.medium)
+            .semantics { this.contentDescription = contentDescription }
     )
 }
 
