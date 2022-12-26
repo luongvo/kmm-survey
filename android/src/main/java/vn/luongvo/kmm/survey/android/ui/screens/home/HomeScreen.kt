@@ -6,10 +6,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.tooling.preview.Preview
+import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    viewModel: HomeViewModel = getViewModel()
+) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
