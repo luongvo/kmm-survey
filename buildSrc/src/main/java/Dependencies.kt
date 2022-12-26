@@ -32,6 +32,7 @@ object Versions {
     const val KOTEST = "5.5.4"
     const val KOTLIN = "1.7.20"
     const val KOTLIN_COROUTINES = "1.6.4"
+    const val KOTLINX_RESOURCES = "0.2.4"
     const val KOVER = "0.6.1"
     const val KTOR = "2.1.1"
     const val KSP = "1.7.20-1.0.6"
@@ -114,6 +115,7 @@ object Dependencies {
         const val JUNIT = "junit:junit:${Versions.JUNIT}"
 
         const val KOTEST_ASSERTIONS = "io.kotest:kotest-assertions-core:${Versions.KOTEST}"
+        const val KOTLINX_RESOURCES = "com.goncalossilva:resources:${Versions.KOTLINX_RESOURCES}"
         const val MOCKATIVE = "io.mockative:mockative:${Versions.MOCKATIVE}"
         const val MOCKATIVE_PROCESSOR = "io.mockative:mockative-processor:${Versions.MOCKATIVE}"
         const val MOCKK = "io.mockk:mockk:${Versions.MOCKK}"

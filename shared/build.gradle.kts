@@ -10,6 +10,7 @@ plugins {
     id(Plugins.KOTLINX_SERIALIZATION)
     id(Plugins.KOVER)
     id(Plugins.KSP).version(Versions.KSP)
+    id(Plugins.KOTLINX_RESOURCES).version(Versions.KOTLINX_RESOURCES)
 }
 
 kotlin {
@@ -57,6 +58,7 @@ kotlin {
                 with(Dependencies.Test) {
                     implementation(COROUTINES)
                     implementation(KOTEST_ASSERTIONS)
+                    implementation(KOTLINX_RESOURCES)
                     implementation(MOCKATIVE)
                     implementation(TURBINE)
                 }
