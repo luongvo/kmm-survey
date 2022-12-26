@@ -7,10 +7,22 @@ import vn.luongvo.kmm.survey.android.ui.base.BaseViewModel
 import vn.luongvo.kmm.survey.domain.usecase.GetUserProfileUseCase
 
 class HomeViewModel(
-    getUserProfileUseCase: GetUserProfileUseCase
+    getUserProfileUseCase: GetUserProfileUseCase,
+//    tokenLocalDataSource: TokenLocalDataSource
 ) : BaseViewModel() {
 
     init {
+        // TODO test code for POW, will remove it in the next PR
+//        tokenLocalDataSource.run {
+//            saveToken(
+//                Token(
+//                    tokenType,
+//                    "invalid_access_token",
+//                    refreshToken
+//                )
+//            )
+//        }
+
         getUserProfileUseCase()
             .catch { e -> error = e }
             .onEach {
