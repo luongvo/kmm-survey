@@ -45,6 +45,7 @@ object Versions {
 
     const val TIMBER = "4.7.1"
     const val TURBINE = "0.12.1"
+    const val ROBOLECTRIC = "4.9.1"
 }
 
 object Dependencies {
@@ -106,15 +107,20 @@ object Dependencies {
     }
 
     object Test {
+        const val COMPOSE_UI_TEST_JUNIT = "androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE_UI}"
+        const val COMPOSE_UI_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest:${Versions.COMPOSE_UI}"
         const val COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.KOTLIN_COROUTINES}"
+
         const val JUNIT = "junit:junit:${Versions.JUNIT}"
+
         const val KOTEST_ASSERTIONS = "io.kotest:kotest-assertions-core:${Versions.KOTEST}"
         const val MOCKATIVE = "io.mockative:mockative:${Versions.MOCKATIVE}"
         const val MOCKATIVE_PROCESSOR = "io.mockative:mockative-processor:${Versions.MOCKATIVE}"
         const val MOCKK = "io.mockk:mockk:${Versions.MOCKK}"
-        const val TURBINE = "app.cash.turbine:turbine:${Versions.TURBINE}"
-
-        const val COMPOSE_UI_TEST_JUNIT = "androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE_UI}"
         const val MOCKK_ANDROID = "io.mockk:mockk-android:${Versions.MOCKK}"
+
+        const val ROBOLECTRIC = "org.robolectric:robolectric:${Versions.ROBOLECTRIC}"
+
+        const val TURBINE = "app.cash.turbine:turbine:${Versions.TURBINE}"
     }
 }

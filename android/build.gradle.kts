@@ -27,6 +27,11 @@ android {
         kotlinCompilerExtensionVersion = Versions.COMPOSE_COMPILER
     }
 
+    compileOptions {
+        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
+    }
+
     kotlinOptions {
         jvmTarget = Versions.JVM_TARGET
     }
@@ -80,6 +85,10 @@ android {
     }
 
     testOptions {
+        unitTests {
+            // Robolectric resource processing/loading https://github.com/robolectric/robolectric/pull/4736
+            isIncludeAndroidResources = true
+        }
         unitTests.all {
             if (it.name != "testStagingDebugUnitTest") {
                 it.extensions.configure(kotlinx.kover.api.KoverTaskExtension::class) {
@@ -129,7 +138,9 @@ dependencies {
         testImplementation(MOCKK)
         testImplementation(TURBINE)
 
-        androidTestImplementation(COMPOSE_UI_TEST_JUNIT)
-        androidTestImplementation(MOCKK_ANDROID)
+        testImplementation(COMPOSE_UI_TEST_JUNIT)
+        debugImplementation(COMPOSE_UI_TEST_MANIFEST)
+        testImplementation(MOCKK_ANDROID)
+        testImplementation(ROBOLECTRIC)
     }
 }
