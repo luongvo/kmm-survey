@@ -2,8 +2,7 @@ package vn.luongvo.kmm.survey.test
 
 import co.nimblehq.jsonapi.model.JsonApiError
 import co.nimblehq.jsonapi.model.JsonApiException
-import vn.luongvo.kmm.survey.data.remote.model.response.TokenResponse
-import vn.luongvo.kmm.survey.data.remote.model.response.toToken
+import vn.luongvo.kmm.survey.data.remote.model.response.*
 
 object Fake {
 
@@ -23,4 +22,12 @@ object Fake {
     )
 
     val token = tokenResponse.toToken()
+
+    val userResponse = UserResponse(
+        email = "luong@nimblehq.co",
+        name = "Luong",
+        avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23"
+    )
+
+    val user = userResponse.toUser()
 }
