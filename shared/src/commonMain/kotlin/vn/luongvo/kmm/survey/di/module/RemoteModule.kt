@@ -14,4 +14,5 @@ val remoteModule = module {
     single(named(UNAUTHORIZED_API_CLIENT)) { ApiClient(get()) }
     single<AuthRemoteDataSource> { AuthRemoteDataSourceImpl(get(named(UNAUTHORIZED_API_CLIENT))) }
     singleOf(::UserRemoteDataSourceImpl) bind UserRemoteDataSource::class
+    singleOf(::SurveyRemoteDataSourceImpl) bind SurveyRemoteDataSource::class
 }
