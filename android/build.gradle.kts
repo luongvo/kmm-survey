@@ -118,6 +118,7 @@ dependencies {
         implementation(MATERIAL)
         implementation(NAVIGATION)
         implementation(UI_TOOLING)
+        implementation(COIL_COMPOSE)
     }
     with(Dependencies.Firebase) {
         implementation(platform(FIREBASE_BOM))
