@@ -3,7 +3,7 @@ package vn.luongvo.kmm.survey.di.module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import vn.luongvo.kmm.survey.data.remote.apiclient.ApiClient
+import vn.luongvo.kmm.survey.data.remote.ApiClient
 import vn.luongvo.kmm.survey.data.remote.datasource.AuthRemoteDataSource
 import vn.luongvo.kmm.survey.data.remote.datasource.AuthRemoteDataSourceImpl
 

@@ -62,3 +62,12 @@ jobs:
         env:
           DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bundle exec danger
+
+      - name: Upload coverage to codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          files: ./build/reports/kover/merged/xml/report.xml
+          flags: unittests # optional
+          fail_ci_if_error: false
+          verbose: true

@@ -16,6 +16,7 @@ android {
         targetSdk = Versions.ANDROID_TARGET_SDK_VERSION
         versionCode = Versions.ANDROID_VERSION_CODE
         versionName = Versions.ANDROID_VERSION_NAME
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildFeatures {
@@ -23,12 +24,21 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
+        kotlinCompilerExtensionVersion = Versions.COMPOSE_COMPILER
+    }
+
+    compileOptions {
+        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = Versions.JVM_TARGET
     }
 
     packagingOptions {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/{AL2.0,LGPL2.1,*.md}"
         }
     }
 
@@ -75,11 +85,22 @@ android {
     }
 
     testOptions {
+        unitTests {
+            // Robolectric resource processing/loading https://github.com/robolectric/robolectric/pull/4736
+            isIncludeAndroidResources = true
+        }
         unitTests.all {
             if (it.name != "testStagingDebugUnitTest") {
                 it.extensions.configure(kotlinx.kover.api.KoverTaskExtension::class) {
                     isDisabled.set(true)
                 }
+            }
+        }
+        animationsDisabled = true
+        // https://github.com/mockk/mockk/issues/297#issuecomment-901924678
+        packagingOptions {
+            jniLibs {
+                useLegacyPackaging = true
             }
         }
     }
@@ -111,7 +132,15 @@ dependencies {
     }
 
     with(Dependencies.Test) {
-        implementation(JUNIT)
-        implementation(COROUTINES)
+        testImplementation(COROUTINES)
+        testImplementation(JUNIT)
+        testImplementation(KOTEST_ASSERTIONS)
+        testImplementation(MOCKK)
+        testImplementation(TURBINE)
+
+        testImplementation(COMPOSE_UI_TEST_JUNIT)
+        debugImplementation(COMPOSE_UI_TEST_MANIFEST)
+        testImplementation(MOCKK_ANDROID)
+        testImplementation(ROBOLECTRIC)
     }
 }

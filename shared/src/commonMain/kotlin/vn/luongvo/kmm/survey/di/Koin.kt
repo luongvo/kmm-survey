@@ -6,7 +6,7 @@ import org.koin.dsl.KoinAppDeclaration
 import vn.luongvo.kmm.survey.di.module.*
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}): KoinApplication {
-    val dataModules = listOf(remoteModule, repositoryModule)
+    val dataModules = listOf(localModule, remoteModule, repositoryModule)
     val domainModules = listOf(useCaseModule)
     return startKoin {
         appDeclaration()

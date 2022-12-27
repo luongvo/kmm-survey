@@ -9,6 +9,7 @@ plugins {
     id(Plugins.BUILD_KONFIG)
     id(Plugins.KOTLINX_SERIALIZATION)
     id(Plugins.KOVER)
+    id(Plugins.KSP).version(Versions.KSP)
 }
 
 kotlin {
@@ -35,9 +36,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                with(Dependencies.Koin) {
-                    implementation(CORE)
-                }
+                implementation(Dependencies.Koin.CORE)
                 with(Dependencies.Ktor) {
                     implementation(CORE)
                     implementation(SERIALIZATION)
@@ -46,23 +45,28 @@ kotlin {
                     implementation(CONTENT_NEGOTIATION)
                     implementation(JSON)
                     implementation(AUTH)
+                    implementation(JSON_API)
                 }
-                with(Dependencies.Log) {
-                    implementation(NAPIER)
-                }
+                implementation(Dependencies.Settings.SETTINGS)
+                implementation(Dependencies.Log.NAPIER)
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                with(Dependencies.Test) {
+                    implementation(COROUTINES)
+                    implementation(KOTEST_ASSERTIONS)
+                    implementation(MOCKATIVE)
+                    implementation(TURBINE)
+                }
             }
         }
 
         val androidMain by getting {
             dependencies {
-                with(Dependencies.Ktor) {
-                    implementation(ANDROID)
-                }
+                implementation(Dependencies.Ktor.ANDROID)
+                implementation(Dependencies.AndroidX.SECURITY_CRYPTO_KTX)
             }
         }
         val androidTest by getting
@@ -76,9 +80,7 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
-                with(Dependencies.Ktor) {
-                    implementation(IOS)
-                }
+                implementation(Dependencies.Ktor.IOS)
             }
         }
         val iosX64Test by getting
@@ -91,6 +93,20 @@ kotlin {
             iosSimulatorArm64Test.dependsOn(this)
         }
     }
+}
+
+// https://github.com/mockative/mockative#installation-for-multiplatform-projects
+dependencies {
+    configurations
+        .filter { it.name.startsWith("ksp") && it.name.contains("Test") }
+        .forEach {
+            add(it.name, Dependencies.Test.MOCKATIVE_PROCESSOR)
+        }
+}
+
+// https://github.com/mockative/mockative#implicit-stubbing-of-functions-returning-unit
+ksp {
+    arg("mockative.stubsUnitByDefault", "true")
 }
 
 android {

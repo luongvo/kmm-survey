@@ -7,9 +7,9 @@ buildscript {
 
     dependencies {
         classpath(Dependencies.Gradle.GRADLE)
-        classpath(Dependencies.Gradle.KOTLIN_GRADLE_PLUGIN)
         classpath(Dependencies.Gradle.BUILD_KONFIG)
-        classpath(Dependencies.Gradle.KOTLIN_SERIALIZATION)
+        classpath(Dependencies.Kotlin.KOTLIN_GRADLE_PLUGIN)
+        classpath(Dependencies.Kotlin.KOTLIN_SERIALIZATION)
         classpath(Dependencies.Firebase.GOOGLE_SERVICES)
     }
 }
@@ -20,9 +20,18 @@ plugins {
 }
 
 allprojects {
+    val buildProperties = rootDir.loadGradleProperties("buildKonfig.properties")
     repositories {
         google()
         mavenCentral()
+        maven {
+            name = "Github Packages"
+            url = uri("https://maven.pkg.github.com/nimblehq/jsonapi-kotlin")
+            credentials {
+                username = buildProperties.getProperty("GITHUB_USER")
+                password = buildProperties.getProperty("GITHUB_TOKEN")
+            }
+        }
     }
 }
 
@@ -58,11 +67,20 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
 koverMerged {
     enable()
 
-    val generatedFiles = emptySet<String>()
-
-    val excludedPackages = emptySet<String>()
-
-    val excludedFiles = generatedFiles + excludedPackages
+    val excludedFiles = listOf(
+        "com.russhwolf.settings.*",
+        "io.mockative.*",
+        "*.BuildConfig",
+        "*.BuildKonfig",                        // BuildKonfig generated
+        "*.ComposableSingletons*",              // Jetpack Compose generated
+        "*.*\$*Preview\$*",                     // Jetpack Compose Preview functions
+        "vn.luongvo.kmm.survey.android.di.*",   // Koin
+        "vn.luongvo.kmm.survey.di.*",           // Koin
+        "*.*Test",                              // Test files
+        "*.*Test*",                             // Test cases
+        "*.*Mock",                              // mockative @Mock generated
+        "*.test.*",                             // Test util package
+    )
     filters {
         classes {
             excludes += excludedFiles
