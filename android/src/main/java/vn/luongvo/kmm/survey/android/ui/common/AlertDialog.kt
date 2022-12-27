@@ -11,7 +11,8 @@ import vn.luongvo.kmm.survey.android.ui.theme.Nero90
 @Composable
 fun AlertDialog(
     message: String,
-    onConfirmButtonClick: () -> Unit,
+    onDismissRequest: () -> Unit,
+    onConfirmButtonClick: () -> Unit = onDismissRequest
 ) {
     AlertDialog(
         text = { Text(text = message) },
@@ -29,7 +30,7 @@ fun AlertDialog(
                 )
             }
         },
-        onDismissRequest = { onConfirmButtonClick() }
+        onDismissRequest = { onDismissRequest() }
     )
 }
 
@@ -38,6 +39,6 @@ fun AlertDialog(
 fun AlertDialogPreview() {
     AlertDialog(
         message = "Message",
-        onConfirmButtonClick = {}
+        onDismissRequest = {}
     )
 }

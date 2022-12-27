@@ -53,7 +53,7 @@ fun LoginScreen(
     viewModel.error?.let {
         AlertDialog(
             message = it.userReadableMessage(context),
-            onConfirmButtonClick = { viewModel.error = null }
+            onDismissRequest = { viewModel.error = null }
         )
     }
 
