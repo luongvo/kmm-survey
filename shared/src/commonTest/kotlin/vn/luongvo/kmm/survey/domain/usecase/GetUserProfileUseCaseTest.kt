@@ -39,7 +39,7 @@ class GetUserProfileUseCaseTest {
     }
 
     @Test
-    fun `when calling getUserProfile fails - it throws error`() = runTest {
+    fun `when calling getUserProfile fails - it throws the corresponding error`() = runTest {
         val throwable = Throwable()
         given(mockRepository)
             .function(mockRepository::getUserProfile)

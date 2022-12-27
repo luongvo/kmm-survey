@@ -37,7 +37,7 @@ class IsLoggedInUseCaseTest {
     }
 
     @Test
-    fun `when calling isLoggedIn fails - it throws error`() = runTest {
+    fun `when calling isLoggedIn fails - it throws the corresponding error`() = runTest {
         val throwable = Throwable()
         given(mockRepository)
             .invocation { mockRepository.isLoggedIn }

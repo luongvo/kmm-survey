@@ -44,7 +44,7 @@ class LogInUseCaseTest {
     }
 
     @Test
-    fun `when calling logIn fails - it throws error`() = runTest {
+    fun `when calling logIn fails - it throws the corresponding error`() = runTest {
         val throwable = Throwable()
         given(mockRepository)
             .function(mockRepository::logIn)
