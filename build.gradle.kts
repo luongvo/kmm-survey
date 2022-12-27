@@ -73,6 +73,7 @@ koverMerged {
         "*.BuildConfig",
         "*.BuildKonfig",                        // BuildKonfig generated
         "*.ComposableSingletons*",              // Jetpack Compose generated
+        "*.*\$*Preview\$*",                     // Jetpack Compose Preview functions
         "vn.luongvo.kmm.survey.android.di.*",   // Koin
         "vn.luongvo.kmm.survey.di.*",           // Koin
         "*.*Test",                              // Test files

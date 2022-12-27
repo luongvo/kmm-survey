@@ -70,12 +70,9 @@ class LoginViewModelTest {
     fun `when calling logIn fails, it emits error`() = runTest {
         val error = Exception()
         every { mockLogInUseCase(any(), any()) } returns flow { throw error }
+        viewModel.logIn("email", "password")
 
-        viewModel.error.test {
-            viewModel.logIn("email", "password")
-
-            expectMostRecentItem() shouldBe error
-        }
+        viewModel.error shouldBe error
     }
 
     @Test

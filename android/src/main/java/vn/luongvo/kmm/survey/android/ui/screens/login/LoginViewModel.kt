@@ -32,7 +32,7 @@ class LoginViewModel(
             password = password
         )
             .injectLoading()
-            .catch { e -> _error.emit(e) }
+            .catch { e -> error = e }
             .onEach {
                 _isLoggedIn.emit(true)
                 navigateToHome()

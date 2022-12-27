@@ -27,7 +27,11 @@ import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.android.ui.theme.White50
-import vn.luongvo.kmm.survey.android.util.showToast
+import vn.luongvo.kmm.survey.android.util.userReadableMessage
+
+const val LoginEmailField = "LoginEmailField"
+const val LoginPasswordField = "LoginPasswordField"
+const val LoginButton = "LoginButton"
 
 private const val FirstPhaseDurationInMilliseconds = 800
 private const val StayPhaseDurationInMilliseconds = 500
@@ -46,8 +50,11 @@ fun LoginScreen(
     val isLoggedIn by viewModel.isLoggedIn.collectAsState()
 
     val context = LocalContext.current
-    LaunchedEffect(viewModel.error) {
-        viewModel.error.collect { error -> error.showToast(context) }
+    viewModel.error?.let {
+        AlertDialog(
+            message = it.userReadableMessage(context),
+            onDismissRequest = { viewModel.error = null }
+        )
     }
 
     LaunchedEffect(viewModel.navigator) {
@@ -185,6 +192,7 @@ private fun LoginForm(
             onValueChange = onEmailChange,
             placeholder = stringResource(id = R.string.login_email),
             keyboardType = KeyboardType.Email,
+            contentDescription = LoginEmailField
         )
         Box {
             PrimaryTextField(
@@ -193,6 +201,7 @@ private fun LoginForm(
                 placeholder = stringResource(id = R.string.login_password),
                 visualTransformation = PasswordVisualTransformation(),
                 imeAction = ImeAction.Done,
+                contentDescription = LoginPasswordField
             )
             Text(
                 text = stringResource(id = R.string.login_forgot),
@@ -207,6 +216,7 @@ private fun LoginForm(
         PrimaryButton(
             text = stringResource(id = R.string.login_button),
             onClick = onLogInClick,
+            contentDescription = LoginButton
         )
     }
 }

@@ -6,6 +6,8 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.shapes
@@ -15,7 +17,8 @@ import vn.luongvo.kmm.survey.android.ui.theme.BlackRussian
 @Composable
 fun PrimaryButton(
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    contentDescription: String = ""
 ) {
     Button(
         shape = shapes.medium,
@@ -26,6 +29,7 @@ fun PrimaryButton(
         modifier = Modifier
             .fillMaxWidth()
             .height(dimensions.buttonHeight)
+            .semantics { this.contentDescription = contentDescription }
     ) {
         Text(
             text = text,

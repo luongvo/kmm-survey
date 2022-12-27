@@ -36,7 +36,10 @@ A Nimble Survey KMM project.
 - [Jetpack Compose](https://developer.android.com/jetpack/compose).
 - [Koin](https://github.com/InsertKoinIO/koin).
 - Logging with [Timber](https://github.com/JakeWharton/timber).
-- Testing: [MockK](https://github.com/mockk/mockk), [Kotest](https://github.com/kotest/kotest), and [Turbine](https://github.com/cashapp/turbine).
+- Testing
+  - [MockK](https://github.com/mockk/mockk), [Kotest](https://github.com/kotest/kotest),
+    and [Turbine](https://github.com/cashapp/turbine).
+  - Jetpack Compose Instrument tests executed by [Robolectric](https://robolectric.org/).
 - Distributing to [Firebase](https://appdistribution.firebase.dev/i/11223fc5713bc511).
 
 ### iOS
