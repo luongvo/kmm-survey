@@ -72,7 +72,7 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun `when calling refreshToken fails - it throws error`() = runTest {
+    fun `when calling refreshToken fails - it throws the corresponding error`() = runTest {
         val throwable = Throwable()
         given(mockAuthRemoteDataSource)
             .suspendFunction(mockAuthRemoteDataSource::refreshToken)
