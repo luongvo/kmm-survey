@@ -221,8 +221,8 @@ private fun LoginForm(
     }
 }
 
-@Composable
 @Preview(showSystemUi = true)
+@Composable
 fun LoginScreenPreview() {
     ComposeTheme {
         LoginScreenContent(

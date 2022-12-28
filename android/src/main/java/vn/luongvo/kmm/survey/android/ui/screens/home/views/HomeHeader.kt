@@ -55,8 +55,8 @@ fun HomeHeader(
     }
 }
 
-@Composable
 @Preview
+@Composable
 fun HomeHeaderPreview() {
     ComposeTheme {
         HomeHeader(

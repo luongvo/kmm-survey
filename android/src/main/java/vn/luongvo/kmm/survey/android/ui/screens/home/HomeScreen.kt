@@ -29,7 +29,7 @@ private fun HomeScreenContent() {
             listOf(
                 HomeSurveyUiModel(
                     title = "Scarlett Bangkok",
-                    description = "We'd love ot hear from you!",
+                    description = "We'd love to hear from you!",
                     imageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
                 ),
                 HomeSurveyUiModel(
@@ -51,8 +51,8 @@ private fun HomeScreenContent() {
     }
 }
 
-@Composable
 @Preview(showSystemUi = true)
+@Composable
 fun HomeScreenPreview() {
     ComposeTheme {
         HomeScreenContent()
