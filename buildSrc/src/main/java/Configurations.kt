@@ -27,6 +27,7 @@ object Plugins {
     const val GOOGLE_SERVICES = "com.google.gms.google-services"
 
     const val KOTLIN_SERIALIZATION = "plugin.serialization"
+    const val KOTLINX_RESOURCES = "com.goncalossilva.resources"
     const val KOTLINX_SERIALIZATION = "kotlinx-serialization"
     const val KOVER = "kover"
     const val KOVER_PACKAGE = "org.jetbrains.kotlinx.kover"

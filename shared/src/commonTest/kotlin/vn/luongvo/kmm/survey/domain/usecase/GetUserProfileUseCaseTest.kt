@@ -7,40 +7,43 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import vn.luongvo.kmm.survey.domain.repository.AuthRepository
+import vn.luongvo.kmm.survey.domain.repository.UserRepository
+import vn.luongvo.kmm.survey.test.Fake.user
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 @ExperimentalCoroutinesApi
-class IsLoggedInUseCaseTest {
+class GetUserProfileUseCaseTest {
 
     @Mock
-    private val mockRepository = mock(AuthRepository::class)
+    private val mockRepository = mock(UserRepository::class)
 
-    private lateinit var useCase: IsLoggedInUseCase
+    private lateinit var useCase: GetUserProfileUseCase
 
     @BeforeTest
     fun setUp() {
-        useCase = IsLoggedInUseCaseImpl(mockRepository)
+        useCase = GetUserProfileUseCaseImpl(mockRepository)
     }
 
     @Test
-    fun `when calling isLoggedIn successfully - it returns logged in status`() = runTest {
+    fun `when calling getUserProfile successfully - it returns user`() = runTest {
         given(mockRepository)
-            .invocation { mockRepository.isLoggedIn }
-            .thenReturn(flowOf(true))
+            .function(mockRepository::getUserProfile)
+            .whenInvoked()
+            .thenReturn(flowOf(user))
 
         useCase().test {
-            awaitItem() shouldBe true
+            awaitItem() shouldBe user
             awaitComplete()
         }
     }
 
     @Test
-    fun `when calling isLoggedIn fails - it throws the corresponding error`() = runTest {
+    fun `when calling getUserProfile fails - it throws the corresponding error`() = runTest {
         val throwable = Throwable()
         given(mockRepository)
-            .invocation { mockRepository.isLoggedIn }
+            .function(mockRepository::getUserProfile)
+            .whenInvoked()
             .thenReturn(
                 flow { throw throwable }
             )
