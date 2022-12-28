@@ -120,6 +120,7 @@ dependencies {
         implementation(UI_TOOLING)
         implementation(COIL_COMPOSE)
         implementation(ACCOMPANIST_PAGER)
+        implementation(ACCOMPANIST_PAGER_INDICATORS)
     }
     with(Dependencies.Firebase) {
         implementation(platform(FIREBASE_BOM))

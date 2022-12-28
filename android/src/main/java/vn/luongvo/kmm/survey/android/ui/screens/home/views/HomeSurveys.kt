@@ -56,6 +56,7 @@ fun HomeSurveys(
         }
 
         HomeFooter(
+            pagerState = pagerState,
             title = surveyTitle,
             description = surveyDescription,
             modifier = Modifier
@@ -65,8 +66,10 @@ fun HomeSurveys(
     }
 }
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun HomeFooter(
+    pagerState: PagerState,
     title: String,
     description: String,
     modifier: Modifier
@@ -76,6 +79,13 @@ private fun HomeFooter(
             .wrapContentHeight()
             .padding(horizontal = dimensions.paddingMedium)
     ) {
+        HorizontalPagerIndicator(
+            pagerState = pagerState,
+            activeColor = White,
+            inactiveColor = White20,
+            modifier = Modifier
+                .padding(vertical = dimensions.paddingLarge),
+        )
         Crossfade(targetState = title) {
             Text(
                 text = it,
