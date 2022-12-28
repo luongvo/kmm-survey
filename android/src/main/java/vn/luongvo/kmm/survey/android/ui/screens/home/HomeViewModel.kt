@@ -5,16 +5,17 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import vn.luongvo.kmm.survey.android.ui.base.BaseViewModel
+import vn.luongvo.kmm.survey.android.util.DateFormatter
 import vn.luongvo.kmm.survey.domain.usecase.GetSurveysUseCase
 import vn.luongvo.kmm.survey.domain.usecase.GetUserProfileUseCase
-import java.text.SimpleDateFormat
 import java.util.*
 
 private const val HeaderDateFormat = "EEEE, MMMM d"
 
 class HomeViewModel(
     getUserProfileUseCase: GetUserProfileUseCase,
-    getSurveysUseCase: GetSurveysUseCase
+    getSurveysUseCase: GetSurveysUseCase,
+    dateFormatter: DateFormatter
 ) : BaseViewModel() {
 
     private val _currentDate = MutableStateFlow("")
@@ -25,7 +26,9 @@ class HomeViewModel(
 
     init {
         viewModelScope.launch {
-            _currentDate.emit(currentDate())
+            _currentDate.emit(
+                dateFormatter.format(Calendar.getInstance().time, HeaderDateFormat)
+            )
         }
 
         getUserProfileUseCase()
@@ -42,10 +45,5 @@ class HomeViewModel(
                 Timber.d(it.toString())
             }
             .launchIn(viewModelScope)
-    }
-
-    private fun currentDate(): String {
-        val now = Calendar.getInstance().time
-        return SimpleDateFormat(HeaderDateFormat, Locale.getDefault()).format(now)
     }
 }

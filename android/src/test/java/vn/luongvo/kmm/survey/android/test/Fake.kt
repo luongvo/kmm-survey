@@ -1,6 +1,6 @@
 package vn.luongvo.kmm.survey.android.test
 
-import vn.luongvo.kmm.survey.domain.model.Token
+import vn.luongvo.kmm.survey.domain.model.*
 
 object Fake {
 
@@ -9,4 +9,12 @@ object Fake {
         accessToken = "accessToken",
         refreshToken = "refreshToken"
     )
+
+    val user = User(
+        email = "email",
+        name = "name",
+        avatarUrl = "avatarUrl"
+    )
+
+    val surveys = emptyList<Survey>()
 }
