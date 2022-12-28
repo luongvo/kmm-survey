@@ -111,6 +111,7 @@ dependencies {
 
     with(Dependencies.AndroidX) {
         implementation(ACTIVITY_COMPOSE)
+        implementation(LIFECYCLE_RUNTIME_COMPOSE)
     }
     with(Dependencies.Compose) {
         implementation(UI)

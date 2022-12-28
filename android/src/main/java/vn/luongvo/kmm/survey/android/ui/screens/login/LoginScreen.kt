@@ -18,6 +18,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.R
@@ -39,6 +41,7 @@ const val LastPhaseDurationInMilliseconds = 700
 private const val BlurRadius = 25f
 private val LogoOffset = Offset(0f, -229f)
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = getViewModel(),
@@ -46,8 +49,8 @@ fun LoginScreen(
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val isLoading by viewModel.isLoading.collectAsState()
-    val isLoggedIn by viewModel.isLoggedIn.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
+    val isLoggedIn by viewModel.isLoggedIn.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     viewModel.error?.let {

@@ -12,14 +12,12 @@ abstract class BaseViewModel : ViewModel() {
     private var loadingCount: Int = 0
 
     private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<IsLoading>
-        get() = _isLoading
+    val isLoading: StateFlow<IsLoading> = _isLoading
 
     var error by mutableStateOf<Throwable?>(null)
 
     protected val _navigator = MutableSharedFlow<AppDestination>()
-    val navigator: SharedFlow<AppDestination>
-        get() = _navigator
+    val navigator: SharedFlow<AppDestination> = _navigator
 
     /**
      * To show loading manually, should call `hideLoading` after
