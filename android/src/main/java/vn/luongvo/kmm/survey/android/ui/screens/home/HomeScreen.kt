@@ -1,10 +1,8 @@
 package vn.luongvo.kmm.survey.android.ui.screens.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.ui.screens.home.views.*
@@ -20,10 +18,7 @@ fun HomeScreen(
 @Composable
 private fun HomeScreenContent() {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            // TODO demo background, integrate in https://github.com/luongvo/kmm-survey/issues/16
-            .background(Color(0xFF8E9398))
+        modifier = Modifier.fillMaxSize()
     ) {
         HomeSurveys(
             listOf(
