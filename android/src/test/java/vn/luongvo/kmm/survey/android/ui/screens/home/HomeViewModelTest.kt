@@ -5,6 +5,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.*
@@ -42,6 +43,8 @@ class HomeViewModelTest {
 
     @Test
     fun `when loading Home screen, it shows the current date time and user avatar`() = runTest {
+        viewModel.init()
+
         viewModel.currentDate.test {
             expectMostRecentItem() shouldBe "Thursday, December 29"
         }
@@ -49,5 +52,14 @@ class HomeViewModelTest {
         viewModel.avatarUrl.test {
             expectMostRecentItem() shouldBe "avatarUrl"
         }
+    }
+
+    @Test
+    fun `when getting user profile fails, it shows the corresponding error`() = runTest {
+        val error = Exception()
+        every { mockGetUserProfileUseCase() } returns flow { throw error }
+        viewModel.init()
+
+        viewModel.error shouldBe error
     }
 }

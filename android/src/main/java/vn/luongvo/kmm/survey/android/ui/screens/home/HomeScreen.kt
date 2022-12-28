@@ -37,6 +37,10 @@ fun HomeScreen(
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.init()
+    }
+
     HomeScreenContent(
         scaffoldState = scaffoldState,
         currentDate = currentDate,

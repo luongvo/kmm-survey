@@ -13,9 +13,9 @@ import java.util.*
 private const val HeaderDateFormat = "EEEE, MMMM d"
 
 class HomeViewModel(
-    getUserProfileUseCase: GetUserProfileUseCase,
-    getSurveysUseCase: GetSurveysUseCase,
-    dateFormatter: DateFormatter
+    private val getUserProfileUseCase: GetUserProfileUseCase,
+    private val getSurveysUseCase: GetSurveysUseCase,
+    private val dateFormatter: DateFormatter
 ) : BaseViewModel() {
 
     private val _currentDate = MutableStateFlow("")
@@ -24,7 +24,7 @@ class HomeViewModel(
     private val _avatarUrl = MutableStateFlow("")
     val avatarUrl: StateFlow<String> = _avatarUrl
 
-    init {
+    fun init() {
         viewModelScope.launch {
             _currentDate.emit(
                 dateFormatter.format(Calendar.getInstance().time, HeaderDateFormat)
