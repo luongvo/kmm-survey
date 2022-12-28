@@ -6,6 +6,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.pager.*
 import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.ui.common.DimmedImageBackground
@@ -13,11 +15,17 @@ import vn.luongvo.kmm.survey.android.ui.screens.home.views.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = getViewModel()
 ) {
+    val currentDate by viewModel.currentDate.collectAsStateWithLifecycle()
+    val avatarUrl by viewModel.avatarUrl.collectAsStateWithLifecycle()
+
     HomeScreenContent(
+        currentDate = currentDate,
+        avatarUrl = avatarUrl,
         // TODO Integrate in https://github.com/luongvo/kmm-survey/issues/16
         surveys = listOf(
             SurveyUiModel(
@@ -37,6 +45,8 @@ fun HomeScreen(
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun HomeScreenContent(
+    currentDate: String,
+    avatarUrl: String,
     surveys: List<SurveyUiModel>
 ) {
     val pagerState = rememberPagerState()
@@ -64,9 +74,8 @@ private fun HomeScreenContent(
         }
 
         HomeHeader(
-            // TODO Integrate in https://github.com/luongvo/kmm-survey/issues/13
-            dateTime = "Monday, JUNE 15",
-            avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23",
+            dateTime = currentDate,
+            avatarUrl = avatarUrl,
             modifier = Modifier.statusBarsPadding()
         )
 
@@ -87,6 +96,8 @@ private fun HomeScreenContent(
 fun HomeScreenPreview() {
     ComposeTheme {
         HomeScreenContent(
+            currentDate = "Monday, JUNE 15",
+            avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23",
             surveys = listOf(
                 SurveyUiModel(
                     title = "Scarlett Bangkok",

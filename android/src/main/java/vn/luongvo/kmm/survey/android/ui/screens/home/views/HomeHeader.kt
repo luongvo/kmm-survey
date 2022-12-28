@@ -31,7 +31,7 @@ fun HomeHeader(
             ),
     ) {
         Text(
-            text = dateTime,
+            text = dateTime.uppercase(),
             color = White,
             style = typography.subtitle1,
         )
