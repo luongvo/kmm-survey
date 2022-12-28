@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import org.koin.androidx.compose.getViewModel
-import vn.luongvo.kmm.survey.android.ui.screens.home.views.HomeHeader
+import vn.luongvo.kmm.survey.android.ui.screens.home.views.*
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 
 @Composable
@@ -25,6 +25,20 @@ private fun HomeScreenContent() {
             // TODO demo background, integrate in https://github.com/luongvo/kmm-survey/issues/16
             .background(Color(0xFF8E9398))
     ) {
+        HomeSurveys(
+            listOf(
+                HomeSurveyUiModel(
+                    title = "Scarlett Bangkok",
+                    description = "We'd love ot hear from you!",
+                    imageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
+                ),
+                HomeSurveyUiModel(
+                    title = "ibis Bangkok Riverside",
+                    description = "We'd love to hear from you!",
+                    imageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/287db81c5e4242412cc0_"
+                )
+            )
+        )
         Column(
             modifier = Modifier.statusBarsPadding()
         ) {

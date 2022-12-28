@@ -13,23 +13,38 @@ import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import vn.luongvo.kmm.survey.android.ui.theme.Black20
 
 @Composable
 fun DimmedImageBackground(
-    @DrawableRes imageRes: Int,
-    blurRadius: Dp,
-    gradientAlpha: Float
+    @DrawableRes imageRes: Int? = null,
+    imageUrl: String? = null,
+    blurRadius: Dp = 0.dp,    // Default with no blur
+    gradientAlpha: Float = 1f // Default with vertical gradient
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = imageRes),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .matchParentSize()
-                .blur(radius = blurRadius)
-        )
+        imageRes?.let {
+            Image(
+                painter = painterResource(id = imageRes),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .matchParentSize()
+                    .blur(radius = blurRadius)
+            )
+        }
+        imageUrl?.let {
+            AsyncImage(
+                model = imageUrl,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .matchParentSize()
+                    .blur(radius = blurRadius)
+            )
+        }
         Box(
             modifier = Modifier
                 .fillMaxSize()
