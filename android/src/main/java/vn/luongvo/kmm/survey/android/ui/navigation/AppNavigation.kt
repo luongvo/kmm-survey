@@ -5,6 +5,7 @@ import androidx.navigation.*
 import androidx.navigation.compose.*
 import vn.luongvo.kmm.survey.android.ui.screens.home.HomeScreen
 import vn.luongvo.kmm.survey.android.ui.screens.login.LoginScreen
+import vn.luongvo.kmm.survey.android.ui.screens.survey.SurveyScreen
 
 @Composable
 fun AppNavigation(
@@ -22,8 +23,12 @@ fun AppNavigation(
         }
         composable(AppDestination.Home) {
             HomeScreen(
-                // TODO handle navigation later
-                // navigator = { destination -> navController.navigate(destination) }
+                navigator = { destination -> navController.navigate(destination) }
+            )
+        }
+        composable(AppDestination.Survey) { backStackEntry ->
+            SurveyScreen(
+                surveyId = backStackEntry.arguments?.getString(SurveyIdArg).orEmpty()
             )
         }
     }

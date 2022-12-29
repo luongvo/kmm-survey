@@ -14,6 +14,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.pager.*
 import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.ui.common.DimmedImageBackground
+import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.ui.providers.LoadingParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.home.views.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
@@ -26,7 +27,8 @@ const val HomeSurveyDetail = "HomeSurveyDetail"
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = getViewModel()
+    viewModel: HomeViewModel = getViewModel(),
+    navigator: (destination: AppDestination) -> Unit
 ) {
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val error by viewModel.error.collectAsStateWithLifecycle()
@@ -45,6 +47,10 @@ fun HomeScreen(
         }
     }
 
+    LaunchedEffect(viewModel.navigator) {
+        viewModel.navigator.collect { destination -> navigator(destination) }
+    }
+
     LaunchedEffect(Unit) {
         viewModel.init()
     }
@@ -54,7 +60,8 @@ fun HomeScreen(
         isLoading = isLoading,
         currentDate = currentDate,
         avatarUrl = avatarUrl,
-        surveys = surveys
+        surveys = surveys,
+        onSurveyClick = { survey -> viewModel.navigateToSurvey(survey?.id.orEmpty()) }
     )
 }
 
@@ -65,16 +72,15 @@ private fun HomeScreenContent(
     isLoading: Boolean,
     currentDate: String,
     avatarUrl: String,
-    surveys: List<SurveyUiModel>
+    surveys: List<SurveyUiModel>,
+    onSurveyClick: (SurveyUiModel?) -> Unit
 ) {
     val pagerState = rememberPagerState()
-    var surveyTitle by remember { mutableStateOf("") }
-    var surveyDescription by remember { mutableStateOf("") }
+    var survey by remember { mutableStateOf<SurveyUiModel?>(null) }
 
     LaunchedEffect(surveys) {
         snapshotFlow { pagerState.currentPage }.collect { index ->
-            surveyTitle = surveys.getOrNull(index)?.title.orEmpty()
-            surveyDescription = surveys.getOrNull(index)?.description.orEmpty()
+            survey = surveys.getOrNull(index)
         }
     }
 
@@ -106,12 +112,12 @@ private fun HomeScreenContent(
             HomeFooter(
                 pagerState = pagerState,
                 isLoading = isLoading,
-                title = surveyTitle,
-                description = surveyDescription,
+                survey = survey,
                 modifier = Modifier
                     .navigationBarsPadding()
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 36.dp)
+                    .padding(bottom = 36.dp),
+                onSurveyClick = onSurveyClick
             )
         }
     }
@@ -130,16 +136,18 @@ fun HomeScreenPreview(
             avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23",
             surveys = listOf(
                 SurveyUiModel(
+                    id = "1",
                     title = "Scarlett Bangkok",
                     description = "We'd love to hear from you!",
                     coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
                 ),
                 SurveyUiModel(
+                    id = "2",
                     title = "ibis Bangkok Riverside",
                     description = "We'd love to hear from you!",
                     coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/287db81c5e4242412cc0_"
                 )
             )
-        )
+        ) {}
     }
 }

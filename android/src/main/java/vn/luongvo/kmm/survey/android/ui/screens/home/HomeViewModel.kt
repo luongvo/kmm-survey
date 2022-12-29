@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import vn.luongvo.kmm.survey.android.ui.base.BaseViewModel
+import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.util.DateFormatter
 import vn.luongvo.kmm.survey.domain.usecase.GetSurveysUseCase
 import vn.luongvo.kmm.survey.domain.usecase.GetUserProfileUseCase
@@ -49,5 +50,11 @@ class HomeViewModel(
                 _surveys.emit(surveys.map { it.toUiModel() })
             }
             .launchIn(viewModelScope)
+    }
+
+    fun navigateToSurvey(surveyId: String) {
+        viewModelScope.launch {
+            _navigator.emit(AppDestination.Survey.buildDestination(surveyId))
+        }
     }
 }
