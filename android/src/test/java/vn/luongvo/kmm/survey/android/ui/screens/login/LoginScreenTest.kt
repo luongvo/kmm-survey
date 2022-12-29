@@ -15,6 +15,7 @@ import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
+import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.domain.exceptions.ApiException
 import vn.luongvo.kmm.survey.domain.usecase.IsLoggedInUseCase
 import vn.luongvo.kmm.survey.domain.usecase.LogInUseCase
@@ -103,10 +104,12 @@ class LoginScreenTest {
 
     private fun initComposable(testBody: ComposeContentTestRule.() -> Unit) {
         composeRule.setContent {
-            LoginScreen(
-                viewModel = viewModel,
-                navigator = { destination -> expectedAppDestination = destination }
-            )
+            ComposeTheme {
+                LoginScreen(
+                    viewModel = viewModel,
+                    navigator = { destination -> expectedAppDestination = destination }
+                )
+            }
         }
         testBody.invoke(composeRule)
     }

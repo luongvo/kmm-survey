@@ -19,6 +19,7 @@ import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.android.util.userReadableMessage
 
 const val HomeUserAvatar = "HomeUserAvatar"
+const val HomeSurveyDetail = "HomeSurveyDetail"
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable

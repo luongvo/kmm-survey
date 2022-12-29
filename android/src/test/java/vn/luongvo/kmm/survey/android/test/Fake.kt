@@ -26,7 +26,7 @@ object Fake {
         Survey(
             id = "2",
             title = "ibis Bangkok Riverside",
-            description = "We'd love to hear from you!",
+            description = "We'd like to hear from you!",
             coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/287db81c5e4242412cc0_"
         )
     )

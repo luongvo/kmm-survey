@@ -13,7 +13,9 @@ import org.junit.*
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import vn.luongvo.kmm.survey.android.R
-import vn.luongvo.kmm.survey.android.test.Fake
+import vn.luongvo.kmm.survey.android.test.Fake.surveys
+import vn.luongvo.kmm.survey.android.test.Fake.user
+import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.android.util.DateFormatter
 import vn.luongvo.kmm.survey.domain.usecase.*
 
@@ -33,8 +35,8 @@ class HomeScreenTest {
 
     @Before
     fun setup() {
-        every { mockGetUserProfileUseCase() } returns flowOf(Fake.user)
-        every { mockGetSurveysUseCase(any(), any()) } returns flowOf(Fake.surveys)
+        every { mockGetUserProfileUseCase() } returns flowOf(user)
+        every { mockGetSurveysUseCase(any(), any()) } returns flowOf(surveys)
         every { mockDateFormatter.format(any(), any()) } returns "Thursday, December 29"
 
         viewModel = HomeViewModel(
@@ -66,11 +68,40 @@ class HomeScreenTest {
         }
     }
 
+    @Test
+    fun `when getting surveys successfully, it shows the survey list`() = initComposable {
+        onNodeWithText("Scarlett Bangkok").assertIsDisplayed()
+        onNodeWithText("We'd love to hear from you!").assertIsDisplayed()
+        onNodeWithContentDescription(HomeSurveyDetail).assertIsDisplayed()
+
+        onRoot().performTouchInput { swipeLeft() }
+
+        onNodeWithText("ibis Bangkok Riverside").assertIsDisplayed()
+        onNodeWithText("We'd like to hear from you!").assertIsDisplayed()
+
+        onRoot().performTouchInput { swipeRight() }
+
+        onNodeWithText("Scarlett Bangkok").assertIsDisplayed()
+        onNodeWithText("We'd love to hear from you!").assertIsDisplayed()
+    }
+
+    @Test
+    fun `when getting surveys fails, it shows an error message`() {
+        val expectedError = Throwable("unexpected error")
+        every { mockGetSurveysUseCase(any(), any()) } returns flow { throw expectedError }
+
+        initComposable {
+            onNodeWithText("unexpected error").assertIsDisplayed()
+        }
+    }
+
     private fun initComposable(testBody: ComposeContentTestRule.() -> Unit) {
         composeRule.setContent {
-            HomeScreen(
-                viewModel = viewModel
-            )
+            ComposeTheme {
+                HomeScreen(
+                    viewModel = viewModel
+                )
+            }
         }
         testBody.invoke(composeRule)
     }

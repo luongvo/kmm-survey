@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.*
 import vn.luongvo.kmm.survey.android.ui.common.NextCircleButton
+import vn.luongvo.kmm.survey.android.ui.screens.home.HomeSurveyDetail
 import vn.luongvo.kmm.survey.android.ui.theme.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 
@@ -62,6 +63,7 @@ fun HomeFooter(
                 onClick = {
                     // TODO navigate to Survey Detail screen
                 },
+                contentDescription = HomeSurveyDetail
             )
         }
     }
