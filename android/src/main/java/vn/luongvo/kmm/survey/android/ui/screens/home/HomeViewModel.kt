@@ -43,6 +43,7 @@ class HomeViewModel(
             .launchIn(viewModelScope)
 
         getSurveysUseCase(pageNumber = SurveyStartPageIndex, pageSize = SurveyPageSize)
+            .injectLoading()
             .catch { e -> _error.emit(e) }
             .onEach { surveys ->
                 _surveys.emit(surveys.map { it.toUiModel() })

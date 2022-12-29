@@ -4,10 +4,11 @@ import app.cash.turbine.test
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.*
 import org.junit.*
 import vn.luongvo.kmm.survey.android.test.CoroutineTestRule
 import vn.luongvo.kmm.survey.android.test.Fake.surveys
@@ -86,5 +87,18 @@ class HomeViewModelTest {
         viewModel.init()
 
         viewModel.error shouldBe error
+    }
+
+    @Test
+    fun `When getting surveys, it shows and hides loading correctly`() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher())
+
+        viewModel.isLoading.test {
+            viewModel.init()
+
+            awaitItem() shouldBe false
+            awaitItem() shouldBe true
+            awaitItem() shouldBe false
+        }
     }
 }

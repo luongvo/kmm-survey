@@ -80,6 +80,8 @@ object Dependencies {
         const val ACCOMPANIST_PAGER = "com.google.accompanist:accompanist-pager:${Versions.COMPOSE_ACCOMPANIST}"
         const val ACCOMPANIST_PAGER_INDICATORS =
             "com.google.accompanist:accompanist-pager-indicators:${Versions.COMPOSE_ACCOMPANIST}"
+        const val ACCOMPANIST_PLACEHOLDER =
+            "com.google.accompanist:accompanist-placeholder:${Versions.COMPOSE_ACCOMPANIST}"
     }
 
     object Firebase {
