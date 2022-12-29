@@ -14,13 +14,17 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.coroutines.flow.last
 import kotlinx.serialization.json.Json
+import vn.luongvo.kmm.survey.BuildKonfig
 import vn.luongvo.kmm.survey.data.extensions.path
 import vn.luongvo.kmm.survey.data.local.datasource.TokenLocalDataSource
+import vn.luongvo.kmm.survey.domain.usecase.RefreshTokenUseCase
 
 class ApiClient(
     engine: HttpClientEngine,
-    tokenLocalDataSource: TokenLocalDataSource? = null
+    tokenLocalDataSource: TokenLocalDataSource? = null,
+    refreshTokenUseCase: RefreshTokenUseCase? = null
 ) {
 
     val httpClient: HttpClient
@@ -48,11 +52,21 @@ class ApiClient(
                 json(json)
             }
 
-            tokenLocalDataSource?.let {
+            if (tokenLocalDataSource != null && refreshTokenUseCase != null) {
                 install(Auth) {
                     bearer {
                         loadTokens {
                             BearerTokens(tokenLocalDataSource.accessToken, tokenLocalDataSource.refreshToken)
+                        }
+
+                        refreshTokens {
+                            val token = refreshTokenUseCase(refreshToken = oldTokens?.refreshToken.orEmpty())
+                                .last()
+                            BearerTokens(token.accessToken, token.refreshToken)
+                        }
+
+                        sendWithoutRequest { request ->
+                            request.url.host == Url(BuildKonfig.BASE_URL).host
                         }
                     }
                 }

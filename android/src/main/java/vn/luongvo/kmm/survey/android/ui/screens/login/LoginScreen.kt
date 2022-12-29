@@ -33,9 +33,9 @@ const val LoginEmailField = "LoginEmailField"
 const val LoginPasswordField = "LoginPasswordField"
 const val LoginButton = "LoginButton"
 
-private const val FirstPhaseDurationInMilliseconds = 800
-private const val StayPhaseDurationInMilliseconds = 500
-private const val LastPhaseDurationInMilliseconds = 700
+const val FirstPhaseDurationInMilliseconds = 800
+const val StayPhaseDurationInMilliseconds = 500
+const val LastPhaseDurationInMilliseconds = 700
 private const val BlurRadius = 25f
 private val LogoOffset = Offset(0f, -229f)
 

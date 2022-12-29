@@ -7,6 +7,8 @@ interface AuthRepository {
 
     fun logIn(email: String, password: String): Flow<Token>
 
+    fun refreshToken(refreshToken: String): Flow<Token>
+
     fun saveToken(token: Token)
 
     val isLoggedIn: Flow<Boolean>

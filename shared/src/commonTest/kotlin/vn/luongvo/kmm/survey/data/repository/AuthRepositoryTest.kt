@@ -59,6 +59,32 @@ class AuthRepositoryTest {
     }
 
     @Test
+    fun `when calling refreshToken successfully - it returns token`() = runTest {
+        given(mockAuthRemoteDataSource)
+            .suspendFunction(mockAuthRemoteDataSource::refreshToken)
+            .whenInvokedWith(any())
+            .thenReturn(tokenResponse)
+
+        repository.refreshToken("refreshToken").test {
+            awaitItem() shouldBe token
+            awaitComplete()
+        }
+    }
+
+    @Test
+    fun `when calling refreshToken fails - it throws the corresponding error`() = runTest {
+        val throwable = Throwable()
+        given(mockAuthRemoteDataSource)
+            .suspendFunction(mockAuthRemoteDataSource::refreshToken)
+            .whenInvokedWith(any())
+            .thenThrow(throwable)
+
+        repository.refreshToken("refreshToken").test {
+            awaitError() shouldBe throwable
+        }
+    }
+
+    @Test
     fun `when saving token - it executes the local data source`() = runTest {
         repository.saveToken(token)
         verify(mockTokenLocalDataSource)
