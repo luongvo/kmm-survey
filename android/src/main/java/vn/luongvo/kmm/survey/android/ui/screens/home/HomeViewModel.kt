@@ -3,7 +3,6 @@ package vn.luongvo.kmm.survey.android.ui.screens.home
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import vn.luongvo.kmm.survey.android.ui.base.BaseViewModel
 import vn.luongvo.kmm.survey.android.util.DateFormatter
 import vn.luongvo.kmm.survey.domain.usecase.GetSurveysUseCase
@@ -11,6 +10,8 @@ import vn.luongvo.kmm.survey.domain.usecase.GetUserProfileUseCase
 import java.util.*
 
 private const val HeaderDateFormat = "EEEE, MMMM d"
+private const val SurveyStartPageIndex = 1
+private const val SurveyPageSize = 10
 
 class HomeViewModel(
     private val getUserProfileUseCase: GetUserProfileUseCase,
@@ -23,6 +24,9 @@ class HomeViewModel(
 
     private val _avatarUrl = MutableStateFlow("")
     val avatarUrl: StateFlow<String> = _avatarUrl
+
+    private val _surveys = MutableStateFlow(emptyList<SurveyUiModel>())
+    val surveys: StateFlow<List<SurveyUiModel>> = _surveys
 
     fun init() {
         viewModelScope.launch {
@@ -38,11 +42,10 @@ class HomeViewModel(
             }
             .launchIn(viewModelScope)
 
-        getSurveysUseCase(pageNumber = 1, pageSize = 10)
+        getSurveysUseCase(pageNumber = SurveyStartPageIndex, pageSize = SurveyPageSize)
             .catch { e -> _error.emit(e) }
-            .onEach {
-                // TODO Integrate getting user profile in https://github.com/luongvo/kmm-survey/issues/16
-                Timber.d(it.toString())
+            .onEach { surveys ->
+                _surveys.emit(surveys.map { it.toUiModel() })
             }
             .launchIn(viewModelScope)
     }

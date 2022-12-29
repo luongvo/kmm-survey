@@ -28,6 +28,7 @@ fun HomeScreen(
     val error by viewModel.error.collectAsStateWithLifecycle()
     val currentDate by viewModel.currentDate.collectAsStateWithLifecycle()
     val avatarUrl by viewModel.avatarUrl.collectAsStateWithLifecycle()
+    val surveys by viewModel.surveys.collectAsStateWithLifecycle()
 
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val context = LocalContext.current
@@ -48,19 +49,7 @@ fun HomeScreen(
         scaffoldState = scaffoldState,
         currentDate = currentDate,
         avatarUrl = avatarUrl,
-        // TODO Integrate in https://github.com/luongvo/kmm-survey/issues/16
-        surveys = listOf(
-            SurveyUiModel(
-                title = "Scarlett Bangkok",
-                description = "We'd love to hear from you!",
-                imageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
-            ),
-            SurveyUiModel(
-                title = "ibis Bangkok Riverside",
-                description = "We'd love to hear from you!",
-                imageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/287db81c5e4242412cc0_"
-            )
-        )
+        surveys = surveys
     )
 }
 
@@ -76,10 +65,10 @@ private fun HomeScreenContent(
     var surveyTitle by remember { mutableStateOf("") }
     var surveyDescription by remember { mutableStateOf("") }
 
-    LaunchedEffect(pagerState) {
+    LaunchedEffect(surveys) {
         snapshotFlow { pagerState.currentPage }.collect { index ->
-            surveyTitle = surveys[index].title
-            surveyDescription = surveys[index].description
+            surveyTitle = surveys.getOrNull(index)?.title.orEmpty()
+            surveyDescription = surveys.getOrNull(index)?.description.orEmpty()
         }
     }
 
@@ -95,7 +84,7 @@ private fun HomeScreenContent(
                 modifier = Modifier.fillMaxSize()
             ) { index ->
                 DimmedImageBackground(
-                    imageUrl = surveys[index].imageUrl
+                    imageUrl = surveys[index].coverImageUrl
                 )
             }
 
@@ -130,12 +119,12 @@ fun HomeScreenPreview() {
                 SurveyUiModel(
                     title = "Scarlett Bangkok",
                     description = "We'd love to hear from you!",
-                    imageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
+                    coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
                 ),
                 SurveyUiModel(
                     title = "ibis Bangkok Riverside",
                     description = "We'd love to hear from you!",
-                    imageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/287db81c5e4242412cc0_"
+                    coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/287db81c5e4242412cc0_"
                 )
             )
         )
