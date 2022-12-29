@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import vn.luongvo.kmm.survey.android.R
+import vn.luongvo.kmm.survey.android.ui.screens.home.HomeUserAvatar
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
@@ -47,7 +48,7 @@ fun HomeHeader(
             )
             AsyncImage(
                 model = avatarUrl,
-                contentDescription = null,
+                contentDescription = HomeUserAvatar,
                 modifier = Modifier
                     .size(dimensions.avatarSize)
                     .clip(CircleShape)
