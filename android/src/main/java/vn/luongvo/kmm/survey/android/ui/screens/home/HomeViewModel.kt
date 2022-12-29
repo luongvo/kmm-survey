@@ -4,10 +4,12 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import vn.luongvo.kmm.survey.android.ui.base.BaseViewModel
+import vn.luongvo.kmm.survey.domain.usecase.GetSurveysUseCase
 import vn.luongvo.kmm.survey.domain.usecase.GetUserProfileUseCase
 
 class HomeViewModel(
     getUserProfileUseCase: GetUserProfileUseCase,
+    getSurveysUseCase: GetSurveysUseCase,
 //    tokenLocalDataSource: TokenLocalDataSource
 ) : BaseViewModel() {
 
@@ -27,6 +29,14 @@ class HomeViewModel(
             .catch { e -> error = e }
             .onEach {
                 // TODO Integrate getting user profile in https://github.com/luongvo/kmm-survey/issues/13
+                Timber.d(it.toString())
+            }
+            .launchIn(viewModelScope)
+
+        getSurveysUseCase(pageNumber = 1, pageSize = 10)
+            .catch { e -> error = e }
+            .onEach {
+                // TODO Integrate getting user profile in https://github.com/luongvo/kmm-survey/issues/16
                 Timber.d(it.toString())
             }
             .launchIn(viewModelScope)

@@ -30,6 +30,11 @@ object Fake {
 
     val user = userResponse.toUser()
 
+    val surveyResponses: List<SurveyResponse> =
+        decodeFromJsonApiString(Resource("src/commonTest/resources/surveys.json"))
+
+    val surveys = surveyResponses.map { it.toSurvey() }
+
     val jsonApiException = JsonApiException(
         errors = listOf(
             JsonApiError(
