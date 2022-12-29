@@ -28,12 +28,7 @@ fun HomeHeader(
     modifier: Modifier
 ) {
     Column(
-        modifier = modifier
-            .padding(
-                start = dimensions.paddingMedium,
-                top = dimensions.paddingSmall,
-                end = dimensions.paddingMedium
-            ),
+        modifier = modifier.padding(horizontal = dimensions.paddingMedium)
     ) {
         Text(
             text = dateTime.uppercase(),

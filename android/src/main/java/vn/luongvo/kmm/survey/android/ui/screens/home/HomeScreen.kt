@@ -16,7 +16,7 @@ import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.ui.common.DimmedImageBackground
 import vn.luongvo.kmm.survey.android.ui.providers.LoadingParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.home.views.*
-import vn.luongvo.kmm.survey.android.ui.theme.AppTheme
+import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.android.util.userReadableMessage
 
@@ -98,7 +98,9 @@ private fun HomeScreenContent(
                 isLoading = isLoading,
                 dateTime = currentDate,
                 avatarUrl = avatarUrl,
-                modifier = Modifier.statusBarsPadding()
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .padding(top = dimensions.paddingSmall)
             )
 
             HomeFooter(

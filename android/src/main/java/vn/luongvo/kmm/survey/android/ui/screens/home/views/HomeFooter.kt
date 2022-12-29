@@ -18,6 +18,7 @@ import vn.luongvo.kmm.survey.android.ui.providers.LoadingParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.home.HomeSurveyDetail
 import vn.luongvo.kmm.survey.android.ui.theme.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
+import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -62,7 +63,7 @@ private fun HomeFooterContent(
         Text(
             text = it,
             color = White,
-            style = AppTheme.typography.h5,
+            style = typography.h5,
             maxLines = 4,
             overflow = TextOverflow.Ellipsis
         )
@@ -70,8 +71,7 @@ private fun HomeFooterContent(
     Spacer(modifier = Modifier.height(10.dp))
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Crossfade(
             targetState = description,
@@ -80,7 +80,7 @@ private fun HomeFooterContent(
             Text(
                 text = it,
                 color = White70,
-                style = AppTheme.typography.body1,
+                style = typography.body1,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
