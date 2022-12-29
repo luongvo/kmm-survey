@@ -16,5 +16,18 @@ object Fake {
         avatarUrl = "avatarUrl"
     )
 
-    val surveys = emptyList<Survey>()
+    val surveys = listOf(
+        Survey(
+            id = "1",
+            title = "Scarlett Bangkok",
+            description = "We'd love to hear from you!",
+            coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
+        ),
+        Survey(
+            id = "2",
+            title = "ibis Bangkok Riverside",
+            description = "We'd love to hear from you!",
+            coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/287db81c5e4242412cc0_"
+        )
+    )
 }

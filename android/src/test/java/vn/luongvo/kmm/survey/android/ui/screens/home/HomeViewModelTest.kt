@@ -48,6 +48,11 @@ class HomeViewModelTest {
         viewModel.currentDate.test {
             expectMostRecentItem() shouldBe "Thursday, December 29"
         }
+    }
+
+    @Test
+    fun `when getting user profile successfully, it shows the user avatar`() = runTest {
+        viewModel.init()
 
         viewModel.avatarUrl.test {
             expectMostRecentItem() shouldBe "avatarUrl"
@@ -63,5 +68,23 @@ class HomeViewModelTest {
         viewModel.error.test {
             awaitItem() shouldBe error
         }
+    }
+
+    @Test
+    fun `when getting surveys successfully, it shows the survey list`() = runTest {
+        viewModel.init()
+
+        viewModel.surveys.test {
+            expectMostRecentItem() shouldBe surveys.map { it.toUiModel() }
+        }
+    }
+
+    @Test
+    fun `when getting surveys fails, it shows the corresponding error`() = runTest {
+        val error = Exception()
+        every { mockGetSurveysUseCase(any(), any()) } returns flow { throw error }
+        viewModel.init()
+
+        viewModel.error shouldBe error
     }
 }
