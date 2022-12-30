@@ -1,17 +1,11 @@
 package vn.luongvo.kmm.survey.android.ui.screens.survey
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -19,8 +13,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import vn.luongvo.kmm.survey.android.R
-import vn.luongvo.kmm.survey.android.ui.common.DimmedImageBackground
-import vn.luongvo.kmm.survey.android.ui.common.PrimaryButton
+import vn.luongvo.kmm.survey.android.ui.common.*
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
@@ -55,27 +48,13 @@ private fun SurveyScreenContent(
             imageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l"
         )
 
-        Button(
-            onClick = onBackClick,
+        BackButton(
             modifier = Modifier
                 .statusBarsPadding()
-                .wrapContentSize()
-                .rotate(180f) // switch Right Arrow to Back button
                 .padding(vertical = 5.dp)
                 .semantics { this.contentDescription = SurveyBackButton },
-            contentPadding = PaddingValues(dimensions.paddingMedium),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = Transparent
-            ),
-            elevation = null
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_arrow_right),
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(White),
-                contentScale = ContentScale.FillWidth
-            )
-        }
+            onClick = onBackClick
+        )
 
         Column(
             modifier = Modifier
