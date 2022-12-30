@@ -11,4 +11,6 @@
     <string name="login_email">Email</string>
     <string name="login_forgot">Forgot?</string>
     <string name="login_password">Password</string>
+
+    <string name="survey_start">Start Survey</string>
 </resources>

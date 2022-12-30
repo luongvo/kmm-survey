@@ -222,6 +222,7 @@ private fun LoginForm(
         PrimaryButton(
             text = stringResource(id = R.string.login_button),
             onClick = onLogInClick,
+            modifier = Modifier.fillMaxWidth(),
             contentDescription = LoginButton
         )
     }

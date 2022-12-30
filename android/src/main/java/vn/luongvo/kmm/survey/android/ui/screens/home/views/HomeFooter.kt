@@ -65,7 +65,7 @@ private fun HomeFooterContent(
             text = it.orEmpty(),
             color = White,
             style = typography.h5,
-            maxLines = 4,
+            maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
     }

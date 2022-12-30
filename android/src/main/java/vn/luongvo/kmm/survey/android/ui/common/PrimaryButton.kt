@@ -1,7 +1,6 @@
 package vn.luongvo.kmm.survey.android.ui.common
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,6 +17,7 @@ import vn.luongvo.kmm.survey.android.ui.theme.BlackRussian
 fun PrimaryButton(
     text: String,
     onClick: () -> Unit,
+    modifier: Modifier,
     contentDescription: String = ""
 ) {
     Button(
@@ -26,8 +26,8 @@ fun PrimaryButton(
         colors = ButtonDefaults.buttonColors(
             backgroundColor = White
         ),
-        modifier = Modifier
-            .fillMaxWidth()
+        contentPadding = PaddingValues(horizontal = dimensions.paddingLarge),
+        modifier = modifier
             .height(dimensions.buttonHeight)
             .semantics { this.contentDescription = contentDescription }
     ) {
@@ -44,6 +44,7 @@ fun PrimaryButton(
 fun PrimaryButtonPreview() {
     PrimaryButton(
         text = "Button Text",
-        onClick = {}
+        onClick = {},
+        modifier = Modifier.fillMaxWidth()
     )
 }

@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.pager.*
@@ -116,7 +115,7 @@ private fun HomeScreenContent(
                 modifier = Modifier
                     .navigationBarsPadding()
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 36.dp),
+                    .padding(bottom = dimensions.paddingLargest),
                 onSurveyClick = onSurveyClick
             )
         }
