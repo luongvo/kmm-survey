@@ -21,13 +21,17 @@ object Fake {
             id = "1",
             title = "Scarlett Bangkok",
             description = "We'd love to hear from you!",
-            coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
+            coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_",
+            questions = null
         ),
         Survey(
             id = "2",
             title = "ibis Bangkok Riverside",
             description = "We'd like to hear from you!",
-            coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/287db81c5e4242412cc0_"
+            coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/287db81c5e4242412cc0_",
+            questions = null
         )
     )
+
+    val survey = surveys[0]
 }

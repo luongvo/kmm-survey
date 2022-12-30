@@ -5,11 +5,15 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import io.mockk.every
+import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import org.junit.*
 import org.junit.Assert.assertEquals
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import vn.luongvo.kmm.survey.android.R
+import vn.luongvo.kmm.survey.android.test.Fake.survey
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.domain.usecase.*
@@ -22,7 +26,19 @@ class SurveyScreenTest {
 
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
+    private val mockGetSurveyDetailUseCase: GetSurveyDetailUseCase = mockk()
+
+    private lateinit var viewModel: SurveyViewModel
     private var expectedAppDestination: AppDestination? = null
+
+    @Before
+    fun setup() {
+        every { mockGetSurveyDetailUseCase(any()) } returns flowOf(survey)
+
+        viewModel = SurveyViewModel(
+            mockGetSurveyDetailUseCase
+        )
+    }
 
     @After
     fun tearDown() {
@@ -51,7 +67,10 @@ class SurveyScreenTest {
             ComposeTheme {
                 SurveyScreen(
                     surveyId = "123",
-                    navigator = { destination -> expectedAppDestination = destination }
+                    viewModel = viewModel,
+                    navigator = { destination ->
+                        expectedAppDestination = destination
+                    }
                 )
             }
         }

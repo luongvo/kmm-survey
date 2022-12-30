@@ -9,11 +9,11 @@ data class AnswerResponse(
     @SerialName("id")
     val id: String,
     @SerialName("text")
-    val text: String?,
+    val text: String? = null,
     @SerialName("display_order")
-    val displayOrder: Int,
+    val displayOrder: Int? = null,
     @SerialName("input_mask_placeholder")
-    val inputMaskPlaceholder: String?
+    val inputMaskPlaceholder: String? = null
 )
 
 fun AnswerResponse.toAnswer(): Answer = Answer(

@@ -9,15 +9,15 @@ data class QuestionResponse(
     @SerialName("id")
     val id: String,
     @SerialName("text")
-    val text: String,
+    val text: String? = null,
     @SerialName("display_order")
-    val displayOrder: Int,
+    val displayOrder: Int? = null,
     @SerialName("display_type")
-    val displayType: String,
+    val displayType: String? = null,
     @SerialName("cover_image_url")
-    val coverImageUrl: String,
+    val coverImageUrl: String? = null,
     @SerialName("answers")
-    val answers: List<AnswerResponse>
+    val answers: List<AnswerResponse>? = null
 )
 
 fun QuestionResponse.toQuestion(): Question = Question(
@@ -26,5 +26,5 @@ fun QuestionResponse.toQuestion(): Question = Question(
     displayOrder = displayOrder,
     displayType = displayType,
     coverImageUrl = coverImageUrl,
-    answers = answers.map { it.toAnswer() }
+    answers = answers?.map { it.toAnswer() }
 )

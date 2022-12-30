@@ -110,7 +110,9 @@ class HomeScreenTest {
             ComposeTheme {
                 HomeScreen(
                     viewModel = viewModel,
-                    navigator = { destination -> expectedAppDestination = destination }
+                    navigator = { destination ->
+                        expectedAppDestination = destination
+                    }
                 )
             }
         }
