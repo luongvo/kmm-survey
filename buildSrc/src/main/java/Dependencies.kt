@@ -7,6 +7,7 @@ object Versions {
     const val ANDROID_VERSION_NAME = "0.3.0"
 
     const val ANDROIDX_ACTIVITY_COMPOSE = "1.5.1"
+    const val ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE = "2.6.0-alpha03"
     const val ANDROIDX_SECURITY_CRYPTO = "1.1.0-alpha04"
 
     const val BUILD_KONFIG = "0.13.3"
@@ -64,6 +65,8 @@ object Dependencies {
 
     object AndroidX {
         const val ACTIVITY_COMPOSE = "androidx.activity:activity-compose:${Versions.ANDROIDX_ACTIVITY_COMPOSE}"
+        const val LIFECYCLE_RUNTIME_COMPOSE =
+            "androidx.lifecycle:lifecycle-runtime-compose:${Versions.ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE}"
         const val SECURITY_CRYPTO_KTX = "androidx.security:security-crypto-ktx:${Versions.ANDROIDX_SECURITY_CRYPTO}"
     }
 

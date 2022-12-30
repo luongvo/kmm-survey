@@ -24,7 +24,7 @@ private val Typography = Typography(
     ),
     subtitle1 = TextStyle(
         fontSize = 13.sp,
-        fontWeight = FontWeight.Bold
+        fontWeight = FontWeight.Normal
     ),
     h4 = TextStyle(
         fontSize = 34.sp,

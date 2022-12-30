@@ -1,23 +1,53 @@
 package vn.luongvo.kmm.survey.android.ui.screens.home
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.pager.*
 import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.ui.common.DimmedImageBackground
 import vn.luongvo.kmm.survey.android.ui.screens.home.views.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
+import vn.luongvo.kmm.survey.android.util.userReadableMessage
 
+const val HomeUserAvatar = "HomeUserAvatar"
+
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = getViewModel()
 ) {
+    val error by viewModel.error.collectAsStateWithLifecycle()
+    val currentDate by viewModel.currentDate.collectAsStateWithLifecycle()
+    val avatarUrl by viewModel.avatarUrl.collectAsStateWithLifecycle()
+
+    val scaffoldState: ScaffoldState = rememberScaffoldState()
+    val context = LocalContext.current
+    LaunchedEffect(error) {
+        error?.let {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = it.userReadableMessage(context)
+            )
+            viewModel.clearError()
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.init()
+    }
+
     HomeScreenContent(
+        scaffoldState = scaffoldState,
+        currentDate = currentDate,
+        avatarUrl = avatarUrl,
         // TODO Integrate in https://github.com/luongvo/kmm-survey/issues/16
         surveys = listOf(
             SurveyUiModel(
@@ -37,6 +67,9 @@ fun HomeScreen(
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun HomeScreenContent(
+    scaffoldState: ScaffoldState,
+    currentDate: String,
+    avatarUrl: String,
     surveys: List<SurveyUiModel>
 ) {
     val pagerState = rememberPagerState()
@@ -50,35 +83,38 @@ private fun HomeScreenContent(
         }
     }
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        HorizontalPager(
-            count = surveys.size,
-            state = pagerState,
-            modifier = Modifier.fillMaxSize()
-        ) { index ->
-            DimmedImageBackground(
-                imageUrl = surveys[index].imageUrl
+    Scaffold(scaffoldState = scaffoldState) { padding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) {
+            HorizontalPager(
+                count = surveys.size,
+                state = pagerState,
+                modifier = Modifier.fillMaxSize()
+            ) { index ->
+                DimmedImageBackground(
+                    imageUrl = surveys[index].imageUrl
+                )
+            }
+
+            HomeHeader(
+                dateTime = currentDate,
+                avatarUrl = avatarUrl,
+                modifier = Modifier.statusBarsPadding()
+            )
+
+            HomeFooter(
+                pagerState = pagerState,
+                title = surveyTitle,
+                description = surveyDescription,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(horizontal = AppTheme.dimensions.paddingMedium)
+                    .padding(bottom = 54.dp)
             )
         }
-
-        HomeHeader(
-            // TODO Integrate in https://github.com/luongvo/kmm-survey/issues/13
-            dateTime = "Monday, JUNE 15",
-            avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23",
-            modifier = Modifier.statusBarsPadding()
-        )
-
-        HomeFooter(
-            pagerState = pagerState,
-            title = surveyTitle,
-            description = surveyDescription,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(horizontal = AppTheme.dimensions.paddingMedium)
-                .padding(bottom = 54.dp)
-        )
     }
 }
 
@@ -87,6 +123,9 @@ private fun HomeScreenContent(
 fun HomeScreenPreview() {
     ComposeTheme {
         HomeScreenContent(
+            scaffoldState = rememberScaffoldState(),
+            currentDate = "Monday, JUNE 15",
+            avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23",
             surveys = listOf(
                 SurveyUiModel(
                     title = "Scarlett Bangkok",
