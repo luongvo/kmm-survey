@@ -13,12 +13,15 @@ data class SurveyResponse(
     @SerialName("description")
     val description: String,
     @SerialName("cover_image_url")
-    val coverImageUrl: String
+    val coverImageUrl: String,
+    @SerialName("questions")
+    val questions: List<QuestionResponse>? = null
 )
 
 fun SurveyResponse.toSurvey() = Survey(
     id = id,
     title = title,
     description = description,
-    coverImageUrl = coverImageUrl
+    coverImageUrl = coverImageUrl,
+    questions = questions?.map { it.toQuestion() }
 )
