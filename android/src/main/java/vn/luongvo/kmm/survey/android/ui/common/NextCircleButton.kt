@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import vn.luongvo.kmm.survey.android.R
@@ -18,11 +20,14 @@ import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 
 @Composable
 fun NextCircleButton(
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    contentDescription: String = ""
 ) {
     Button(
         onClick = onClick,
-        modifier = Modifier.size(dimensions.buttonHeight),
+        modifier = Modifier
+            .size(dimensions.buttonHeight)
+            .semantics { this.contentDescription = contentDescription },
         shape = CircleShape,
         contentPadding = PaddingValues(0.dp),
         colors = ButtonDefaults.buttonColors(

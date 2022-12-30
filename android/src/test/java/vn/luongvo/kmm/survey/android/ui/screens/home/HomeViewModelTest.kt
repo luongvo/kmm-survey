@@ -4,10 +4,11 @@ import app.cash.turbine.test
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.*
 import org.junit.*
 import vn.luongvo.kmm.survey.android.test.CoroutineTestRule
 import vn.luongvo.kmm.survey.android.test.Fake.surveys
@@ -48,6 +49,11 @@ class HomeViewModelTest {
         viewModel.currentDate.test {
             expectMostRecentItem() shouldBe "Thursday, December 29"
         }
+    }
+
+    @Test
+    fun `when getting user profile successfully, it shows the user avatar`() = runTest {
+        viewModel.init()
 
         viewModel.avatarUrl.test {
             expectMostRecentItem() shouldBe "avatarUrl"
@@ -62,6 +68,39 @@ class HomeViewModelTest {
 
         viewModel.error.test {
             awaitItem() shouldBe error
+        }
+    }
+
+    @Test
+    fun `when getting surveys successfully, it shows the survey list`() = runTest {
+        viewModel.init()
+
+        viewModel.surveys.test {
+            expectMostRecentItem() shouldBe surveys.map { it.toUiModel() }
+        }
+    }
+
+    @Test
+    fun `when getting surveys fails, it shows the corresponding error`() = runTest {
+        val error = Exception()
+        every { mockGetSurveysUseCase(any(), any()) } returns flow { throw error }
+        viewModel.init()
+
+        viewModel.error.test {
+            awaitItem() shouldBe error
+        }
+    }
+
+    @Test
+    fun `When getting surveys, it shows and hides loading correctly`() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher())
+
+        viewModel.isLoading.test {
+            viewModel.init()
+
+            awaitItem() shouldBe false
+            awaitItem() shouldBe true
+            awaitItem() shouldBe false
         }
     }
 }
