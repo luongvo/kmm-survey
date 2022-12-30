@@ -15,9 +15,13 @@ import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
+import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.domain.exceptions.ApiException
 import vn.luongvo.kmm.survey.domain.usecase.IsLoggedInUseCase
 import vn.luongvo.kmm.survey.domain.usecase.LogInUseCase
+
+private const val LoginAnimationDurationInMilliseconds =
+    FirstPhaseDurationInMilliseconds + StayPhaseDurationInMilliseconds + LastPhaseDurationInMilliseconds
 
 @RunWith(AndroidJUnit4::class)
 class LoginScreenTest {
@@ -94,21 +98,25 @@ class LoginScreenTest {
         onNodeWithContentDescription(LoginButton).performClick()
         waitForIdle()
 
-        onNodeWithText(expectedError.message ?: "").assertIsDisplayed()
+        onNodeWithText(expectedError.message.orEmpty()).assertIsDisplayed()
         onNodeWithText(context.getString(R.string.generic_ok)).assertIsDisplayed().performClick()
     }
 
     private fun initComposable(testBody: ComposeContentTestRule.() -> Unit) {
         composeRule.setContent {
-            LoginScreen(
-                viewModel = viewModel,
-                navigator = { destination -> expectedAppDestination = destination }
-            )
+            ComposeTheme {
+                LoginScreen(
+                    viewModel = viewModel,
+                    navigator = { destination ->
+                        expectedAppDestination = destination
+                    }
+                )
+            }
         }
         testBody.invoke(composeRule)
     }
 
     private fun ComposeContentTestRule.waitForAnimationEnd() {
-        mainClock.advanceTimeBy(800 + 500 + 700)
+        mainClock.advanceTimeBy(LoginAnimationDurationInMilliseconds.toLong())
     }
 }

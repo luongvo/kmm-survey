@@ -6,6 +6,7 @@ import vn.luongvo.kmm.survey.data.extensions.flowTransform
 import vn.luongvo.kmm.survey.data.local.datasource.TokenLocalDataSource
 import vn.luongvo.kmm.survey.data.remote.datasource.AuthRemoteDataSource
 import vn.luongvo.kmm.survey.data.remote.model.request.LoginRequestBody
+import vn.luongvo.kmm.survey.data.remote.model.request.RefreshTokenRequestBody
 import vn.luongvo.kmm.survey.data.remote.model.response.toToken
 import vn.luongvo.kmm.survey.domain.model.Token
 import vn.luongvo.kmm.survey.domain.repository.AuthRepository
@@ -18,6 +19,12 @@ class AuthRepositoryImpl(
     override fun logIn(email: String, password: String): Flow<Token> = flowTransform {
         authRemoteDataSource
             .logIn(LoginRequestBody(email = email, password = password))
+            .toToken()
+    }
+
+    override fun refreshToken(refreshToken: String): Flow<Token> = flowTransform {
+        authRemoteDataSource
+            .refreshToken(RefreshTokenRequestBody(refreshToken = refreshToken))
             .toToken()
     }
 

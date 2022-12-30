@@ -34,8 +34,8 @@ fun AlertDialog(
     )
 }
 
-@Composable
 @Preview(showBackground = true)
+@Composable
 fun AlertDialogPreview() {
     AlertDialog(
         message = "Message",

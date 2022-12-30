@@ -24,14 +24,14 @@ private val Typography = Typography(
     ),
     subtitle1 = TextStyle(
         fontSize = 13.sp,
-        fontWeight = FontWeight.Bold
+        fontWeight = FontWeight.Normal
     ),
     h4 = TextStyle(
         fontSize = 34.sp,
         fontWeight = FontWeight.Bold
     ),
     h5 = TextStyle(
-        fontSize = 26.sp,
+        fontSize = 28.sp,
         fontWeight = FontWeight.Bold
     ),
     button = TextStyle(

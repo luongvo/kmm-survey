@@ -17,12 +17,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
+import vn.luongvo.kmm.survey.android.ui.providers.LoadingParameterProvider
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
@@ -33,12 +37,13 @@ const val LoginEmailField = "LoginEmailField"
 const val LoginPasswordField = "LoginPasswordField"
 const val LoginButton = "LoginButton"
 
-private const val FirstPhaseDurationInMilliseconds = 800
-private const val StayPhaseDurationInMilliseconds = 500
-private const val LastPhaseDurationInMilliseconds = 700
+const val FirstPhaseDurationInMilliseconds = 800
+const val StayPhaseDurationInMilliseconds = 500
+const val LastPhaseDurationInMilliseconds = 700
 private const val BlurRadius = 25f
 private val LogoOffset = Offset(0f, -229f)
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = getViewModel(),
@@ -46,14 +51,15 @@ fun LoginScreen(
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val isLoading by viewModel.isLoading.collectAsState()
-    val isLoggedIn by viewModel.isLoggedIn.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
+    val error by viewModel.error.collectAsStateWithLifecycle()
+    val isLoggedIn by viewModel.isLoggedIn.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
-    viewModel.error?.let {
+    error?.let {
         AlertDialog(
             message = it.userReadableMessage(context),
-            onDismissRequest = { viewModel.error = null }
+            onDismissRequest = { viewModel.clearError() }
         )
     }
 
@@ -221,9 +227,11 @@ private fun LoginForm(
     }
 }
 
-@Composable
 @Preview(showSystemUi = true)
-fun LoginScreenPreview() {
+@Composable
+fun LoginScreenPreview(
+    @PreviewParameter(LoadingParameterProvider::class) isLoading: Boolean
+) {
     ComposeTheme {
         LoginScreenContent(
             email = "",
@@ -231,7 +239,7 @@ fun LoginScreenPreview() {
             onEmailChange = {},
             onPasswordChange = {},
             onLogInClick = {},
-            isLoading = false,
+            isLoading = isLoading,
             initialLogoVisible = true,
             initialLogoOffset = LogoOffset,
             initialLogoScale = 1f,

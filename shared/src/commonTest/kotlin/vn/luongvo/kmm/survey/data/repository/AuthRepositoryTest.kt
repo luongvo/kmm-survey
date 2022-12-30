@@ -7,7 +7,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import vn.luongvo.kmm.survey.data.local.datasource.TokenLocalDataSource
 import vn.luongvo.kmm.survey.data.remote.datasource.AuthRemoteDataSource
-import vn.luongvo.kmm.survey.data.remote.model.response.toToken
 import vn.luongvo.kmm.survey.domain.repository.AuthRepository
 import vn.luongvo.kmm.survey.test.Fake.token
 import vn.luongvo.kmm.survey.test.Fake.tokenResponse
@@ -41,13 +40,13 @@ class AuthRepositoryTest {
             .thenReturn(tokenResponse)
 
         repository.logIn("email", "password").test {
-            awaitItem() shouldBe tokenResponse.toToken()
+            awaitItem() shouldBe token
             awaitComplete()
         }
     }
 
     @Test
-    fun `when calling logIn fails - it throws error`() = runTest {
+    fun `when calling logIn fails - it throws the corresponding error`() = runTest {
         val throwable = Throwable()
         given(mockAuthRemoteDataSource)
             .suspendFunction(mockAuthRemoteDataSource::logIn)
@@ -55,6 +54,32 @@ class AuthRepositoryTest {
             .thenThrow(throwable)
 
         repository.logIn("email", "password").test {
+            awaitError() shouldBe throwable
+        }
+    }
+
+    @Test
+    fun `when calling refreshToken successfully - it returns token`() = runTest {
+        given(mockAuthRemoteDataSource)
+            .suspendFunction(mockAuthRemoteDataSource::refreshToken)
+            .whenInvokedWith(any())
+            .thenReturn(tokenResponse)
+
+        repository.refreshToken("refreshToken").test {
+            awaitItem() shouldBe token
+            awaitComplete()
+        }
+    }
+
+    @Test
+    fun `when calling refreshToken fails - it throws the corresponding error`() = runTest {
+        val throwable = Throwable()
+        given(mockAuthRemoteDataSource)
+            .suspendFunction(mockAuthRemoteDataSource::refreshToken)
+            .whenInvokedWith(any())
+            .thenThrow(throwable)
+
+        repository.refreshToken("refreshToken").test {
             awaitError() shouldBe throwable
         }
     }

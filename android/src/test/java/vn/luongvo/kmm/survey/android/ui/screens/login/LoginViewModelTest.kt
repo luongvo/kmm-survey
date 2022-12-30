@@ -72,7 +72,9 @@ class LoginViewModelTest {
         every { mockLogInUseCase(any(), any()) } returns flow { throw error }
         viewModel.logIn("email", "password")
 
-        viewModel.error shouldBe error
+        viewModel.error.test {
+            awaitItem() shouldBe error
+        }
     }
 
     @Test

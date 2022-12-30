@@ -80,6 +80,7 @@ koverMerged {
         "*.*Test*",                             // Test cases
         "*.*Mock",                              // mockative @Mock generated
         "*.test.*",                             // Test util package
+        "*.*\$\$serializer",                    // Kotlinx serializer
     )
     filters {
         classes {

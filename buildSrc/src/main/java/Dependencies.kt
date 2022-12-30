@@ -4,13 +4,16 @@ object Versions {
     const val ANDROID_TARGET_SDK_VERSION = 33
 
     const val ANDROID_VERSION_CODE = 1
-    const val ANDROID_VERSION_NAME = "0.2.0"
+    const val ANDROID_VERSION_NAME = "0.3.0"
 
     const val ANDROIDX_ACTIVITY_COMPOSE = "1.5.1"
+    const val ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE = "2.6.0-alpha03"
     const val ANDROIDX_SECURITY_CRYPTO = "1.1.0-alpha04"
 
     const val BUILD_KONFIG = "0.13.3"
 
+    const val COMPOSE_ACCOMPANIST = "0.28.0"
+    const val COMPOSE_COIL = "2.2.2"
     const val COMPOSE_COMPILER = "1.3.2"
     const val COMPOSE_MATERIAL = "1.3.1"
     const val COMPOSE_NAVIGATION = "2.5.2"
@@ -32,6 +35,7 @@ object Versions {
     const val KOTEST = "5.5.4"
     const val KOTLIN = "1.7.20"
     const val KOTLIN_COROUTINES = "1.6.4"
+    const val KOTLINX_RESOURCES = "0.2.4"
     const val KOVER = "0.6.1"
     const val KTOR = "2.1.1"
     const val KSP = "1.7.20-1.0.6"
@@ -61,6 +65,8 @@ object Dependencies {
 
     object AndroidX {
         const val ACTIVITY_COMPOSE = "androidx.activity:activity-compose:${Versions.ANDROIDX_ACTIVITY_COMPOSE}"
+        const val LIFECYCLE_RUNTIME_COMPOSE =
+            "androidx.lifecycle:lifecycle-runtime-compose:${Versions.ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE}"
         const val SECURITY_CRYPTO_KTX = "androidx.security:security-crypto-ktx:${Versions.ANDROIDX_SECURITY_CRYPTO}"
     }
 
@@ -70,6 +76,12 @@ object Dependencies {
         const val UI_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE_UI}"
         const val MATERIAL = "androidx.compose.material:material:${Versions.COMPOSE_MATERIAL}"
         const val NAVIGATION = "androidx.navigation:navigation-compose:${Versions.COMPOSE_NAVIGATION}"
+        const val COIL_COMPOSE = "io.coil-kt:coil-compose:${Versions.COMPOSE_COIL}"
+        const val ACCOMPANIST_PAGER = "com.google.accompanist:accompanist-pager:${Versions.COMPOSE_ACCOMPANIST}"
+        const val ACCOMPANIST_PAGER_INDICATORS =
+            "com.google.accompanist:accompanist-pager-indicators:${Versions.COMPOSE_ACCOMPANIST}"
+        const val ACCOMPANIST_PLACEHOLDER =
+            "com.google.accompanist:accompanist-placeholder:${Versions.COMPOSE_ACCOMPANIST}"
     }
 
     object Firebase {
@@ -114,6 +126,7 @@ object Dependencies {
         const val JUNIT = "junit:junit:${Versions.JUNIT}"
 
         const val KOTEST_ASSERTIONS = "io.kotest:kotest-assertions-core:${Versions.KOTEST}"
+        const val KOTLINX_RESOURCES = "com.goncalossilva:resources:${Versions.KOTLINX_RESOURCES}"
         const val MOCKATIVE = "io.mockative:mockative:${Versions.MOCKATIVE}"
         const val MOCKATIVE_PROCESSOR = "io.mockative:mockative-processor:${Versions.MOCKATIVE}"
         const val MOCKK = "io.mockk:mockk:${Versions.MOCKK}"

@@ -10,7 +10,7 @@ import platform.Foundation.NSBundle
 actual fun platformModule(): Module = module {
     single { Darwin.create() }
 
-    val serviceName = NSBundle.mainBundle().bundleIdentifier ?: ""
+    val serviceName = NSBundle.mainBundle().bundleIdentifier.orEmpty()
     single<Settings> {
         KeychainSettings(serviceName)
     }

@@ -28,13 +28,13 @@ class TokenLocalDataSourceTest {
         dataSource.saveToken(token)
 
         verify(mockSettings)
-            .invocation { set("tokenType", "tokenType") }
+            .invocation { set("tokenType", "Bearer") }
             .wasInvoked(exactly = 1.time)
         verify(mockSettings)
-            .invocation { set("accessToken", "accessToken") }
+            .invocation { set("accessToken", "lbxD2K2BjbYtNzz8xjvh2FvSKx838KBCf79q773kq2c") }
             .wasInvoked(exactly = 1.time)
         verify(mockSettings)
-            .invocation { set("refreshToken", "refreshToken") }
+            .invocation { set("refreshToken", "3zJz2oW0njxlj_I3ghyUBF7ZfdQKYXd2n0ODlMkAjHc") }
             .wasInvoked(exactly = 1.time)
     }
 

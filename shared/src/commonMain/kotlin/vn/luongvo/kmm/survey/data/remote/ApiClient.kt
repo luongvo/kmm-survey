@@ -5,6 +5,8 @@ import io.github.aakira.napier.*
 import io.github.aakira.napier.LogLevel
 import io.ktor.client.*
 import io.ktor.client.engine.*
+import io.ktor.client.plugins.auth.*
+import io.ktor.client.plugins.auth.providers.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.plugins.logging.LogLevel.*
@@ -12,11 +14,17 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.coroutines.flow.last
 import kotlinx.serialization.json.Json
+import vn.luongvo.kmm.survey.BuildKonfig
 import vn.luongvo.kmm.survey.data.extensions.path
+import vn.luongvo.kmm.survey.data.local.datasource.TokenLocalDataSource
+import vn.luongvo.kmm.survey.domain.usecase.RefreshTokenUseCase
 
 class ApiClient(
     engine: HttpClientEngine,
+    tokenLocalDataSource: TokenLocalDataSource? = null,
+    refreshTokenUseCase: RefreshTokenUseCase? = null
 ) {
 
     val httpClient: HttpClient
@@ -43,15 +51,41 @@ class ApiClient(
             install(ContentNegotiation) {
                 json(json)
             }
+
+            if (tokenLocalDataSource != null && refreshTokenUseCase != null) {
+                install(Auth) {
+                    bearer {
+                        loadTokens {
+                            BearerTokens(tokenLocalDataSource.accessToken, tokenLocalDataSource.refreshToken)
+                        }
+
+                        refreshTokens {
+                            val token = refreshTokenUseCase(refreshToken = oldTokens?.refreshToken.orEmpty())
+                                .last()
+                            BearerTokens(token.accessToken, token.refreshToken)
+                        }
+
+                        sendWithoutRequest { request ->
+                            request.url.host == Url(BuildKonfig.BASE_URL).host
+                        }
+                    }
+                }
+            }
         }
     }
 
-    suspend inline fun <reified T> post(path: String, requestBody: Any): T {
+    suspend inline fun <reified T> get(path: String): T =
+        request(path, HttpMethod.Get)
+
+    suspend inline fun <reified T> post(path: String, requestBody: Any): T =
+        request(path, HttpMethod.Post, requestBody)
+
+    suspend inline fun <reified T> request(path: String, method: HttpMethod, requestBody: Any? = null): T {
         val body = httpClient.request(
             HttpRequestBuilder().apply {
-                method = HttpMethod.Post
+                this.method = method
                 path(path)
-                setBody(requestBody)
+                requestBody?.let { setBody(requestBody) }
                 contentType(ContentType.Application.Json)
             }
         ).bodyAsText()
