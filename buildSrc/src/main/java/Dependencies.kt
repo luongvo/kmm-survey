@@ -11,7 +11,8 @@ object Versions {
 
     const val BUILD_KONFIG = "0.13.3"
 
-    const val COIL_COMPOSE = "2.2.2"
+    const val COMPOSE_ACCOMPANIST = "0.28.0"
+    const val COMPOSE_COIL = "2.2.2"
     const val COMPOSE_COMPILER = "1.3.2"
     const val COMPOSE_MATERIAL = "1.3.1"
     const val COMPOSE_NAVIGATION = "2.5.2"
@@ -72,7 +73,10 @@ object Dependencies {
         const val UI_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE_UI}"
         const val MATERIAL = "androidx.compose.material:material:${Versions.COMPOSE_MATERIAL}"
         const val NAVIGATION = "androidx.navigation:navigation-compose:${Versions.COMPOSE_NAVIGATION}"
-        const val COIL_COMPOSE = "io.coil-kt:coil-compose:${Versions.COIL_COMPOSE}"
+        const val COIL_COMPOSE = "io.coil-kt:coil-compose:${Versions.COMPOSE_COIL}"
+        const val ACCOMPANIST_PAGER = "com.google.accompanist:accompanist-pager:${Versions.COMPOSE_ACCOMPANIST}"
+        const val ACCOMPANIST_PAGER_INDICATORS =
+            "com.google.accompanist:accompanist-pager-indicators:${Versions.COMPOSE_ACCOMPANIST}"
     }
 
     object Firebase {

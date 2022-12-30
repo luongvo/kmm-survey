@@ -19,10 +19,11 @@ import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 @Composable
 fun HomeHeader(
     dateTime: String,
-    avatarUrl: String
+    avatarUrl: String,
+    modifier: Modifier
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .padding(
                 start = dimensions.paddingMedium,
                 top = dimensions.paddingSmall,
@@ -55,13 +56,14 @@ fun HomeHeader(
     }
 }
 
-@Composable
 @Preview
+@Composable
 fun HomeHeaderPreview() {
     ComposeTheme {
         HomeHeader(
             dateTime = "Monday, JUNE 15",
-            avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23"
+            avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23",
+            modifier = Modifier.wrapContentHeight()
         )
     }
 }
