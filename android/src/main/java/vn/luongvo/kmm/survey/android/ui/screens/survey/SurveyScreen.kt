@@ -3,6 +3,7 @@ package vn.luongvo.kmm.survey.android.ui.screens.survey
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
@@ -12,6 +13,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
@@ -25,8 +27,13 @@ const val SurveyBackButton = "SurveyBackButton"
 @Composable
 fun SurveyScreen(
     surveyId: String,
+    viewModel: SurveyViewModel = getViewModel(),
     navigator: (destination: AppDestination) -> Unit
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.getSurveyDetail(id = surveyId)
+    }
+
     SurveyScreenContent(
         onBackClick = { navigator(AppDestination.Up) },
         onStartClick = {

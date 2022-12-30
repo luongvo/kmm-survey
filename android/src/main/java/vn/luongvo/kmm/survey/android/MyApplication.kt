@@ -14,6 +14,7 @@ class MyApplication : Application() {
             androidContext(applicationContext)
             modules(loginModule)
             modules(homeModule)
+            modules(surveyModule)
             modules(helperModule)
         }
         setupLogging()
