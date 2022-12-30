@@ -11,6 +11,7 @@ object Versions {
 
     const val BUILD_KONFIG = "0.13.3"
 
+    const val COIL_COMPOSE = "2.2.2"
     const val COMPOSE_COMPILER = "1.3.2"
     const val COMPOSE_MATERIAL = "1.3.1"
     const val COMPOSE_NAVIGATION = "2.5.2"
@@ -71,6 +72,7 @@ object Dependencies {
         const val UI_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE_UI}"
         const val MATERIAL = "androidx.compose.material:material:${Versions.COMPOSE_MATERIAL}"
         const val NAVIGATION = "androidx.navigation:navigation-compose:${Versions.COMPOSE_NAVIGATION}"
+        const val COIL_COMPOSE = "io.coil-kt:coil-compose:${Versions.COIL_COMPOSE}"
     }
 
     object Firebase {

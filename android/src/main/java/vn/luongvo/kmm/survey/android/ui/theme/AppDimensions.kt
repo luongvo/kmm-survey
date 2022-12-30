@@ -11,6 +11,7 @@ class AppDimensions {
 
     val inputHeight: Dp = 56.dp
     val buttonHeight: Dp = 56.dp
+    val avatarSize: Dp = 36.dp
 }
 
 internal val LocalAppDimensions = staticCompositionLocalOf { AppDimensions() }
