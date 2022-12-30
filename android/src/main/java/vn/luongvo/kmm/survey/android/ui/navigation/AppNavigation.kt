@@ -28,7 +28,8 @@ fun AppNavigation(
         }
         composable(AppDestination.Survey) { backStackEntry ->
             SurveyScreen(
-                surveyId = backStackEntry.arguments?.getString(SurveyIdArg).orEmpty()
+                surveyId = backStackEntry.arguments?.getString(SurveyIdArg).orEmpty(),
+                navigator = { destination -> navController.navigate(destination) }
             )
         }
     }

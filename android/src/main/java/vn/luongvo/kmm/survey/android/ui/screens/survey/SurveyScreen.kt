@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.DimmedImageBackground
 import vn.luongvo.kmm.survey.android.ui.common.PrimaryButton
+import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
@@ -26,12 +27,11 @@ import vn.luongvo.kmm.survey.android.ui.theme.White70
 
 @Composable
 fun SurveyScreen(
-    surveyId: String
+    surveyId: String,
+    navigator: (destination: AppDestination) -> Unit
 ) {
     SurveyScreenContent(
-        onBackClick = {
-            // TODO fetch survey detail https://github.com/luongvo/kmm-survey/issues/23
-        },
+        onBackClick = { navigator(AppDestination.Up) },
         onStartClick = {
             // TODO start survey
         }

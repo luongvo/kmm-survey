@@ -88,7 +88,7 @@ private fun HomeFooterContent(
         }
         Spacer(modifier = Modifier.width(dimensions.paddingMedium))
         NextCircleButton(
-            onClick = { onSurveyClick.invoke(survey) },
+            onClick = { onSurveyClick(survey) },
             contentDescription = HomeSurveyDetail
         )
     }
