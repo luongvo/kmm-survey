@@ -13,6 +13,7 @@ import org.junit.*
 import vn.luongvo.kmm.survey.android.test.CoroutineTestRule
 import vn.luongvo.kmm.survey.android.test.Fake.surveys
 import vn.luongvo.kmm.survey.android.test.Fake.user
+import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.util.DateFormatter
 import vn.luongvo.kmm.survey.domain.usecase.GetSurveysUseCase
 import vn.luongvo.kmm.survey.domain.usecase.GetUserProfileUseCase
@@ -101,6 +102,15 @@ class HomeViewModelTest {
             awaitItem() shouldBe false
             awaitItem() shouldBe true
             awaitItem() shouldBe false
+        }
+    }
+
+    @Test
+    fun `when clicking on the Next button on each survey, it navigates to the Survey screen`() = runTest {
+        viewModel.navigator.test {
+            viewModel.navigateToSurvey("id")
+
+            expectMostRecentItem() shouldBe AppDestination.Survey
         }
     }
 }
