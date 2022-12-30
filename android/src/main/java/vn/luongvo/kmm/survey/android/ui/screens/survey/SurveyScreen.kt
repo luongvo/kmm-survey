@@ -13,6 +13,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,6 +26,8 @@ import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.android.ui.theme.White70
+
+const val SurveyBackButton = "SurveyBackButton"
 
 @Composable
 fun SurveyScreen(
@@ -57,7 +61,8 @@ private fun SurveyScreenContent(
                 .statusBarsPadding()
                 .wrapContentSize()
                 .rotate(180f) // switch Right Arrow to Back button
-                .padding(vertical = 5.dp),
+                .padding(vertical = 5.dp)
+                .semantics { this.contentDescription = SurveyBackButton },
             contentPadding = PaddingValues(dimensions.paddingMedium),
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Transparent

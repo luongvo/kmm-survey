@@ -10,6 +10,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.*
+import org.junit.Assert.assertEquals
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import vn.luongvo.kmm.survey.android.R
@@ -101,7 +102,7 @@ class HomeScreenTest {
     fun `when clicking on the Next button on each survey, it navigates to the Survey screen`() = initComposable {
         onNodeWithContentDescription(HomeSurveyDetail).performClick()
 
-        Assert.assertEquals(expectedAppDestination, AppDestination.Survey)
+        assertEquals(expectedAppDestination, AppDestination.Survey)
     }
 
     private fun initComposable(testBody: ComposeContentTestRule.() -> Unit) {
