@@ -107,7 +107,9 @@ class LoginScreenTest {
             ComposeTheme {
                 LoginScreen(
                     viewModel = viewModel,
-                    navigator = { destination -> expectedAppDestination = destination }
+                    navigator = { destination ->
+                        expectedAppDestination = destination
+                    }
                 )
             }
         }

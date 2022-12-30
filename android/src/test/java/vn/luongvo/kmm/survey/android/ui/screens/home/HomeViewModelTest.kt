@@ -86,7 +86,9 @@ class HomeViewModelTest {
         every { mockGetSurveysUseCase(any(), any()) } returns flow { throw error }
         viewModel.init()
 
-        viewModel.error shouldBe error
+        viewModel.error.test {
+            awaitItem() shouldBe error
+        }
     }
 
     @Test
