@@ -25,17 +25,18 @@ const val HomeUserAvatar = "HomeUserAvatar"
 fun HomeScreen(
     viewModel: HomeViewModel = getViewModel()
 ) {
+    val error by viewModel.error.collectAsStateWithLifecycle()
     val currentDate by viewModel.currentDate.collectAsStateWithLifecycle()
     val avatarUrl by viewModel.avatarUrl.collectAsStateWithLifecycle()
 
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val context = LocalContext.current
-    LaunchedEffect(viewModel.error) {
-        viewModel.error?.let {
+    LaunchedEffect(error) {
+        error?.let {
             scaffoldState.snackbarHostState.showSnackbar(
                 message = it.userReadableMessage(context)
             )
-            viewModel.error = null
+            viewModel.clearError()
         }
     }
 

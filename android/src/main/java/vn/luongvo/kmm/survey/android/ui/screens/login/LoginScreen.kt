@@ -50,13 +50,14 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
+    val error by viewModel.error.collectAsStateWithLifecycle()
     val isLoggedIn by viewModel.isLoggedIn.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
-    viewModel.error?.let {
+    error?.let {
         AlertDialog(
             message = it.userReadableMessage(context),
-            onDismissRequest = { viewModel.error = null }
+            onDismissRequest = { viewModel.clearError() }
         )
     }
 

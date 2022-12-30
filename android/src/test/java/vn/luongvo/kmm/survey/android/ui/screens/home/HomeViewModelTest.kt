@@ -60,6 +60,8 @@ class HomeViewModelTest {
         every { mockGetUserProfileUseCase() } returns flow { throw error }
         viewModel.init()
 
-        viewModel.error shouldBe error
+        viewModel.error.test {
+            awaitItem() shouldBe error
+        }
     }
 }

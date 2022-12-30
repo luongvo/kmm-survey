@@ -32,14 +32,14 @@ class HomeViewModel(
         }
 
         getUserProfileUseCase()
-            .catch { e -> error = e }
+            .catch { e -> _error.emit(e) }
             .onEach {
                 _avatarUrl.emit(it.avatarUrl)
             }
             .launchIn(viewModelScope)
 
         getSurveysUseCase(pageNumber = 1, pageSize = 10)
-            .catch { e -> error = e }
+            .catch { e -> _error.emit(e) }
             .onEach {
                 // TODO Integrate getting user profile in https://github.com/luongvo/kmm-survey/issues/16
                 Timber.d(it.toString())
