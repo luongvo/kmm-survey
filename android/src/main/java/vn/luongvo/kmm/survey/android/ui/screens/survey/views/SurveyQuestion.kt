@@ -9,11 +9,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import vn.luongvo.kmm.survey.android.ui.common.*
+import vn.luongvo.kmm.survey.android.ui.screens.survey.QuestionUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 
 @Composable
 fun SurveyQuestion(
+    index: Int,
+    count: Int,
+    question: QuestionUiModel,
     onCloseClick: () -> Unit,
     onNextClick: () -> Unit
 ) {
@@ -42,15 +46,13 @@ fun SurveyQuestion(
                 .padding(horizontal = dimensions.paddingMedium)
         ) {
             Text(
-                // TODO fetch survey detail https://github.com/luongvo/kmm-survey/issues/23
-                text = "1/5",
+                text = "$index/$count",
                 color = White50,
                 style = AppTheme.typography.body2
             )
             Spacer(modifier = Modifier.height(dimensions.paddingSmallest))
             Text(
-                // TODO fetch survey detail https://github.com/luongvo/kmm-survey/issues/23
-                text = "How fulfilled did you feel during this WFH period?",
+                text = question.text,
                 color = Color.White,
                 style = AppTheme.typography.h4
             )
@@ -70,6 +72,9 @@ fun SurveyQuestion(
 fun SurveyQuestionPreview() {
     ComposeTheme {
         SurveyQuestion(
+            index = 1,
+            count = 5,
+            question = QuestionUiModel(text = "How fulfilled did you feel during this WFH period?"),
             onCloseClick = {},
             onNextClick = {}
         )

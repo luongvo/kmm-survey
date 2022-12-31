@@ -27,6 +27,13 @@ fun SurveyScreen(
     }
 
     SurveyScreenContent(
+        questions = listOf(
+            QuestionUiModel(text = "How fulfilled did you feel during this WFH period?"),
+            QuestionUiModel(text = "How did WFH change your productivity?"),
+            QuestionUiModel(text = "I have a separate space to work (room or living room)."),
+            QuestionUiModel(text = "Question NPS"),
+            QuestionUiModel(text = "Your contact information")
+        ),
         onBackClick = { navigator(AppDestination.Up) }
     )
 }
@@ -34,13 +41,14 @@ fun SurveyScreen(
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun SurveyScreenContent(
+    questions: List<QuestionUiModel>,
     onBackClick: () -> Unit
 ) {
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
 
     HorizontalPager(
-        count = 5,
+        count = questions.size + 1,
         state = pagerState,
         modifier = Modifier.fillMaxSize()
     ) { index ->
@@ -52,6 +60,9 @@ private fun SurveyScreenContent(
             )
         } else {
             SurveyQuestion(
+                index = index,
+                count = questions.size,
+                question = questions[index - 1],
                 onCloseClick = onBackClick,
                 onNextClick = { pagerState.scrollToNextPage(scope) }
             )
@@ -71,6 +82,9 @@ private fun PagerState.scrollToNextPage(scope: CoroutineScope) {
 fun SurveyScreenPreview() {
     ComposeTheme {
         SurveyScreenContent(
+            questions = listOf(
+                QuestionUiModel(text = "How fulfilled did you feel during this WFH period?")
+            ),
             onBackClick = {}
         )
     }
