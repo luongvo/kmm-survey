@@ -69,7 +69,7 @@ fun HomeHeaderPreview(
             isLoading = isLoading,
             dateTime = "Monday, JUNE 15",
             avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23",
-            modifier = Modifier.wrapContentHeight()
+            modifier = Modifier
         )
     }
 }
