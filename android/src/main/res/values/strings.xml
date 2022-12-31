@@ -13,4 +13,5 @@
     <string name="login_password">Password</string>
 
     <string name="survey_start">Start Survey</string>
+    <string name="survey_submit">Submit</string>
 </resources>

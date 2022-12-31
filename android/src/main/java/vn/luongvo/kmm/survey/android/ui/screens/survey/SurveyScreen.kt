@@ -34,7 +34,10 @@ fun SurveyScreen(
             QuestionUiModel(text = "Question NPS"),
             QuestionUiModel(text = "Your contact information")
         ),
-        onBackClick = { navigator(AppDestination.Up) }
+        onBackClick = { navigator(AppDestination.Up) },
+        onSubmitClick = {
+            // TODO submit survey
+        }
     )
 }
 
@@ -42,7 +45,8 @@ fun SurveyScreen(
 @Composable
 private fun SurveyScreenContent(
     questions: List<QuestionUiModel>,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onSubmitClick: () -> Unit
 ) {
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
@@ -64,7 +68,13 @@ private fun SurveyScreenContent(
                 count = questions.size,
                 question = questions[index - 1],
                 onCloseClick = onBackClick,
-                onNextClick = { pagerState.scrollToNextPage(scope) }
+                onNextClick = {
+                    if (index != questions.size) {
+                        pagerState.scrollToNextPage(scope)
+                    } else {
+                        onSubmitClick()
+                    }
+                }
             )
         }
     }
@@ -85,7 +95,8 @@ fun SurveyScreenPreview() {
             questions = listOf(
                 QuestionUiModel(text = "How fulfilled did you feel during this WFH period?")
             ),
-            onBackClick = {}
+            onBackClick = {},
+            onSubmitClick = {}
         )
     }
 }

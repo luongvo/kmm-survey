@@ -6,8 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
 import vn.luongvo.kmm.survey.android.ui.screens.survey.QuestionUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.*
@@ -57,12 +59,23 @@ fun SurveyQuestion(
                 style = AppTheme.typography.h4
             )
             Spacer(modifier = Modifier.weight(1f))
-            NextCircleButton(
-                onClick = onNextClick,
-                modifier = Modifier
-                    .align(Alignment.End)
-                    .padding(bottom = dimensions.paddingLargest)
-            )
+            if (index != count) {
+                NextCircleButton(
+                    onClick = onNextClick,
+                    modifier = Modifier
+                        .align(Alignment.End)
+                        .padding(bottom = dimensions.paddingLargest)
+                )
+            } else {
+                PrimaryButton(
+                    text = stringResource(id = R.string.survey_submit),
+                    onClick = onNextClick,
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .align(Alignment.End)
+                        .padding(bottom = dimensions.paddingLargest)
+                )
+            }
         }
     }
 }
