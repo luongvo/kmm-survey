@@ -27,8 +27,7 @@ fun SurveyQuestion(
         modifier = Modifier.fillMaxSize()
     ) {
         DimmedImageBackground(
-            // TODO fetch survey detail https://github.com/luongvo/kmm-survey/issues/23
-            imageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l"
+            imageUrl = question.coverImageUrl
         )
 
         CloseButton(
@@ -87,7 +86,10 @@ fun SurveyQuestionPreview() {
         SurveyQuestion(
             index = 1,
             count = 5,
-            question = QuestionUiModel(text = "How fulfilled did you feel during this WFH period?"),
+            question = QuestionUiModel(
+                text = "How fulfilled did you feel during this WFH period?",
+                coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l"
+            ),
             onCloseClick = {},
             onNextClick = {}
         )

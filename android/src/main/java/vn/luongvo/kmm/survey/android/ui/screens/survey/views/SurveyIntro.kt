@@ -13,11 +13,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
+import vn.luongvo.kmm.survey.android.ui.screens.home.SurveyUiModel
 import vn.luongvo.kmm.survey.android.ui.screens.survey.SurveyBackButton
 import vn.luongvo.kmm.survey.android.ui.theme.*
 
 @Composable
 fun SurveyIntro(
+    survey: SurveyUiModel,
     onBackClick: () -> Unit,
     onStartClick: () -> Unit
 ) {
@@ -25,8 +27,7 @@ fun SurveyIntro(
         modifier = Modifier.fillMaxSize()
     ) {
         DimmedImageBackground(
-            // TODO fetch survey detail https://github.com/luongvo/kmm-survey/issues/23
-            imageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l"
+            imageUrl = survey.coverImageUrl
         )
 
         BackButton(
@@ -46,15 +47,13 @@ fun SurveyIntro(
                 .padding(horizontal = AppTheme.dimensions.paddingMedium)
         ) {
             Text(
-                // TODO fetch survey detail https://github.com/luongvo/kmm-survey/issues/23
-                text = "Scarlett Bangkok",
+                text = survey.title,
                 color = Color.White,
                 style = AppTheme.typography.h4
             )
             Spacer(modifier = Modifier.height(AppTheme.dimensions.paddingSmall))
             Text(
-                // TODO fetch survey detail https://github.com/luongvo/kmm-survey/issues/23
-                text = "We'd love to hear from you!",
+                text = survey.description,
                 color = White70,
                 style = AppTheme.typography.body1
             )
@@ -76,6 +75,12 @@ fun SurveyIntro(
 fun SurveyIntroPreview() {
     ComposeTheme {
         SurveyIntro(
+            survey = SurveyUiModel(
+                id = "1",
+                title = "Scarlett Bangkok",
+                description = "We'd love to hear from you!",
+                coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
+            ),
             onBackClick = {},
             onStartClick = {}
         )
