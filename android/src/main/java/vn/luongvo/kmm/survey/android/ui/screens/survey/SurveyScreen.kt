@@ -54,6 +54,7 @@ private fun SurveyScreenContent(
     HorizontalPager(
         count = questions.size + 1,
         state = pagerState,
+        userScrollEnabled = false,
         modifier = Modifier.fillMaxSize()
     ) { index ->
         // TODO use question.displayType instead
