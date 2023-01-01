@@ -13,7 +13,7 @@ import org.junit.Assert.assertEquals
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import vn.luongvo.kmm.survey.android.R
-import vn.luongvo.kmm.survey.android.test.Fake.survey
+import vn.luongvo.kmm.survey.android.test.Fake.surveyDetail
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.domain.usecase.*
@@ -33,7 +33,7 @@ class SurveyScreenTest {
 
     @Before
     fun setup() {
-        every { mockGetSurveyDetailUseCase(any()) } returns flowOf(survey)
+        every { mockGetSurveyDetailUseCase(any()) } returns flowOf(surveyDetail)
 
         viewModel = SurveyViewModel(
             mockGetSurveyDetailUseCase

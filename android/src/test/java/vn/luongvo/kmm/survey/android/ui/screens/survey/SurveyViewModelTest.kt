@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.*
 import org.junit.*
 import vn.luongvo.kmm.survey.android.test.CoroutineTestRule
-import vn.luongvo.kmm.survey.android.test.Fake.survey
+import vn.luongvo.kmm.survey.android.test.Fake.surveyDetail
 import vn.luongvo.kmm.survey.android.ui.screens.home.toUiModel
 import vn.luongvo.kmm.survey.domain.usecase.GetSurveyDetailUseCase
 
@@ -27,7 +27,7 @@ class SurveyViewModelTest {
 
     @Before
     fun setUp() {
-        every { mockGetSurveyDetailUseCase(any()) } returns flowOf(survey)
+        every { mockGetSurveyDetailUseCase(any()) } returns flowOf(surveyDetail)
 
         viewModel = SurveyViewModel(
             mockGetSurveyDetailUseCase
@@ -39,7 +39,7 @@ class SurveyViewModelTest {
         viewModel.getSurveyDetail("id")
 
         viewModel.survey.test {
-            expectMostRecentItem() shouldBe survey.toUiModel()
+            expectMostRecentItem() shouldBe surveyDetail.toUiModel()
         }
     }
 
