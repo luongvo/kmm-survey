@@ -35,13 +35,11 @@ fun HomeScreen(
     val avatarUrl by viewModel.avatarUrl.collectAsStateWithLifecycle()
     val surveys by viewModel.surveys.collectAsStateWithLifecycle()
 
-    val scaffoldState: ScaffoldState = rememberScaffoldState()
+    val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current
     LaunchedEffect(error) {
         error?.let {
-            scaffoldState.snackbarHostState.showSnackbar(
-                message = it.userReadableMessage(context)
-            )
+            scaffoldState.snackbarHostState.showSnackbar(message = it.userReadableMessage(context))
             viewModel.clearError()
         }
     }
