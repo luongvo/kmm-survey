@@ -19,6 +19,7 @@ import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.domain.usecase.*
 
+@Suppress("MagicNumber")
 @RunWith(AndroidJUnit4::class)
 class SurveyScreenTest {
 
