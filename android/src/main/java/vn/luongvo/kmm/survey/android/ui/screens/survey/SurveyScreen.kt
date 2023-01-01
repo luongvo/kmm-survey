@@ -23,6 +23,8 @@ import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.android.util.userReadableMessage
 
 const val SurveyBackButton = "SurveyBackButton"
+const val SurveyCloseButton = "SurveyCloseButton"
+const val SurveyNextButton = "SurveyNextButton"
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable

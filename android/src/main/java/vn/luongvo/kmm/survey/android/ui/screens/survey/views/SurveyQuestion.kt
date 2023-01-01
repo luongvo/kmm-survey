@@ -7,11 +7,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
-import vn.luongvo.kmm.survey.android.ui.screens.survey.QuestionUiModel
+import vn.luongvo.kmm.survey.android.ui.screens.survey.*
 import vn.luongvo.kmm.survey.android.ui.theme.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 
@@ -34,7 +36,8 @@ fun SurveyQuestion(
             modifier = Modifier
                 .statusBarsPadding()
                 .align(Alignment.TopEnd)
-                .padding(vertical = dimensions.paddingMedium, horizontal = dimensions.paddingSmall),
+                .padding(vertical = dimensions.paddingMedium, horizontal = dimensions.paddingSmall)
+                .semantics { this.contentDescription = SurveyCloseButton + index },
             onClick = onCloseClick
         )
 
@@ -64,6 +67,7 @@ fun SurveyQuestion(
                     modifier = Modifier
                         .align(Alignment.End)
                         .padding(bottom = dimensions.paddingLargest)
+                        .semantics { this.contentDescription = SurveyNextButton + index }
                 )
             } else {
                 PrimaryButton(
