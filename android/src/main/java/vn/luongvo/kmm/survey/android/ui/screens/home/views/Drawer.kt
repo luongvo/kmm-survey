@@ -55,12 +55,7 @@ fun Drawer(
             )
         }
         Spacer(modifier = Modifier.height(24.dp))
-        Spacer(
-            modifier = Modifier
-                .height(1.dp)
-                .fillMaxWidth()
-                .background(White20)
-        )
+        Divider(color = White20)
         Spacer(modifier = Modifier.height(10.dp))
         Button(
             onClick = onLogoutClick,
