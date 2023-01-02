@@ -40,7 +40,11 @@ fun MainScreen() {
         drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
         drawerContent = {
-            Drawer()
+            Drawer(
+                onLogoutClick = {
+                    // TODO https://github.com/luongvo/kmm-survey/issues/19
+                }
+            )
         }
     ) {
         AppNavigation(
