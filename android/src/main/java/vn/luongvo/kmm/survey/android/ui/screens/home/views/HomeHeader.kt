@@ -2,10 +2,11 @@ package vn.luongvo.kmm.survey.android.ui.screens.home.views
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +26,7 @@ fun HomeHeader(
     isLoading: Boolean,
     dateTime: String,
     avatarUrl: String,
+    onUserAvatarClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -47,14 +49,24 @@ fun HomeHeader(
                 style = typography.h4,
                 modifier = Modifier.placeholder(isLoading = isLoading)
             )
-            AsyncImage(
-                model = avatarUrl,
-                contentDescription = HomeUserAvatar,
-                modifier = Modifier
-                    .size(dimensions.avatarSize)
-                    .clip(CircleShape)
-                    .placeholder(isLoading = isLoading)
-            )
+            Button(
+                onClick = onUserAvatarClick,
+                modifier = Modifier.size(dimensions.avatarSize),
+                contentPadding = PaddingValues(0.dp),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color.Transparent
+                ),
+                elevation = null
+            ) {
+                AsyncImage(
+                    model = avatarUrl,
+                    contentDescription = HomeUserAvatar,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(CircleShape)
+                        .placeholder(isLoading = isLoading)
+                )
+            }
         }
     }
 }
@@ -68,7 +80,8 @@ fun HomeHeaderPreview(
         HomeHeader(
             isLoading = isLoading,
             dateTime = "Monday, JUNE 15",
-            avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23"
+            avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23",
+            onUserAvatarClick = {}
         )
     }
 }

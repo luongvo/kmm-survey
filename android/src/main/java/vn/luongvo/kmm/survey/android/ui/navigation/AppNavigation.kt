@@ -10,7 +10,8 @@ import vn.luongvo.kmm.survey.android.ui.screens.survey.SurveyScreen
 @Composable
 fun AppNavigation(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = AppDestination.Login.destination
+    startDestination: String = AppDestination.Login.destination,
+    openDrawer: () -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -23,7 +24,8 @@ fun AppNavigation(
         }
         composable(AppDestination.Home) {
             HomeScreen(
-                navigator = { destination -> navController.navigate(destination) }
+                navigator = { destination -> navController.navigate(destination) },
+                openDrawer = openDrawer
             )
         }
         composable(AppDestination.Survey) { backStackEntry ->

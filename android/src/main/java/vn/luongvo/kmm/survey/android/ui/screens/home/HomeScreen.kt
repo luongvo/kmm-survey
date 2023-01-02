@@ -27,7 +27,8 @@ const val HomeSurveyDetail = "HomeSurveyDetail"
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = getViewModel(),
-    navigator: (destination: AppDestination) -> Unit
+    navigator: (destination: AppDestination) -> Unit,
+    openDrawer: () -> Unit = {}
 ) {
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val error by viewModel.error.collectAsStateWithLifecycle()
@@ -58,7 +59,8 @@ fun HomeScreen(
         currentDate = currentDate,
         avatarUrl = avatarUrl,
         surveys = surveys,
-        onSurveyClick = { survey -> viewModel.navigateToSurvey(survey?.id.orEmpty()) }
+        onSurveyClick = { survey -> viewModel.navigateToSurvey(survey?.id.orEmpty()) },
+        onUserAvatarClick = openDrawer
     )
 }
 
@@ -70,7 +72,8 @@ private fun HomeScreenContent(
     currentDate: String,
     avatarUrl: String,
     surveys: List<SurveyUiModel>,
-    onSurveyClick: (SurveyUiModel?) -> Unit
+    onSurveyClick: (SurveyUiModel?) -> Unit,
+    onUserAvatarClick: () -> Unit
 ) {
     val pagerState = rememberPagerState()
     var survey by remember { mutableStateOf<SurveyUiModel?>(null) }
@@ -101,6 +104,7 @@ private fun HomeScreenContent(
                 isLoading = isLoading,
                 dateTime = currentDate,
                 avatarUrl = avatarUrl,
+                onUserAvatarClick = onUserAvatarClick,
                 modifier = Modifier
                     .statusBarsPadding()
                     .padding(top = dimensions.paddingSmall)
@@ -144,7 +148,9 @@ fun HomeScreenPreview(
                     description = "We'd love to hear from you!",
                     coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/287db81c5e4242412cc0_"
                 )
-            )
-        ) {}
+            ),
+            onSurveyClick = {},
+            onUserAvatarClick = {}
+        )
     }
 }
