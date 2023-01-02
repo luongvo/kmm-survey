@@ -17,6 +17,7 @@ import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.extension.placeholder
 import vn.luongvo.kmm.survey.android.ui.providers.LoadingParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.home.HomeUserAvatar
+import vn.luongvo.kmm.survey.android.ui.screens.home.UserUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
@@ -25,7 +26,7 @@ import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 fun HomeHeader(
     isLoading: Boolean,
     dateTime: String,
-    avatarUrl: String,
+    user: UserUiModel?,
     onUserAvatarClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -59,7 +60,7 @@ fun HomeHeader(
                 elevation = null
             ) {
                 AsyncImage(
-                    model = avatarUrl,
+                    model = user?.avatarUrl.orEmpty(),
                     contentDescription = HomeUserAvatar,
                     modifier = Modifier
                         .fillMaxSize()
@@ -80,7 +81,11 @@ fun HomeHeaderPreview(
         HomeHeader(
             isLoading = isLoading,
             dateTime = "Monday, JUNE 15",
-            avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23",
+            user = UserUiModel(
+                email = "luong@nimblehq.co",
+                name = "Luong",
+                avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23"
+            ),
             onUserAvatarClick = {}
         )
     }

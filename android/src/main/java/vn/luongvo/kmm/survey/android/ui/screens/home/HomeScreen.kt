@@ -28,12 +28,13 @@ const val HomeSurveyDetail = "HomeSurveyDetail"
 fun HomeScreen(
     viewModel: HomeViewModel = getViewModel(),
     navigator: (destination: AppDestination) -> Unit,
-    openDrawer: () -> Unit = {}
+    onDrawerUiStateChange: (UserUiModel?) -> Unit,
+    onOpenDrawer: () -> Unit
 ) {
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val error by viewModel.error.collectAsStateWithLifecycle()
     val currentDate by viewModel.currentDate.collectAsStateWithLifecycle()
-    val avatarUrl by viewModel.avatarUrl.collectAsStateWithLifecycle()
+    val user by viewModel.user.collectAsStateWithLifecycle()
     val surveys by viewModel.surveys.collectAsStateWithLifecycle()
 
     val scaffoldState = rememberScaffoldState()
@@ -53,14 +54,16 @@ fun HomeScreen(
         viewModel.init()
     }
 
+    onDrawerUiStateChange(user)
+
     HomeScreenContent(
         scaffoldState = scaffoldState,
         isLoading = isLoading,
         currentDate = currentDate,
-        avatarUrl = avatarUrl,
+        user = user,
         surveys = surveys,
         onSurveyClick = { survey -> viewModel.navigateToSurvey(survey?.id.orEmpty()) },
-        onUserAvatarClick = openDrawer
+        onUserAvatarClick = onOpenDrawer
     )
 }
 
@@ -70,7 +73,7 @@ private fun HomeScreenContent(
     scaffoldState: ScaffoldState,
     isLoading: Boolean,
     currentDate: String,
-    avatarUrl: String,
+    user: UserUiModel?,
     surveys: List<SurveyUiModel>,
     onSurveyClick: (SurveyUiModel?) -> Unit,
     onUserAvatarClick: () -> Unit
@@ -103,7 +106,7 @@ private fun HomeScreenContent(
             HomeHeader(
                 isLoading = isLoading,
                 dateTime = currentDate,
-                avatarUrl = avatarUrl,
+                user = user,
                 onUserAvatarClick = onUserAvatarClick,
                 modifier = Modifier
                     .statusBarsPadding()
@@ -134,7 +137,11 @@ fun HomeScreenPreview(
             scaffoldState = rememberScaffoldState(),
             isLoading = isLoading,
             currentDate = "Monday, JUNE 15",
-            avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23",
+            user = UserUiModel(
+                email = "luong@nimblehq.co",
+                name = "Luong",
+                avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23"
+            ),
             surveys = listOf(
                 SurveyUiModel(
                     id = "1",

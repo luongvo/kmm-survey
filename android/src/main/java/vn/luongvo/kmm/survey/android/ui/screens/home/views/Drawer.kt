@@ -17,12 +17,14 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.screens.home.HomeUserAvatar
+import vn.luongvo.kmm.survey.android.ui.screens.home.UserUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 
 @Composable
 fun Drawer(
+    user: UserUiModel?,
     onLogoutClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -40,12 +42,12 @@ fun Drawer(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "Mai",
+                text = user?.name.orEmpty(),
                 color = Color.White,
                 style = typography.h4
             )
             AsyncImage(
-                model = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23",
+                model = user?.avatarUrl.orEmpty(),
                 contentDescription = HomeUserAvatar,
                 modifier = Modifier
                     .size(dimensions.avatarSize)
@@ -85,6 +87,11 @@ fun Drawer(
 fun DrawerPreview() {
     ComposeTheme {
         Drawer(
+            user = UserUiModel(
+                email = "luong@nimblehq.co",
+                name = "Luong",
+                avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23"
+            ),
             onLogoutClick = {}
         )
     }

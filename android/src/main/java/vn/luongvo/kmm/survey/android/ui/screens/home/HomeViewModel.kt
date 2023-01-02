@@ -23,8 +23,8 @@ class HomeViewModel(
     private val _currentDate = MutableStateFlow("")
     val currentDate: StateFlow<String> = _currentDate
 
-    private val _avatarUrl = MutableStateFlow("")
-    val avatarUrl: StateFlow<String> = _avatarUrl
+    private val _user = MutableStateFlow<UserUiModel?>(null)
+    val user: StateFlow<UserUiModel?> = _user
 
     private val _surveys = MutableStateFlow(emptyList<SurveyUiModel>())
     val surveys: StateFlow<List<SurveyUiModel>> = _surveys
@@ -39,7 +39,7 @@ class HomeViewModel(
         getUserProfileUseCase()
             .catch { e -> _error.emit(e) }
             .onEach {
-                _avatarUrl.emit(it.avatarUrl)
+                _user.emit(it.toUiModel())
             }
             .launchIn(viewModelScope)
 
