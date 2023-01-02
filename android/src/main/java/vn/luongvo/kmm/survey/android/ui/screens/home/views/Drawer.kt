@@ -7,14 +7,15 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Transparent
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import vn.luongvo.kmm.survey.android.BuildConfig
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.screens.home.HomeUserAvatar
 import vn.luongvo.kmm.survey.android.ui.screens.home.UserUiModel
@@ -34,6 +35,7 @@ fun Drawer(
             .fillMaxSize()
             .background(Nero90)
             .padding(top = dimensions.paddingSmall)
+            .padding(bottom = dimensions.paddingMedium)
             .padding(horizontal = dimensions.paddingMedium)
     ) {
         Spacer(modifier = Modifier.height(22.dp))
@@ -43,7 +45,7 @@ fun Drawer(
         ) {
             Text(
                 text = user?.name.orEmpty(),
-                color = Color.White,
+                color = White,
                 style = typography.h4
             )
             AsyncImage(
@@ -74,6 +76,12 @@ fun Drawer(
                 modifier = Modifier.fillMaxWidth()
             )
         }
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = "v${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+            color = White50,
+            style = typography.subtitle1.copy(fontSize = 11.sp)
+        )
     }
 }
 
