@@ -3,7 +3,8 @@ package vn.luongvo.kmm.survey.android.ui.screens
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.*
+import androidx.compose.material.DrawerValue
+import androidx.compose.material.rememberDrawerState
 import androidx.compose.runtime.*
 import androidx.core.view.WindowCompat
 import kotlinx.coroutines.launch
@@ -11,6 +12,7 @@ import timber.log.Timber
 import vn.luongvo.kmm.survey.android.ui.navigation.AppNavigation
 import vn.luongvo.kmm.survey.android.ui.screens.home.UserUiModel
 import vn.luongvo.kmm.survey.android.ui.screens.home.views.Drawer
+import vn.luongvo.kmm.survey.android.ui.screens.home.views.RtlModalDrawer
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -38,7 +40,7 @@ fun MainScreen() {
     }
     var user by remember { mutableStateOf<UserUiModel?>(null) }
 
-    ModalDrawer(
+    RtlModalDrawer(
         drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
         drawerContent = {
