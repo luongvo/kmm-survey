@@ -16,13 +16,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.BuildConfig
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.RtlModalDrawer
 import vn.luongvo.kmm.survey.android.ui.navigation.AppNavigation
-import vn.luongvo.kmm.survey.android.ui.screens.home.HomeUserAvatar
-import vn.luongvo.kmm.survey.android.ui.screens.home.UserUiModel
+import vn.luongvo.kmm.survey.android.ui.screens.home.*
 import vn.luongvo.kmm.survey.android.ui.theme.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.colors
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
@@ -30,15 +29,11 @@ import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 
 @Composable
 fun MainScreen(
+    viewModel: HomeViewModel = getViewModel(),
     initialDrawerValue: DrawerValue = DrawerValue.Closed
 ) {
     val drawerState = rememberDrawerState(initialDrawerValue)
     val scope = rememberCoroutineScope()
-    val openDrawer = {
-        scope.launch {
-            drawerState.open()
-        }
-    }
     var user by remember { mutableStateOf<UserUiModel?>(null) }
 
     RtlModalDrawer(
@@ -48,15 +43,24 @@ fun MainScreen(
             Drawer(
                 user = user,
                 onLogoutClick = {
-                    // TODO https://github.com/luongvo/kmm-survey/issues/19
-                    Timber.d("onLogoutClick")
+                    scope.launch {
+                        drawerState.close()
+                    }
+                    viewModel.logOut()
                 }
             )
         }
     ) {
         AppNavigation(
-            onDrawerUiStateChange = { user = it },
-            onOpenDrawer = { openDrawer() }
+            sharedHomeViewModel = viewModel,
+            onDrawerUiStateChange = {
+                user = it
+            },
+            onOpenDrawer = {
+                scope.launch {
+                    drawerState.open()
+                }
+            }
         )
     }
 }

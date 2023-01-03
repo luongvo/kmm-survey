@@ -62,7 +62,7 @@ class HomeViewModel(
         logOutUseCase()
             .catch { e -> _error.emit(e) }
             .onEach {
-                // TODO https://github.com/luongvo/kmm-survey/issues/19
+                _navigator.emit(AppDestination.Login)
             }
             .launchIn(viewModelScope)
     }

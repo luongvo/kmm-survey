@@ -30,8 +30,9 @@ object Versions {
     const val JUNIT = "4.13.2"
     const val JVM_TARGET = "1.8"
 
-    const val KOIN = "3.2.2"
-    const val KOIN_ANDROID = "3.3.0"
+    const val KOIN = "3.3.2"
+    const val KOIN_ANDROID = "3.3.2"
+    const val KOIN_ANDROIDX_COMPOSE = "3.4.1"
     const val KOTEST = "5.5.4"
     const val KOTLIN = "1.7.20"
     const val KOTLIN_COROUTINES = "1.6.4"
@@ -93,7 +94,7 @@ object Dependencies {
     object Koin {
         const val CORE = "io.insert-koin:koin-core:${Versions.KOIN}"
         const val ANDROID = "io.insert-koin:koin-android:${Versions.KOIN_ANDROID}"
-        const val COMPOSE = "io.insert-koin:koin-androidx-compose:${Versions.KOIN_ANDROID}"
+        const val COMPOSE = "io.insert-koin:koin-androidx-compose:${Versions.KOIN_ANDROIDX_COMPOSE}"
     }
 
     object Ktor {

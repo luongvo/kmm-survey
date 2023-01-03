@@ -3,8 +3,7 @@ package vn.luongvo.kmm.survey.android.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.*
 import androidx.navigation.compose.*
-import vn.luongvo.kmm.survey.android.ui.screens.home.HomeScreen
-import vn.luongvo.kmm.survey.android.ui.screens.home.UserUiModel
+import vn.luongvo.kmm.survey.android.ui.screens.home.*
 import vn.luongvo.kmm.survey.android.ui.screens.login.LoginScreen
 import vn.luongvo.kmm.survey.android.ui.screens.survey.SurveyScreen
 
@@ -12,6 +11,7 @@ import vn.luongvo.kmm.survey.android.ui.screens.survey.SurveyScreen
 fun AppNavigation(
     navController: NavHostController = rememberNavController(),
     startDestination: String = AppDestination.Login.destination,
+    sharedHomeViewModel: HomeViewModel,
     onDrawerUiStateChange: (UserUiModel?) -> Unit = {},
     onOpenDrawer: () -> Unit = {}
 ) {
@@ -26,6 +26,7 @@ fun AppNavigation(
         }
         composable(AppDestination.Home) {
             HomeScreen(
+                viewModel = sharedHomeViewModel,
                 navigator = { destination -> navController.navigate(destination) },
                 onDrawerUiStateChange = onDrawerUiStateChange,
                 onOpenDrawer = onOpenDrawer
