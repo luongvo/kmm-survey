@@ -11,7 +11,7 @@ interface AuthRepository {
 
     fun saveToken(token: Token)
 
-    fun clearToken()
+    fun clearLocalToken()
 
     val isLoggedIn: Flow<Boolean>
 

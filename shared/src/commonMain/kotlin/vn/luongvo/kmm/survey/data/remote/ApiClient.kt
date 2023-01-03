@@ -5,6 +5,7 @@ import io.github.aakira.napier.*
 import io.github.aakira.napier.LogLevel
 import io.ktor.client.*
 import io.ktor.client.engine.*
+import io.ktor.client.plugins.*
 import io.ktor.client.plugins.auth.*
 import io.ktor.client.plugins.auth.providers.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -72,6 +73,13 @@ class ApiClient(
                 }
             }
         }
+    }
+
+    fun clearToken() {
+        httpClient.plugin(Auth).providers
+            .filterIsInstance<BearerAuthProvider>()
+            .firstOrNull()
+            ?.clearToken()
     }
 
     suspend inline fun <reified T> get(path: String): T =
