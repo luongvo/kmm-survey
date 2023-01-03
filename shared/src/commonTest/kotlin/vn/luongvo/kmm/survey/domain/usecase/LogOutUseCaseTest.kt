@@ -35,6 +35,10 @@ class LogOutUseCaseTest {
             awaitItem() shouldBe Unit
             awaitComplete()
         }
+
+        verify(mockRepository)
+            .function(mockRepository::clearToken)
+            .wasInvoked(exactly = 1.time)
     }
 
     @Test
@@ -50,5 +54,9 @@ class LogOutUseCaseTest {
         useCase().test {
             awaitError() shouldBe throwable
         }
+
+        verify(mockRepository)
+            .function(mockRepository::clearToken)
+            .wasNotInvoked()
     }
 }

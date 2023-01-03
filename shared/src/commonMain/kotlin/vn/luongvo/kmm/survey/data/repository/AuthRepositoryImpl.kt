@@ -31,6 +31,10 @@ class AuthRepositoryImpl(
         tokenLocalDataSource.saveToken(token)
     }
 
+    override fun clearToken() {
+        tokenLocalDataSource.clear()
+    }
+
     override val isLoggedIn: Flow<Boolean>
         get() = flowOf(
             tokenLocalDataSource.tokenType.isNotBlank() && tokenLocalDataSource.accessToken.isNotBlank()

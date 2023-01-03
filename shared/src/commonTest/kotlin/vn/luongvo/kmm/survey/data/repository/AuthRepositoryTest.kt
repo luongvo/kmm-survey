@@ -166,4 +166,13 @@ class AuthRepositoryTest {
             awaitError() shouldBe throwable
         }
     }
+
+    @Test
+    fun `when calling clearToken - it executes the local data source`() = runTest {
+        repository.clearToken()
+
+        verify(mockTokenLocalDataSource)
+            .function(mockTokenLocalDataSource::clear)
+            .wasInvoked(exactly = 1.time)
+    }
 }
