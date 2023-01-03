@@ -89,6 +89,11 @@ class ApiClient(
                 contentType(ContentType.Application.Json)
             }
         ).bodyAsText()
+
+        // Ignore JSON:API parsing with Unit response
+        if (Unit is T) {
+            return Unit
+        }
         return JsonApi(json).decodeFromJsonApiString(body)
     }
 }
