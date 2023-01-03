@@ -1,4 +1,4 @@
-package vn.luongvo.kmm.survey.android.ui.screens.home.views
+package vn.luongvo.kmm.survey.android.ui.common
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material.*
