@@ -12,4 +12,6 @@ interface AuthRepository {
     fun saveToken(token: Token)
 
     val isLoggedIn: Flow<Boolean>
+
+    fun logOut(): Flow<Unit>
 }
