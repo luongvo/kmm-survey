@@ -15,8 +15,7 @@ import vn.luongvo.kmm.survey.android.test.Fake.surveys
 import vn.luongvo.kmm.survey.android.test.Fake.user
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.util.DateFormatter
-import vn.luongvo.kmm.survey.domain.usecase.GetSurveysUseCase
-import vn.luongvo.kmm.survey.domain.usecase.GetUserProfileUseCase
+import vn.luongvo.kmm.survey.domain.usecase.*
 
 @ExperimentalCoroutinesApi
 class HomeViewModelTest {
@@ -26,6 +25,7 @@ class HomeViewModelTest {
 
     private val mockGetUserProfileUseCase: GetUserProfileUseCase = mockk()
     private val mockGetSurveysUseCase: GetSurveysUseCase = mockk()
+    private val mockLogOutUseCase: LogOutUseCase = mockk()
     private val mockDateFormatter: DateFormatter = mockk()
 
     private lateinit var viewModel: HomeViewModel
@@ -34,11 +34,13 @@ class HomeViewModelTest {
     fun setUp() {
         every { mockGetUserProfileUseCase() } returns flowOf(user)
         every { mockGetSurveysUseCase(any(), any()) } returns flowOf(surveys)
+        every { mockLogOutUseCase() } returns flowOf(Unit)
         every { mockDateFormatter.format(any(), any()) } returns "Thursday, December 29"
 
         viewModel = HomeViewModel(
             mockGetUserProfileUseCase,
             mockGetSurveysUseCase,
+            mockLogOutUseCase,
             mockDateFormatter
         )
     }

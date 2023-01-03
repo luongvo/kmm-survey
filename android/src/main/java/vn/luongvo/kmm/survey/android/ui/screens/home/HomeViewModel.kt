@@ -6,8 +6,7 @@ import kotlinx.coroutines.launch
 import vn.luongvo.kmm.survey.android.ui.base.BaseViewModel
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.util.DateFormatter
-import vn.luongvo.kmm.survey.domain.usecase.GetSurveysUseCase
-import vn.luongvo.kmm.survey.domain.usecase.GetUserProfileUseCase
+import vn.luongvo.kmm.survey.domain.usecase.*
 import java.util.*
 
 private const val HeaderDateFormat = "EEEE, MMMM d"
@@ -17,6 +16,7 @@ private const val SurveyPageSize = 10
 class HomeViewModel(
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val getSurveysUseCase: GetSurveysUseCase,
+    private val logOutUseCase: LogOutUseCase,
     private val dateFormatter: DateFormatter
 ) : BaseViewModel() {
 
@@ -56,5 +56,14 @@ class HomeViewModel(
         viewModelScope.launch {
             _navigator.emit(AppDestination.Survey.buildDestination(surveyId))
         }
+    }
+
+    fun logOut() {
+        logOutUseCase()
+            .catch { e -> _error.emit(e) }
+            .onEach {
+                // TODO https://github.com/luongvo/kmm-survey/issues/19
+            }
+            .launchIn(viewModelScope)
     }
 }
