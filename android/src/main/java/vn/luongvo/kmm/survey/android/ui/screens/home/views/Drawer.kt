@@ -1,13 +1,14 @@
 package vn.luongvo.kmm.survey.android.ui.screens.home.views
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -59,23 +60,16 @@ fun Drawer(
         Spacer(modifier = Modifier.height(24.dp))
         Divider(color = White20)
         Spacer(modifier = Modifier.height(10.dp))
-        Button(
-            onClick = onLogoutClick,
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = Transparent
-            ),
-            contentPadding = PaddingValues(vertical = dimensions.paddingSmall, horizontal = 0.dp),
-            modifier = modifier.fillMaxWidth(),
-            elevation = null
-        ) {
-            Text(
-                text = stringResource(id = R.string.home_logout),
-                color = White50,
-                style = typography.body1.copy(fontSize = 20.sp),
-                textAlign = TextAlign.Start,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
+        Text(
+            text = stringResource(id = R.string.home_logout),
+            color = White50,
+            style = typography.body1.copy(fontSize = 20.sp),
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onLogoutClick() }
+                .padding(vertical = dimensions.paddingSmall)
+        )
         Spacer(modifier = Modifier.weight(1f))
         Text(
             text = "v${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",

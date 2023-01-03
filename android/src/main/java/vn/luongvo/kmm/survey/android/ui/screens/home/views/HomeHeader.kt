@@ -1,12 +1,12 @@
 package vn.luongvo.kmm.survey.android.ui.screens.home.views
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,24 +50,15 @@ fun HomeHeader(
                 style = typography.h4,
                 modifier = Modifier.placeholder(isLoading = isLoading)
             )
-            Button(
-                onClick = onUserAvatarClick,
-                modifier = Modifier.size(dimensions.avatarSize),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.Transparent
-                ),
-                elevation = null
-            ) {
-                AsyncImage(
-                    model = user?.avatarUrl.orEmpty(),
-                    contentDescription = HomeUserAvatar,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(CircleShape)
-                        .placeholder(isLoading = isLoading)
-                )
-            }
+            AsyncImage(
+                model = user?.avatarUrl.orEmpty(),
+                contentDescription = HomeUserAvatar,
+                modifier = Modifier
+                    .size(dimensions.avatarSize)
+                    .clip(CircleShape)
+                    .placeholder(isLoading = isLoading)
+                    .clickable { onUserAvatarClick() }
+            )
         }
     }
 }
