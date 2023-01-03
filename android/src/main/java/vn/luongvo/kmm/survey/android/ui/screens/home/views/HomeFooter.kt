@@ -16,6 +16,7 @@ import vn.luongvo.kmm.survey.android.extension.placeholder
 import vn.luongvo.kmm.survey.android.ui.common.NextCircleButton
 import vn.luongvo.kmm.survey.android.ui.providers.LoadingParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.home.HomeSurveyDetail
+import vn.luongvo.kmm.survey.android.ui.screens.home.SurveyUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
@@ -25,9 +26,9 @@ import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 fun HomeFooter(
     pagerState: PagerState,
     isLoading: Boolean,
-    title: String,
-    description: String,
-    modifier: Modifier
+    survey: SurveyUiModel?,
+    modifier: Modifier,
+    onSurveyClick: (SurveyUiModel?) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -39,8 +40,8 @@ fun HomeFooter(
         } else {
             HomeFooterContent(
                 pagerState = pagerState,
-                title = title,
-                description = description
+                survey = survey,
+                onSurveyClick = onSurveyClick
             )
         }
     }
@@ -50,8 +51,8 @@ fun HomeFooter(
 @Composable
 private fun HomeFooterContent(
     pagerState: PagerState,
-    title: String,
-    description: String
+    survey: SurveyUiModel?,
+    onSurveyClick: (SurveyUiModel?) -> Unit
 ) {
     HorizontalPagerIndicator(
         pagerState = pagerState,
@@ -59,12 +60,12 @@ private fun HomeFooterContent(
         inactiveColor = White20,
         modifier = Modifier.padding(vertical = dimensions.paddingLarge),
     )
-    Crossfade(targetState = title) {
+    Crossfade(targetState = survey?.title) {
         Text(
-            text = it,
+            text = it.orEmpty(),
             color = White,
             style = typography.h5,
-            maxLines = 4,
+            maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
     }
@@ -74,11 +75,11 @@ private fun HomeFooterContent(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Crossfade(
-            targetState = description,
+            targetState = survey?.description,
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = it,
+                text = it.orEmpty(),
                 color = White70,
                 style = typography.body1,
                 maxLines = 2,
@@ -87,9 +88,7 @@ private fun HomeFooterContent(
         }
         Spacer(modifier = Modifier.width(dimensions.paddingMedium))
         NextCircleButton(
-            onClick = {
-                // TODO navigate to Survey Detail screen
-            },
+            onClick = { onSurveyClick(survey) },
             contentDescription = HomeSurveyDetail
         )
     }
@@ -138,9 +137,13 @@ fun HomeFooterPreview(
         HomeFooter(
             pagerState = rememberPagerState(),
             isLoading = isLoading,
-            title = "ibis Bangkok Riverside",
-            description = "We'd love to hear from you!",
+            survey = SurveyUiModel(
+                id = "1",
+                title = "Scarlett Bangkok",
+                description = "We'd love to hear from you!",
+                coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
+            ),
             modifier = Modifier.wrapContentHeight()
-        )
+        ) {}
     }
 }

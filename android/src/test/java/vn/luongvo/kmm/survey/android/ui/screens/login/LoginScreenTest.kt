@@ -113,7 +113,7 @@ class LoginScreenTest {
                 )
             }
         }
-        testBody.invoke(composeRule)
+        testBody(composeRule)
     }
 
     private fun ComposeContentTestRule.waitForAnimationEnd() {
