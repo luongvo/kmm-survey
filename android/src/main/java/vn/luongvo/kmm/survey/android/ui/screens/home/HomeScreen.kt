@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.pager.*
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.ui.common.DimmedImageBackground
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
@@ -39,11 +40,12 @@ fun HomeScreen(
 
     val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current
-    LaunchedEffect(error) {
-        error?.let {
+    val scope = rememberCoroutineScope()
+    error?.let {
+        scope.launch {
             scaffoldState.snackbarHostState.showSnackbar(message = it.userReadableMessage(context))
-            viewModel.clearError()
         }
+        viewModel.clearError()
     }
 
     LaunchedEffect(viewModel.navigator) {

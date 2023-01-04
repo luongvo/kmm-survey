@@ -39,11 +39,12 @@ fun SurveyScreen(
 
     val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current
-    LaunchedEffect(error) {
-        error?.let {
+    val scope = rememberCoroutineScope()
+    error?.let {
+        scope.launch {
             scaffoldState.snackbarHostState.showSnackbar(message = it.userReadableMessage(context))
-            viewModel.clearError()
         }
+        viewModel.clearError()
     }
 
     LaunchedEffect(Unit) {
