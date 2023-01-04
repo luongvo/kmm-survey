@@ -29,7 +29,6 @@ const val HomeSurveyDetail = "HomeSurveyDetail"
 fun HomeScreen(
     viewModel: HomeViewModel = getViewModel(),
     navigator: (destination: AppDestination) -> Unit,
-    onDrawerUiStateChange: (UserUiModel?) -> Unit,
     onOpenDrawer: () -> Unit
 ) {
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
@@ -55,8 +54,6 @@ fun HomeScreen(
     LaunchedEffect(Unit) {
         viewModel.init()
     }
-
-    onDrawerUiStateChange(user)
 
     HomeScreenContent(
         scaffoldState = scaffoldState,

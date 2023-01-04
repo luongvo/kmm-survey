@@ -14,6 +14,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
@@ -27,6 +29,7 @@ import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.colors
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun MainScreen(
     viewModel: HomeViewModel = getViewModel(),
@@ -34,7 +37,7 @@ fun MainScreen(
 ) {
     val drawerState = rememberDrawerState(initialDrawerValue)
     val scope = rememberCoroutineScope()
-    var user by remember { mutableStateOf<UserUiModel?>(null) }
+    val user by viewModel.user.collectAsStateWithLifecycle()
 
     RtlModalDrawer(
         drawerState = drawerState,
@@ -53,9 +56,6 @@ fun MainScreen(
     ) {
         AppNavigation(
             sharedHomeViewModel = viewModel,
-            onDrawerUiStateChange = {
-                user = it
-            },
             onOpenDrawer = {
                 scope.launch {
                     drawerState.open()
