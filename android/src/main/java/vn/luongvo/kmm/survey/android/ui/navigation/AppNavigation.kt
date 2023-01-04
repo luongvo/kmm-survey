@@ -16,6 +16,7 @@ fun AppNavigation(
     onOpenDrawer: () -> Unit = {}
 ) {
     NavHost(
+        route = AppDestination.Root.route,
         navController = navController,
         startDestination = startDestination
     ) {
@@ -61,8 +62,18 @@ private fun NavHostController.navigate(destination: AppDestination) {
             route = destination.destination,
             navOptions {
                 popUpTo(
-                    route = AppDestination.Login.route
-                ) { inclusive = true }
+                    route = AppDestination.Root.route
+                ) { inclusive = false }
+                launchSingleTop = true
+            }
+        )
+        is AppDestination.Login -> navigate(
+            route = destination.destination,
+            navOptions {
+                popUpTo(
+                    route = AppDestination.Root.route
+                ) { inclusive = false }
+                launchSingleTop = true
             }
         )
         else -> navigate(route = destination.destination)
