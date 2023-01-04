@@ -115,4 +115,24 @@ class HomeViewModelTest {
             expectMostRecentItem() shouldBe AppDestination.Survey
         }
     }
+
+    @Test
+    fun `when logging out successfully, it navigates the user back to the Login screen`() = runTest {
+        viewModel.navigator.test {
+            viewModel.logOut()
+
+            expectMostRecentItem() shouldBe AppDestination.Login
+        }
+    }
+
+    @Test
+    fun `when logging out fails, it shows the corresponding error`() = runTest {
+        val error = Exception()
+        every { mockLogOutUseCase() } returns flow { throw error }
+        viewModel.logOut()
+
+        viewModel.error.test {
+            awaitItem() shouldBe error
+        }
+    }
 }

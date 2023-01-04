@@ -116,7 +116,6 @@ class HomeScreenTest {
                     navigator = { destination ->
                         expectedAppDestination = destination
                     },
-                    onDrawerUiStateChange = {},
                     onOpenDrawer = {}
                 )
             }
