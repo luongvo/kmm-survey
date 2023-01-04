@@ -16,4 +16,10 @@ class SurveyRepositoryImpl(
             .getSurveys(pageNumber = pageNumber, pageSize = pageSize)
             .map { it.toSurvey() }
     }
+
+    override fun getSurveyDetail(id: String): Flow<Survey> = flowTransform {
+        surveyRemoteDataSource
+            .getSurveyDetail(id = id)
+            .toSurvey()
+    }
 }

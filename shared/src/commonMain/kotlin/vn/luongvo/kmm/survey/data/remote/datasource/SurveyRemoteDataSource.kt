@@ -6,6 +6,8 @@ import vn.luongvo.kmm.survey.data.remote.model.response.SurveyResponse
 interface SurveyRemoteDataSource {
 
     suspend fun getSurveys(pageNumber: Int, pageSize: Int): List<SurveyResponse>
+
+    suspend fun getSurveyDetail(id: String): SurveyResponse
 }
 
 class SurveyRemoteDataSourceImpl(private val apiClient: ApiClient) : SurveyRemoteDataSource {
@@ -13,6 +15,12 @@ class SurveyRemoteDataSourceImpl(private val apiClient: ApiClient) : SurveyRemot
     override suspend fun getSurveys(pageNumber: Int, pageSize: Int): List<SurveyResponse> {
         return apiClient.get(
             path = "/v1/surveys?page[number]=$pageNumber&page[size]=$pageSize"
+        )
+    }
+
+    override suspend fun getSurveyDetail(id: String): SurveyResponse {
+        return apiClient.get(
+            path = "/v1/surveys/$id"
         )
     }
 }

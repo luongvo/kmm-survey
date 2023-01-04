@@ -7,6 +7,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import vn.luongvo.kmm.survey.data.remote.datasource.SurveyRemoteDataSource
 import vn.luongvo.kmm.survey.domain.repository.SurveyRepository
+import vn.luongvo.kmm.survey.test.Fake.surveyDetail
+import vn.luongvo.kmm.survey.test.Fake.surveyDetailResponse
 import vn.luongvo.kmm.survey.test.Fake.surveyResponses
 import vn.luongvo.kmm.survey.test.Fake.surveys
 import kotlin.test.BeforeTest
@@ -49,6 +51,34 @@ class SurveyRepositoryTest {
             .thenThrow(throwable)
 
         repository.getSurveys(pageNumber = 1, pageSize = 10).test {
+            awaitError() shouldBe throwable
+        }
+    }
+
+    @Test
+    fun `when calling getSurveyDetail successfully - it returns the survey detail`() = runTest {
+        println(surveyDetailResponse)
+
+        given(mockDataSource)
+            .suspendFunction(mockDataSource::getSurveyDetail)
+            .whenInvokedWith(any())
+            .thenReturn(surveyDetailResponse)
+
+        repository.getSurveyDetail(id = "id").test {
+            awaitItem() shouldBe surveyDetail
+            awaitComplete()
+        }
+    }
+
+    @Test
+    fun `when calling getSurveyDetail fails - it throws the corresponding error`() = runTest {
+        val throwable = Throwable()
+        given(mockDataSource)
+            .suspendFunction(mockDataSource::getSurveyDetail)
+            .whenInvokedWith(any())
+            .thenThrow(throwable)
+
+        repository.getSurveyDetail(id = "id").test {
             awaitError() shouldBe throwable
         }
     }
