@@ -23,7 +23,8 @@ fun SurveyQuestion(
     count: Int,
     question: QuestionUiModel,
     onCloseClick: () -> Unit,
-    onNextClick: () -> Unit
+    onNextClick: () -> Unit,
+    onSubmitClick: () -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -54,7 +55,7 @@ fun SurveyQuestion(
                 color = White50,
                 style = AppTheme.typography.body2
             )
-            Spacer(modifier = Modifier.height(dimensions.paddingSmallest))
+            Spacer(modifier = Modifier.height(dimensions.paddingTiny))
             Text(
                 text = question.text,
                 color = Color.White,
@@ -66,17 +67,17 @@ fun SurveyQuestion(
                     onClick = onNextClick,
                     modifier = Modifier
                         .align(Alignment.End)
-                        .padding(bottom = dimensions.paddingLargest)
+                        .padding(bottom = dimensions.paddingHuge)
                         .semantics { this.contentDescription = SurveyNextButton + index }
                 )
             } else {
                 PrimaryButton(
                     text = stringResource(id = R.string.survey_submit),
-                    onClick = onNextClick,
+                    onClick = onSubmitClick,
                     modifier = Modifier
                         .wrapContentWidth()
                         .align(Alignment.End)
-                        .padding(bottom = dimensions.paddingLargest)
+                        .padding(bottom = dimensions.paddingHuge)
                 )
             }
         }
@@ -95,7 +96,8 @@ fun SurveyQuestionPreview() {
                 coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l"
             ),
             onCloseClick = {},
-            onNextClick = {}
+            onNextClick = {},
+            onSubmitClick = {}
         )
     }
 }

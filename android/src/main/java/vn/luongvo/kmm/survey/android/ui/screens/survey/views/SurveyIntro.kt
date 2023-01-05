@@ -64,7 +64,7 @@ fun SurveyIntro(
                 modifier = Modifier
                     .wrapContentWidth()
                     .align(Alignment.End)
-                    .padding(bottom = AppTheme.dimensions.paddingLargest)
+                    .padding(bottom = AppTheme.dimensions.paddingHuge)
             )
         }
     }
