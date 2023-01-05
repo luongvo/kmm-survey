@@ -27,6 +27,7 @@ fun SurveyScreen(
     }
 
     SurveyScreenContent(
+        // TODO fake data, implement in https://github.com/luongvo/kmm-survey/pull/69
         questions = listOf(
             QuestionUiModel(text = "How fulfilled did you feel during this WFH period?"),
             QuestionUiModel(text = "How did WFH change your productivity?"),
