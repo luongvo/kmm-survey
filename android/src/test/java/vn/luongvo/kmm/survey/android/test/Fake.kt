@@ -1,8 +1,23 @@
 package vn.luongvo.kmm.survey.android.test
 
+import co.nimblehq.jsonapi.json.JsonApi
+import kotlinx.serialization.json.Json
+import vn.luongvo.kmm.survey.data.remote.model.response.SurveyResponse
+import vn.luongvo.kmm.survey.data.remote.model.response.toSurvey
 import vn.luongvo.kmm.survey.domain.model.*
 
 object Fake {
+
+    private val json = Json {
+        prettyPrint = true
+        isLenient = true
+        encodeDefaults = true
+        ignoreUnknownKeys = true
+    }
+
+    private inline fun <reified T> decodeFromJsonApiString(path: String): T {
+        return JsonApi(json).decodeFromJsonApiString(Resource(path).readText())
+    }
 
     val token = Token(
         tokenType = "tokenType",
@@ -33,5 +48,5 @@ object Fake {
         )
     )
 
-    val survey = surveys[0]
+    val surveyDetail = decodeFromJsonApiString<SurveyResponse>("survey_detail.json").toSurvey()
 }

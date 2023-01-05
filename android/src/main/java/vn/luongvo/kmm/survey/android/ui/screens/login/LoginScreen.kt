@@ -226,7 +226,7 @@ private fun LoginForm(
             onClick = onLogInClick,
             modifier = Modifier
                 .fillMaxWidth()
-                .semantics { this.contentDescription = LoginButton },
+                .semantics { contentDescription = LoginButton },
         )
     }
 }

@@ -7,17 +7,19 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.*
 import org.junit.Assert.assertEquals
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import vn.luongvo.kmm.survey.android.R
-import vn.luongvo.kmm.survey.android.test.Fake.survey
+import vn.luongvo.kmm.survey.android.test.Fake.surveyDetail
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.domain.usecase.*
 
+@Suppress("MagicNumber")
 @RunWith(AndroidJUnit4::class)
 class SurveyScreenTest {
 
@@ -33,7 +35,7 @@ class SurveyScreenTest {
 
     @Before
     fun setup() {
-        every { mockGetSurveyDetailUseCase(any()) } returns flowOf(survey)
+        every { mockGetSurveyDetailUseCase(any()) } returns flowOf(surveyDetail)
 
         viewModel = SurveyViewModel(
             mockGetSurveyDetailUseCase
@@ -48,11 +50,31 @@ class SurveyScreenTest {
     @Test
     fun `when entering the Survey screen, it shows UI correctly`() = initComposable {
         onNodeWithContentDescription(SurveyBackButton).assertIsDisplayed()
-
         onNodeWithText("Scarlett Bangkok").assertIsDisplayed()
         onNodeWithText("We'd love to hear from you!").assertIsDisplayed()
+        onNodeWithText(context.getString(R.string.survey_start)).assertIsDisplayed().performClick()
 
-        onNodeWithText(context.getString(R.string.survey_start)).assertIsDisplayed()
+        testSurveyQuestionPage(1, "Food â€“ Variety, Taste and Presentation")
+
+        testSurveyQuestionPage(2, "Beverages â€“ Variety, Taste and Presentation")
+
+        testSurveyQuestionPage(3, "Quality of Service, Speed and Efficiency")
+
+        testSurveyQuestionPage(4, "Staff- Friendliness and Helpfulness")
+
+        testSurveyQuestionPage(5, "Restaurant Design and Atmosphere")
+
+        testSurveyQuestionPage(6, "Overall Satisfaction")
+
+        testSurveyQuestionPage(7, "How did you hear about us?")
+
+        testSurveyQuestionPage(8, "How likely is that you would recommend\nScarlett to a friend or colleague?")
+
+        testSurveyQuestionPage(9, "Your additional comments are welcomed.")
+
+        testSurveyQuestionPage(10, "Don't miss out on our Exclusive Promotions!")
+
+        testSurveyQuestionPage(11, "Thank you for taking the time to share your feedback!")
     }
 
     @Test
@@ -60,6 +82,27 @@ class SurveyScreenTest {
         onNodeWithContentDescription(SurveyBackButton).performClick()
 
         assertEquals(expectedAppDestination, AppDestination.Up)
+    }
+
+    @Test
+    fun `when getting survey detail fails, it shows an error message`() {
+        val expectedError = Throwable("unexpected error")
+        every { mockGetSurveyDetailUseCase(any()) } returns flow { throw expectedError }
+
+        initComposable {
+            onNodeWithText("unexpected error").assertIsDisplayed()
+        }
+    }
+
+    private fun ComposeContentTestRule.testSurveyQuestionPage(index: Int, questionTitle: String) {
+        onNodeWithContentDescription(SurveyCloseButton + index).assertIsDisplayed()
+        onNodeWithText("$index/11").assertIsDisplayed()
+        onNodeWithText(questionTitle).assertIsDisplayed()
+        if (index < 11) {
+            onNodeWithContentDescription(SurveyNextButton + index).assertIsDisplayed().performClick()
+        } else {
+            onNodeWithText(context.getString(R.string.survey_submit)).assertIsDisplayed().performClick()
+        }
     }
 
     private fun initComposable(testBody: ComposeContentTestRule.() -> Unit) {

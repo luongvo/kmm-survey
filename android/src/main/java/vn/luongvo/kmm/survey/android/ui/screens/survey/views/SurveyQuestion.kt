@@ -7,11 +7,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
-import vn.luongvo.kmm.survey.android.ui.screens.survey.QuestionUiModel
+import vn.luongvo.kmm.survey.android.ui.screens.survey.*
 import vn.luongvo.kmm.survey.android.ui.theme.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 
@@ -28,15 +30,15 @@ fun SurveyQuestion(
         modifier = Modifier.fillMaxSize()
     ) {
         DimmedImageBackground(
-            // TODO fetch survey detail https://github.com/luongvo/kmm-survey/issues/23
-            imageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l"
+            imageUrl = question.coverImageUrl
         )
 
         CloseButton(
             modifier = Modifier
                 .statusBarsPadding()
                 .align(Alignment.TopEnd)
-                .padding(vertical = dimensions.paddingMedium, horizontal = dimensions.paddingSmall),
+                .padding(vertical = dimensions.paddingMedium, horizontal = dimensions.paddingSmall)
+                .semantics { contentDescription = SurveyCloseButton + index },
             onClick = onCloseClick
         )
 
@@ -66,6 +68,7 @@ fun SurveyQuestion(
                     modifier = Modifier
                         .align(Alignment.End)
                         .padding(bottom = dimensions.paddingHuge)
+                        .semantics { contentDescription = SurveyNextButton + index }
                 )
             } else {
                 PrimaryButton(
@@ -88,7 +91,10 @@ fun SurveyQuestionPreview() {
         SurveyQuestion(
             index = 1,
             count = 5,
-            question = QuestionUiModel(text = "How fulfilled did you feel during this WFH period?"),
+            question = QuestionUiModel(
+                text = "How fulfilled did you feel during this WFH period?",
+                coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l"
+            ),
             onCloseClick = {},
             onNextClick = {},
             onSubmitClick = {}
