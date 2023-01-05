@@ -53,7 +53,7 @@ fun SurveyQuestion(
                 color = White50,
                 style = AppTheme.typography.body2
             )
-            Spacer(modifier = Modifier.height(dimensions.paddingSmallest))
+            Spacer(modifier = Modifier.height(dimensions.paddingTiny))
             Text(
                 text = question.text,
                 color = Color.White,
@@ -65,7 +65,7 @@ fun SurveyQuestion(
                     onClick = onNextClick,
                     modifier = Modifier
                         .align(Alignment.End)
-                        .padding(bottom = dimensions.paddingLargest)
+                        .padding(bottom = dimensions.paddingHuge)
                 )
             } else {
                 PrimaryButton(
@@ -74,7 +74,7 @@ fun SurveyQuestion(
                     modifier = Modifier
                         .wrapContentWidth()
                         .align(Alignment.End)
-                        .padding(bottom = dimensions.paddingLargest)
+                        .padding(bottom = dimensions.paddingHuge)
                 )
             }
         }

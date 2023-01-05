@@ -115,7 +115,7 @@ private fun HomeScreenContent(
                 modifier = Modifier
                     .navigationBarsPadding()
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = dimensions.paddingLargest),
+                    .padding(bottom = dimensions.paddingHuge),
                 onSurveyClick = onSurveyClick
             )
         }
