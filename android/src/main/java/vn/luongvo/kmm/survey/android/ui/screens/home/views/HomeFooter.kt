@@ -91,7 +91,7 @@ private fun HomeFooterContent(
         Spacer(modifier = Modifier.width(dimensions.paddingMedium))
         NextCircleButton(
             onClick = { onSurveyClick(survey) },
-            modifier = Modifier.semantics { this.contentDescription = HomeSurveyDetail }
+            modifier = Modifier.semantics { contentDescription = HomeSurveyDetail }
         )
     }
 }

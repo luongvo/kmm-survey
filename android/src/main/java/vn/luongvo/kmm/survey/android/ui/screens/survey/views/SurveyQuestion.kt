@@ -38,7 +38,7 @@ fun SurveyQuestion(
                 .statusBarsPadding()
                 .align(Alignment.TopEnd)
                 .padding(vertical = dimensions.paddingMedium, horizontal = dimensions.paddingSmall)
-                .semantics { this.contentDescription = SurveyCloseButton + index },
+                .semantics { contentDescription = SurveyCloseButton + index },
             onClick = onCloseClick
         )
 
@@ -68,7 +68,7 @@ fun SurveyQuestion(
                     modifier = Modifier
                         .align(Alignment.End)
                         .padding(bottom = dimensions.paddingHuge)
-                        .semantics { this.contentDescription = SurveyNextButton + index }
+                        .semantics { contentDescription = SurveyNextButton + index }
                 )
             } else {
                 PrimaryButton(

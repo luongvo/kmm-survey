@@ -34,7 +34,7 @@ fun SurveyIntro(
             modifier = Modifier
                 .statusBarsPadding()
                 .padding(vertical = 5.dp)
-                .semantics { this.contentDescription = SurveyBackButton },
+                .semantics { contentDescription = SurveyBackButton },
             onClick = onBackClick
         )
 
