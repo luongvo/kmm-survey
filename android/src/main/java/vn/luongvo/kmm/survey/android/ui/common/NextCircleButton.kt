@@ -16,7 +16,7 @@ import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 @Composable
 fun NextCircleButton(
     onClick: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Image(
         painter = painterResource(id = R.drawable.ic_arrow_right),
@@ -34,7 +34,6 @@ fun NextCircleButton(
 @Composable
 fun NextCircleButtonPreview() {
     NextCircleButton(
-        onClick = {},
-        modifier = Modifier
+        onClick = {}
     )
 }

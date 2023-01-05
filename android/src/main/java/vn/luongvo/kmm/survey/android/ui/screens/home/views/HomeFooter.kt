@@ -29,7 +29,7 @@ fun HomeFooter(
     pagerState: PagerState,
     isLoading: Boolean,
     survey: SurveyUiModel?,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onSurveyClick: (SurveyUiModel?) -> Unit
 ) {
     Column(
@@ -144,8 +144,7 @@ fun HomeFooterPreview(
                 title = "Scarlett Bangkok",
                 description = "We'd love to hear from you!",
                 coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
-            ),
-            modifier = Modifier
+            )
         ) {}
     }
 }

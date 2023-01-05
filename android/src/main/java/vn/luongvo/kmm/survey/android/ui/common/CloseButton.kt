@@ -16,7 +16,7 @@ import vn.luongvo.kmm.survey.android.R
 @Composable
 fun CloseButton(
     onClick: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Image(
         painter = painterResource(id = R.drawable.ic_close),
@@ -33,7 +33,6 @@ fun CloseButton(
 @Composable
 fun CloseButtonPreview() {
     CloseButton(
-        onClick = {},
-        modifier = Modifier
+        onClick = {}
     )
 }

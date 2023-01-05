@@ -18,8 +18,8 @@ private const val Rotate180 = 180f
 
 @Composable
 fun BackButton(
-    modifier: Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Image(
         painter = painterResource(id = R.drawable.ic_arrow_right),
