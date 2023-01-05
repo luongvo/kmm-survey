@@ -19,7 +19,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
-import vn.luongvo.kmm.survey.android.BuildConfig
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.RtlModalDrawer
 import vn.luongvo.kmm.survey.android.ui.navigation.AppNavigation
@@ -38,6 +37,7 @@ fun MainScreen(
     val drawerState = rememberDrawerState(initialDrawerValue)
     val scope = rememberCoroutineScope()
     val user by viewModel.user.collectAsStateWithLifecycle()
+    val appVersion by viewModel.appVersion.collectAsStateWithLifecycle()
 
     RtlModalDrawer(
         drawerState = drawerState,
@@ -45,6 +45,7 @@ fun MainScreen(
         drawerContent = {
             Drawer(
                 user = user,
+                appVersion = appVersion,
                 onLogoutClick = {
                     scope.launch {
                         drawerState.close()
@@ -68,6 +69,7 @@ fun MainScreen(
 @Composable
 private fun Drawer(
     user: UserUiModel?,
+    appVersion: String,
     onLogoutClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -113,7 +115,7 @@ private fun Drawer(
         )
         Spacer(modifier = Modifier.weight(1f))
         Text(
-            text = "v${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+            text = appVersion,
             color = White50,
             style = typography.subtitle1.copy(fontSize = 11.sp)
         )
@@ -140,6 +142,7 @@ fun DrawerPreview() {
                 name = "Luong",
                 avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23"
             ),
+            appVersion = "v1.0.0",
             onLogoutClick = {}
         )
     }

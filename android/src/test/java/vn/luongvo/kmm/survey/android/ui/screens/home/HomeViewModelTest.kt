@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.*
 import org.junit.*
+import vn.luongvo.kmm.survey.android.BuildConfig
 import vn.luongvo.kmm.survey.android.test.CoroutineTestRule
 import vn.luongvo.kmm.survey.android.test.Fake.surveys
 import vn.luongvo.kmm.survey.android.test.Fake.user
@@ -46,11 +47,14 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `when loading Home screen, it shows the current date time`() = runTest {
+    fun `when loading Home screen, it shows the current date & app version`() = runTest {
         viewModel.init()
 
         viewModel.currentDate.test {
             expectMostRecentItem() shouldBe "Thursday, December 29"
+        }
+        viewModel.appVersion.test {
+            expectMostRecentItem() shouldBe "v${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
         }
     }
 
