@@ -70,13 +70,8 @@ private fun SurveyScreenContent(
                 count = questions.size,
                 question = questions[index - 1],
                 onCloseClick = onBackClick,
-                onNextClick = {
-                    if (index != questions.size) {
-                        pagerState.scrollToNextPage(scope)
-                    } else {
-                        onSubmitClick()
-                    }
-                }
+                onNextClick = { pagerState.scrollToNextPage(scope) },
+                onSubmitClick = onSubmitClick
             )
         }
     }

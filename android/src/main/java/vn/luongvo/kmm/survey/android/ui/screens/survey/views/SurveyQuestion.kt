@@ -21,7 +21,8 @@ fun SurveyQuestion(
     count: Int,
     question: QuestionUiModel,
     onCloseClick: () -> Unit,
-    onNextClick: () -> Unit
+    onNextClick: () -> Unit,
+    onSubmitClick: () -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -69,7 +70,7 @@ fun SurveyQuestion(
             } else {
                 PrimaryButton(
                     text = stringResource(id = R.string.survey_submit),
-                    onClick = onNextClick,
+                    onClick = onSubmitClick,
                     modifier = Modifier
                         .wrapContentWidth()
                         .align(Alignment.End)
@@ -89,7 +90,8 @@ fun SurveyQuestionPreview() {
             count = 5,
             question = QuestionUiModel(text = "How fulfilled did you feel during this WFH period?"),
             onCloseClick = {},
-            onNextClick = {}
+            onNextClick = {},
+            onSubmitClick = {}
         )
     }
 }
