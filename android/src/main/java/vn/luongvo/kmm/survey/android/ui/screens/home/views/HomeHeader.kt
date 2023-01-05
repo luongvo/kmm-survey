@@ -25,7 +25,7 @@ fun HomeHeader(
     isLoading: Boolean,
     dateTime: String,
     avatarUrl: String,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.padding(horizontal = dimensions.paddingMedium)
@@ -68,8 +68,7 @@ fun HomeHeaderPreview(
         HomeHeader(
             isLoading = isLoading,
             dateTime = "Monday, JUNE 15",
-            avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23",
-            modifier = Modifier.wrapContentHeight()
+            avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23"
         )
     }
 }

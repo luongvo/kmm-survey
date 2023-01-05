@@ -7,6 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -27,7 +29,7 @@ fun HomeFooter(
     pagerState: PagerState,
     isLoading: Boolean,
     survey: SurveyUiModel?,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onSurveyClick: (SurveyUiModel?) -> Unit
 ) {
     Column(
@@ -89,7 +91,7 @@ private fun HomeFooterContent(
         Spacer(modifier = Modifier.width(dimensions.paddingMedium))
         NextCircleButton(
             onClick = { onSurveyClick(survey) },
-            contentDescription = HomeSurveyDetail
+            modifier = Modifier.semantics { this.contentDescription = HomeSurveyDetail }
         )
     }
 }
@@ -142,8 +144,7 @@ fun HomeFooterPreview(
                 title = "Scarlett Bangkok",
                 description = "We'd love to hear from you!",
                 coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
-            ),
-            modifier = Modifier.wrapContentHeight()
+            )
         ) {}
     }
 }

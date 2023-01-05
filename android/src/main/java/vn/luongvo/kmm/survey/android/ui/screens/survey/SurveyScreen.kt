@@ -1,26 +1,18 @@
 package vn.luongvo.kmm.survey.android.ui.screens.survey
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.google.accompanist.pager.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
-import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
-import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
-import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
+import vn.luongvo.kmm.survey.android.ui.screens.survey.views.SurveyIntro
+import vn.luongvo.kmm.survey.android.ui.screens.survey.views.SurveyQuestion
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
-import vn.luongvo.kmm.survey.android.ui.theme.White70
 
 const val SurveyBackButton = "SurveyBackButton"
 
@@ -35,69 +27,60 @@ fun SurveyScreen(
     }
 
     SurveyScreenContent(
+        // TODO fake data, implement in https://github.com/luongvo/kmm-survey/pull/69
+        questions = listOf(
+            QuestionUiModel(text = "How fulfilled did you feel during this WFH period?"),
+            QuestionUiModel(text = "How did WFH change your productivity?"),
+            QuestionUiModel(text = "I have a separate space to work (room or living room)."),
+            QuestionUiModel(text = "Question NPS"),
+            QuestionUiModel(text = "Your contact information")
+        ),
         onBackClick = { navigator(AppDestination.Up) },
-        onStartClick = {
-            // TODO start survey
+        onSubmitClick = {
+            // TODO submit survey
         }
     )
 }
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun SurveyScreenContent(
+    questions: List<QuestionUiModel>,
     onBackClick: () -> Unit,
-    onStartClick: () -> Unit
+    onSubmitClick: () -> Unit
 ) {
-    Box(
+    val pagerState = rememberPagerState()
+    val scope = rememberCoroutineScope()
+
+    HorizontalPager(
+        count = questions.size + 1,
+        state = pagerState,
+        userScrollEnabled = false,
         modifier = Modifier.fillMaxSize()
-    ) {
-        DimmedImageBackground(
-            // TODO fetch survey detail https://github.com/luongvo/kmm-survey/issues/23
-            imageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l"
-        )
-
-        BackButton(
-            modifier = Modifier
-                .statusBarsPadding()
-                .padding(vertical = 5.dp)
-                .semantics { this.contentDescription = SurveyBackButton },
-            onClick = onBackClick
-        )
-
-        Column(
-            modifier = Modifier
-                .statusBarsPadding()
-                .navigationBarsPadding()
-                .fillMaxWidth()
-                .padding(top = 70.dp)
-                .padding(horizontal = dimensions.paddingMedium)
-        ) {
-            Text(
-                // TODO fetch survey detail https://github.com/luongvo/kmm-survey/issues/23
-                text = "Scarlett Bangkok",
-                color = White,
-                style = typography.h4,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+    ) { index ->
+        // TODO use question.displayType instead
+        if (index == 0) {
+            SurveyIntro(
+                onBackClick = onBackClick,
+                onStartClick = { pagerState.scrollToNextPage(scope) }
             )
-            Spacer(modifier = Modifier.height(dimensions.paddingSmall))
-            Text(
-                // TODO fetch survey detail https://github.com/luongvo/kmm-survey/issues/23
-                text = "We'd love to hear from you!",
-                color = White70,
-                style = typography.body1,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            PrimaryButton(
-                text = stringResource(id = R.string.survey_start),
-                onClick = onStartClick,
-                modifier = Modifier
-                    .wrapContentWidth()
-                    .align(Alignment.End)
-                    .padding(bottom = dimensions.paddingLargest)
+        } else {
+            SurveyQuestion(
+                index = index,
+                count = questions.size,
+                question = questions[index - 1],
+                onCloseClick = onBackClick,
+                onNextClick = { pagerState.scrollToNextPage(scope) },
+                onSubmitClick = onSubmitClick
             )
         }
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+private fun PagerState.scrollToNextPage(scope: CoroutineScope) {
+    scope.launch {
+        animateScrollToPage(currentPage + 1)
     }
 }
 
@@ -106,8 +89,11 @@ private fun SurveyScreenContent(
 fun SurveyScreenPreview() {
     ComposeTheme {
         SurveyScreenContent(
+            questions = listOf(
+                QuestionUiModel(text = "How fulfilled did you feel during this WFH period?")
+            ),
             onBackClick = {},
-            onStartClick = {}
+            onSubmitClick = {}
         )
     }
 }

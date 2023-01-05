@@ -5,10 +5,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 class AppDimensions {
+    val paddingTiny: Dp = 8.dp
     val paddingSmall: Dp = 16.dp
     val paddingMedium: Dp = 20.dp
     val paddingLarge: Dp = 24.dp
-    val paddingLargest: Dp = 36.dp
+    val paddingHuge: Dp = 36.dp
 
     val inputHeight: Dp = 56.dp
     val buttonHeight: Dp = 56.dp
