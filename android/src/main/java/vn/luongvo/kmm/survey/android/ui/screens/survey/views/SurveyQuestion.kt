@@ -92,8 +92,10 @@ fun SurveyQuestionPreview() {
             index = 1,
             count = 5,
             question = QuestionUiModel(
+                id = "1",
                 text = "How fulfilled did you feel during this WFH period?",
-                coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l"
+                coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l",
+                answers = null
             ),
             onCloseClick = {},
             onNextClick = {},

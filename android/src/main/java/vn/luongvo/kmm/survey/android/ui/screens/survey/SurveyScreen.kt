@@ -56,9 +56,7 @@ fun SurveyScreen(
         isLoading = isLoading,
         survey = survey,
         onBackClick = { navigator(AppDestination.Up) },
-        onSubmitClick = {
-            // TODO submit survey
-        }
+        onSubmitClick = { viewModel.submitSurvey() }
     )
 }
 
@@ -86,6 +84,7 @@ private fun SurveyScreenContent(
                     .padding(padding)
             ) { index ->
                 // TODO use question.displayType instead
+                val questionCount = questions.size - 1
                 if (index == 0) {
                     SurveyIntro(
                         survey = survey,
@@ -95,7 +94,7 @@ private fun SurveyScreenContent(
                 } else {
                     SurveyQuestion(
                         index = index,
-                        count = questions.size - 1,
+                        count = questionCount,
                         question = questions[index],
                         onCloseClick = onBackClick,
                         onNextClick = { pagerState.scrollToNextPage(scope) },
@@ -137,8 +136,10 @@ fun SurveyScreenPreview(
                 coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_",
                 questions = listOf(
                     QuestionUiModel(
+                        id = "1",
                         text = "How fulfilled did you feel during this WFH period?",
-                        coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l"
+                        coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l",
+                        answers = null
                     )
                 )
             ),

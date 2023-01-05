@@ -14,6 +14,7 @@ import vn.luongvo.kmm.survey.android.test.CoroutineTestRule
 import vn.luongvo.kmm.survey.android.test.Fake.surveyDetail
 import vn.luongvo.kmm.survey.android.ui.screens.home.toUiModel
 import vn.luongvo.kmm.survey.domain.usecase.GetSurveyDetailUseCase
+import vn.luongvo.kmm.survey.domain.usecase.SubmitSurveyUseCase
 
 @ExperimentalCoroutinesApi
 class SurveyViewModelTest {
@@ -22,15 +23,18 @@ class SurveyViewModelTest {
     val coroutinesRule = CoroutineTestRule()
 
     private val mockGetSurveyDetailUseCase: GetSurveyDetailUseCase = mockk()
+    private val mockSubmitSurveyUseCase: SubmitSurveyUseCase = mockk()
 
     private lateinit var viewModel: SurveyViewModel
 
     @Before
     fun setUp() {
         every { mockGetSurveyDetailUseCase(any()) } returns flowOf(surveyDetail)
+        every { mockSubmitSurveyUseCase(any()) } returns flowOf(Unit)
 
         viewModel = SurveyViewModel(
-            mockGetSurveyDetailUseCase
+            mockGetSurveyDetailUseCase,
+            mockSubmitSurveyUseCase
         )
     }
 
