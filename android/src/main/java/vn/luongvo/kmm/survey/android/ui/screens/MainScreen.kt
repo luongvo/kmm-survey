@@ -24,6 +24,7 @@ import vn.luongvo.kmm.survey.android.ui.navigation.AppNavigation
 import vn.luongvo.kmm.survey.android.ui.screens.home.HomeUserAvatar
 import vn.luongvo.kmm.survey.android.ui.screens.home.UserUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.*
+import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.colors
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 
@@ -70,7 +71,7 @@ private fun Drawer(
         modifier
             .statusBarsPadding()
             .fillMaxSize()
-            .background(Nero90)
+            .background(colors.drawerBackground)
             .padding(top = dimensions.paddingSmall)
             .padding(bottom = dimensions.paddingMedium)
             .padding(horizontal = dimensions.paddingMedium)
