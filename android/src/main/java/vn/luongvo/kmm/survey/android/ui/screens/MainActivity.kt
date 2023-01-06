@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
-import vn.luongvo.kmm.survey.android.ui.navigation.AppNavigation
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -15,7 +14,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ComposeTheme {
-                AppNavigation()
+                MainScreen()
             }
         }
     }

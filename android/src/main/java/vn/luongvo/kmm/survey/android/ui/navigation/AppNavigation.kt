@@ -4,13 +4,16 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.*
 import androidx.navigation.compose.*
 import vn.luongvo.kmm.survey.android.ui.screens.home.HomeScreen
+import vn.luongvo.kmm.survey.android.ui.screens.home.UserUiModel
 import vn.luongvo.kmm.survey.android.ui.screens.login.LoginScreen
 import vn.luongvo.kmm.survey.android.ui.screens.survey.SurveyScreen
 
 @Composable
 fun AppNavigation(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = AppDestination.Login.destination
+    startDestination: String = AppDestination.Login.destination,
+    onDrawerUiStateChange: (UserUiModel?) -> Unit = {},
+    onOpenDrawer: () -> Unit = {}
 ) {
     NavHost(
         navController = navController,
@@ -23,7 +26,9 @@ fun AppNavigation(
         }
         composable(AppDestination.Home) {
             HomeScreen(
-                navigator = { destination -> navController.navigate(destination) }
+                navigator = { destination -> navController.navigate(destination) },
+                onDrawerUiStateChange = onDrawerUiStateChange,
+                onOpenDrawer = onOpenDrawer
             )
         }
         composable(AppDestination.Survey) { backStackEntry ->

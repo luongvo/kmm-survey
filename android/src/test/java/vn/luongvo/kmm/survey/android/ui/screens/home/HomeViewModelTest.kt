@@ -44,7 +44,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `when loading Home screen, it shows the current date time and user avatar`() = runTest {
+    fun `when loading Home screen, it shows the current date time`() = runTest {
         viewModel.init()
 
         viewModel.currentDate.test {
@@ -53,11 +53,11 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `when getting user profile successfully, it shows the user avatar`() = runTest {
+    fun `when getting user profile successfully, it shows the user info`() = runTest {
         viewModel.init()
 
-        viewModel.avatarUrl.test {
-            expectMostRecentItem() shouldBe "avatarUrl"
+        viewModel.user.test {
+            expectMostRecentItem() shouldBe user.toUiModel()
         }
     }
 

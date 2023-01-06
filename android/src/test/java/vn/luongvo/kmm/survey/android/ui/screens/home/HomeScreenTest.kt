@@ -112,7 +112,9 @@ class HomeScreenTest {
                     viewModel = viewModel,
                     navigator = { destination ->
                         expectedAppDestination = destination
-                    }
+                    },
+                    onDrawerUiStateChange = {},
+                    onOpenDrawer = {}
                 )
             }
         }

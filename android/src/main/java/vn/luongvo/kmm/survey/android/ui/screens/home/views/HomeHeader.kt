@@ -1,8 +1,9 @@
 package vn.luongvo.kmm.survey.android.ui.screens.home.views
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -16,6 +17,7 @@ import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.extension.placeholder
 import vn.luongvo.kmm.survey.android.ui.providers.LoadingParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.home.HomeUserAvatar
+import vn.luongvo.kmm.survey.android.ui.screens.home.UserUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
@@ -24,7 +26,8 @@ import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 fun HomeHeader(
     isLoading: Boolean,
     dateTime: String,
-    avatarUrl: String,
+    user: UserUiModel?,
+    onUserAvatarClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -48,12 +51,13 @@ fun HomeHeader(
                 modifier = Modifier.placeholder(isLoading = isLoading)
             )
             AsyncImage(
-                model = avatarUrl,
+                model = user?.avatarUrl.orEmpty(),
                 contentDescription = HomeUserAvatar,
                 modifier = Modifier
                     .size(dimensions.avatarSize)
                     .clip(CircleShape)
                     .placeholder(isLoading = isLoading)
+                    .clickable { onUserAvatarClick() }
             )
         }
     }
@@ -68,7 +72,12 @@ fun HomeHeaderPreview(
         HomeHeader(
             isLoading = isLoading,
             dateTime = "Monday, JUNE 15",
-            avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23"
+            user = UserUiModel(
+                email = "luong@nimblehq.co",
+                name = "Luong",
+                avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23"
+            ),
+            onUserAvatarClick = {}
         )
     }
 }

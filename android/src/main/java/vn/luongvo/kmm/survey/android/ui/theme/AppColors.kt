@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 data class AppColors(
     val themeColors: Colors,
 
-    // Custom colors here
+    val drawerBackground: Color = Nero90
 )
 
 internal val LightColorPalette = AppColors(
