@@ -134,4 +134,45 @@ class AuthRepositoryTest {
             awaitComplete()
         }
     }
+
+    @Test
+    fun `when calling logOut successfully - it returns Unit`() = runTest {
+        given(mockAuthRemoteDataSource)
+            .suspendFunction(mockAuthRemoteDataSource::logOut)
+            .whenInvokedWith(any())
+            .thenReturn(Unit)
+        given(mockTokenLocalDataSource)
+            .invocation { mockTokenLocalDataSource.accessToken }
+            .thenReturn("accessToken")
+
+        repository.logOut().test {
+            awaitItem() shouldBe Unit
+            awaitComplete()
+        }
+    }
+
+    @Test
+    fun `when calling logOut fails - it throws the corresponding error`() = runTest {
+        val throwable = Throwable()
+        given(mockAuthRemoteDataSource)
+            .suspendFunction(mockAuthRemoteDataSource::logOut)
+            .whenInvokedWith(any())
+            .thenThrow(throwable)
+        given(mockTokenLocalDataSource)
+            .invocation { mockTokenLocalDataSource.accessToken }
+            .thenReturn("accessToken")
+
+        repository.logOut().test {
+            awaitError() shouldBe throwable
+        }
+    }
+
+    @Test
+    fun `when calling clearToken - it executes the local data source`() = runTest {
+        repository.clearToken()
+
+        verify(mockTokenLocalDataSource)
+            .function(mockTokenLocalDataSource::clear)
+            .wasInvoked(exactly = 1.time)
+    }
 }

@@ -12,4 +12,5 @@ val useCaseModule = module {
     singleOf(::RefreshTokenUseCaseImpl) bind RefreshTokenUseCase::class
     singleOf(::GetSurveysUseCaseImpl) bind GetSurveysUseCase::class
     singleOf(::GetSurveyDetailUseCaseImpl) bind GetSurveyDetailUseCase::class
+    singleOf(::LogOutUseCaseImpl) bind LogOutUseCase::class
 }
