@@ -13,10 +13,12 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import vn.luongvo.kmm.survey.android.R
+import vn.luongvo.kmm.survey.android.ui.preview.HomeParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.home.UserUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.colors
@@ -81,15 +83,13 @@ fun HomeDrawer(
 
 @Preview
 @Composable
-fun HomeDrawerPreview() {
+fun HomeDrawerPreview(
+    @PreviewParameter(HomeParameterProvider::class, limit = 1) params: HomeParameterProvider.Params
+) = with(params) {
     ComposeTheme {
         HomeDrawer(
-            user = UserUiModel(
-                email = "luong@nimblehq.co",
-                name = "Luong",
-                avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23"
-            ),
-            appVersion = "v1.0.0",
+            user = user,
+            appVersion = appVersion,
             onLogoutClick = {}
         )
     }

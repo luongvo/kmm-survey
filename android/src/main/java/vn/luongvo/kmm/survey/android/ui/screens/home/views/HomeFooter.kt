@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.*
 import vn.luongvo.kmm.survey.android.extension.placeholder
 import vn.luongvo.kmm.survey.android.ui.common.NextCircleButton
-import vn.luongvo.kmm.survey.android.ui.providers.LoadingParameterProvider
+import vn.luongvo.kmm.survey.android.ui.preview.LoadingParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.home.HomeSurveyDetail
 import vn.luongvo.kmm.survey.android.ui.screens.home.SurveyUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.*

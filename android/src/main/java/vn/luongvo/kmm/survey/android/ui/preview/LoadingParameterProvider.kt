@@ -1,4 +1,4 @@
-package vn.luongvo.kmm.survey.android.ui.providers
+package vn.luongvo.kmm.survey.android.ui.preview
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 
