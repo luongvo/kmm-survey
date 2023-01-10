@@ -13,6 +13,7 @@ import vn.luongvo.kmm.survey.test.Fake.tokenResponse
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
+@Suppress("TooManyFunctions")
 @ExperimentalCoroutinesApi
 class AuthRepositoryTest {
 

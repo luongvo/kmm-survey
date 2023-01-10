@@ -85,12 +85,14 @@ fun HomeDrawer(
 @Composable
 fun HomeDrawerPreview(
     @PreviewParameter(HomeParameterProvider::class, limit = 1) params: HomeParameterProvider.Params
-) = with(params) {
-    ComposeTheme {
-        HomeDrawer(
-            user = user,
-            appVersion = appVersion,
-            onLogoutClick = {}
-        )
+) {
+    with(params) {
+        ComposeTheme {
+            HomeDrawer(
+                user = user,
+                appVersion = appVersion,
+                onLogoutClick = {}
+            )
+        }
     }
 }

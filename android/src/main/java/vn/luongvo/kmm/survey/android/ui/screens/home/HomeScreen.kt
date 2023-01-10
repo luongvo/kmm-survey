@@ -175,18 +175,20 @@ private fun HomeScreenContent(
 @Composable
 fun HomeScreenPreview(
     @PreviewParameter(HomeParameterProvider::class) params: HomeParameterProvider.Params
-) = with(params) {
-    ComposeTheme {
-        HomeScreenWithDrawer(
-            appVersion = appVersion,
-            initialDrawerState = drawerState,
-            scaffoldState = rememberScaffoldState(),
-            isLoading = isLoading,
-            currentDate = currentDate,
-            user = user,
-            surveys = surveys,
-            onSurveyClick = {},
-            onMenuLogoutClick = {}
-        )
+) {
+    with(params) {
+        ComposeTheme {
+            HomeScreenWithDrawer(
+                appVersion = appVersion,
+                initialDrawerState = drawerState,
+                scaffoldState = rememberScaffoldState(),
+                isLoading = isLoading,
+                currentDate = currentDate,
+                user = user,
+                surveys = surveys,
+                onSurveyClick = {},
+                onMenuLogoutClick = {}
+            )
+        }
     }
 }

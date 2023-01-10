@@ -18,6 +18,7 @@ import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.util.DateFormatter
 import vn.luongvo.kmm.survey.domain.usecase.*
 
+@Suppress("TooManyFunctions")
 @ExperimentalCoroutinesApi
 class HomeViewModelTest {
 

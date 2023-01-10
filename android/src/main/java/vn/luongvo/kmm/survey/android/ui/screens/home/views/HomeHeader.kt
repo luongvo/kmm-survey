@@ -67,13 +67,15 @@ fun HomeHeader(
 @Composable
 fun HomeHeaderPreview(
     @PreviewParameter(HomeParameterProvider::class, limit = 2) params: HomeParameterProvider.Params
-) = with(params) {
-    ComposeTheme {
-        HomeHeader(
-            isLoading = isLoading,
-            dateTime = currentDate,
-            user = user,
-            onUserAvatarClick = {}
-        )
+) {
+    with(params) {
+        ComposeTheme {
+            HomeHeader(
+                isLoading = isLoading,
+                dateTime = currentDate,
+                user = user,
+                onUserAvatarClick = {}
+            )
+        }
     }
 }
