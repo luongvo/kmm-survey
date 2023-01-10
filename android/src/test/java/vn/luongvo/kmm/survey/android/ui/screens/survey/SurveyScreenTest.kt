@@ -29,6 +29,7 @@ class SurveyScreenTest {
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
     private val mockGetSurveyDetailUseCase: GetSurveyDetailUseCase = mockk()
+    private val mockSubmitSurveyUseCase: SubmitSurveyUseCase = mockk()
 
     private lateinit var viewModel: SurveyViewModel
     private var expectedAppDestination: AppDestination? = null
@@ -36,9 +37,11 @@ class SurveyScreenTest {
     @Before
     fun setup() {
         every { mockGetSurveyDetailUseCase(any()) } returns flowOf(surveyDetail)
+        every { mockSubmitSurveyUseCase(any()) } returns flowOf(Unit)
 
         viewModel = SurveyViewModel(
-            mockGetSurveyDetailUseCase
+            mockGetSurveyDetailUseCase,
+            mockSubmitSurveyUseCase
         )
     }
 

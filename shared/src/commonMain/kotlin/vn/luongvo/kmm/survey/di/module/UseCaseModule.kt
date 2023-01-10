@@ -13,4 +13,5 @@ val useCaseModule = module {
     singleOf(::GetSurveysUseCaseImpl) bind GetSurveysUseCase::class
     singleOf(::GetSurveyDetailUseCaseImpl) bind GetSurveyDetailUseCase::class
     singleOf(::LogOutUseCaseImpl) bind LogOutUseCase::class
+    singleOf(::SubmitSurveyUseCaseImpl) bind SubmitSurveyUseCase::class
 }
