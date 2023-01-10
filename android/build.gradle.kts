@@ -148,4 +148,10 @@ dependencies {
         testImplementation(MOCKK_ANDROID)
         testImplementation(ROBOLECTRIC)
     }
+    // For test json resources parsing
+    with(Dependencies.Ktor) {
+        testImplementation(CORE)
+        testImplementation(JSON)
+        testImplementation(JSON_API)
+    }
 }

@@ -6,6 +6,8 @@ import vn.luongvo.kmm.survey.data.remote.model.response.UserResponse
 interface UserRemoteDataSource {
 
     suspend fun getUserProfile(): UserResponse
+
+    fun clearClientTokenConfig()
 }
 
 class UserRemoteDataSourceImpl(private val apiClient: ApiClient) : UserRemoteDataSource {
@@ -14,5 +16,9 @@ class UserRemoteDataSourceImpl(private val apiClient: ApiClient) : UserRemoteDat
         return apiClient.get(
             path = "/v1/me"
         )
+    }
+
+    override fun clearClientTokenConfig() {
+        apiClient.clearToken()
     }
 }

@@ -5,13 +5,15 @@ import androidx.navigation.*
 import androidx.navigation.compose.*
 import vn.luongvo.kmm.survey.android.ui.screens.home.HomeScreen
 import vn.luongvo.kmm.survey.android.ui.screens.login.LoginScreen
+import vn.luongvo.kmm.survey.android.ui.screens.survey.SurveyScreen
 
 @Composable
 fun AppNavigation(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = AppDestination.Login.destination
+    startDestination: String = AppDestination.Login.destination,
 ) {
     NavHost(
+        route = AppDestination.Root.route,
         navController = navController,
         startDestination = startDestination
     ) {
@@ -22,8 +24,13 @@ fun AppNavigation(
         }
         composable(AppDestination.Home) {
             HomeScreen(
-                // TODO handle navigation later
-                // navigator = { destination -> navController.navigate(destination) }
+                navigator = { destination -> navController.navigate(destination) },
+            )
+        }
+        composable(AppDestination.Survey) { backStackEntry ->
+            SurveyScreen(
+                surveyId = backStackEntry.arguments?.getString(SurveyIdArg).orEmpty(),
+                navigator = { destination -> navController.navigate(destination) }
             )
         }
     }
@@ -49,8 +56,18 @@ private fun NavHostController.navigate(destination: AppDestination) {
             route = destination.destination,
             navOptions {
                 popUpTo(
-                    route = AppDestination.Login.route
-                ) { inclusive = true }
+                    route = AppDestination.Root.route
+                ) { inclusive = false }
+                launchSingleTop = true
+            }
+        )
+        is AppDestination.Login -> navigate(
+            route = destination.destination,
+            navOptions {
+                popUpTo(
+                    route = AppDestination.Root.route
+                ) { inclusive = false }
+                launchSingleTop = true
             }
         )
         else -> navigate(route = destination.destination)

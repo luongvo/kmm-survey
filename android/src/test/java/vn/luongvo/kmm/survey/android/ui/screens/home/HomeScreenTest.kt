@@ -10,11 +10,13 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.*
+import org.junit.Assert.assertEquals
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.test.Fake.surveys
 import vn.luongvo.kmm.survey.android.test.Fake.user
+import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.android.util.DateFormatter
 import vn.luongvo.kmm.survey.domain.usecase.*
@@ -29,19 +31,23 @@ class HomeScreenTest {
 
     private val mockGetUserProfileUseCase: GetUserProfileUseCase = mockk()
     private val mockGetSurveysUseCase: GetSurveysUseCase = mockk()
+    private val mockLogOutUseCase: LogOutUseCase = mockk()
     private val mockDateFormatter: DateFormatter = mockk()
 
     private lateinit var viewModel: HomeViewModel
+    private var expectedAppDestination: AppDestination? = null
 
     @Before
     fun setup() {
         every { mockGetUserProfileUseCase() } returns flowOf(user)
         every { mockGetSurveysUseCase(any(), any()) } returns flowOf(surveys)
+        every { mockLogOutUseCase() } returns flowOf(Unit)
         every { mockDateFormatter.format(any(), any()) } returns "Thursday, December 29"
 
         viewModel = HomeViewModel(
             mockGetUserProfileUseCase,
             mockGetSurveysUseCase,
+            mockLogOutUseCase,
             mockDateFormatter
         )
     }
@@ -95,14 +101,24 @@ class HomeScreenTest {
         }
     }
 
+    @Test
+    fun `when clicking on the Next button on each survey, it navigates to the Survey screen`() = initComposable {
+        onNodeWithContentDescription(HomeSurveyDetail).performClick()
+
+        assertEquals(expectedAppDestination, AppDestination.Survey)
+    }
+
     private fun initComposable(testBody: ComposeContentTestRule.() -> Unit) {
         composeRule.setContent {
             ComposeTheme {
                 HomeScreen(
-                    viewModel = viewModel
+                    viewModel = viewModel,
+                    navigator = { destination ->
+                        expectedAppDestination = destination
+                    }
                 )
             }
         }
-        testBody.invoke(composeRule)
+        testBody(composeRule)
     }
 }

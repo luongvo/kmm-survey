@@ -1,5 +1,6 @@
 package vn.luongvo.kmm.survey.android.ui.screens.home.views
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
@@ -14,8 +15,9 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.extension.placeholder
-import vn.luongvo.kmm.survey.android.ui.providers.LoadingParameterProvider
+import vn.luongvo.kmm.survey.android.ui.preview.HomeParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.home.HomeUserAvatar
+import vn.luongvo.kmm.survey.android.ui.screens.home.UserUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
@@ -24,8 +26,9 @@ import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 fun HomeHeader(
     isLoading: Boolean,
     dateTime: String,
-    avatarUrl: String,
-    modifier: Modifier
+    user: UserUiModel?,
+    onUserAvatarClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.padding(horizontal = dimensions.paddingMedium)
@@ -48,12 +51,13 @@ fun HomeHeader(
                 modifier = Modifier.placeholder(isLoading = isLoading)
             )
             AsyncImage(
-                model = avatarUrl,
+                model = user?.avatarUrl.orEmpty(),
                 contentDescription = HomeUserAvatar,
                 modifier = Modifier
                     .size(dimensions.avatarSize)
                     .clip(CircleShape)
                     .placeholder(isLoading = isLoading)
+                    .clickable { onUserAvatarClick() }
             )
         }
     }
@@ -62,14 +66,16 @@ fun HomeHeader(
 @Preview
 @Composable
 fun HomeHeaderPreview(
-    @PreviewParameter(LoadingParameterProvider::class) isLoading: Boolean
+    @PreviewParameter(HomeParameterProvider::class, limit = 2) params: HomeParameterProvider.Params
 ) {
-    ComposeTheme {
-        HomeHeader(
-            isLoading = isLoading,
-            dateTime = "Monday, JUNE 15",
-            avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23",
-            modifier = Modifier.wrapContentHeight()
-        )
+    with(params) {
+        ComposeTheme {
+            HomeHeader(
+                isLoading = isLoading,
+                dateTime = currentDate,
+                user = user,
+                onUserAvatarClick = {}
+            )
+        }
     }
 }

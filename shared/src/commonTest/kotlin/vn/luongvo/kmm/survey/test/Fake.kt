@@ -16,24 +16,29 @@ object Fake {
         ignoreUnknownKeys = true
     }
 
-    private inline fun <reified T> decodeFromJsonApiString(resource: Resource): T {
-        return JsonApi(json).decodeFromJsonApiString(resource.readText())
+    private inline fun <reified T> decodeFromJsonApiString(path: String): T {
+        return JsonApi(json).decodeFromJsonApiString(Resource(path).readText())
     }
 
     val tokenResponse: TokenResponse =
-        decodeFromJsonApiString(Resource("src/commonTest/resources/oauth_login.json"))
+        decodeFromJsonApiString("src/commonTest/resources/oauth_login.json")
 
     val token = tokenResponse.toToken()
 
     val userResponse: UserResponse =
-        decodeFromJsonApiString(Resource("src/commonTest/resources/user.json"))
+        decodeFromJsonApiString("src/commonTest/resources/user.json")
 
     val user = userResponse.toUser()
 
     val surveyResponses: List<SurveyResponse> =
-        decodeFromJsonApiString(Resource("src/commonTest/resources/surveys.json"))
+        decodeFromJsonApiString("src/commonTest/resources/surveys.json")
 
     val surveys = surveyResponses.map { it.toSurvey() }
+
+    val surveyDetailResponse: SurveyResponse =
+        decodeFromJsonApiString("src/commonTest/resources/survey_detail.json")
+
+    val surveyDetail = surveyDetailResponse.toSurvey()
 
     val jsonApiException = JsonApiException(
         errors = listOf(

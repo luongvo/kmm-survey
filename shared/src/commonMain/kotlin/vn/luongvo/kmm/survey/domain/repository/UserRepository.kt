@@ -6,4 +6,6 @@ import vn.luongvo.kmm.survey.domain.model.User
 interface UserRepository {
 
     fun getUserProfile(): Flow<User>
+
+    fun clearClientTokenConfig()
 }

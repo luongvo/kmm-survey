@@ -54,4 +54,13 @@ class TokenLocalDataSourceTest {
         dataSource.accessToken shouldBe "accessToken"
         dataSource.refreshToken shouldBe "refreshToken"
     }
+
+    @Test
+    fun `when clearing token data - it clears token data correctly`() = runTest {
+        dataSource.clear()
+
+        verify(mockSettings)
+            .function(mockSettings::clear)
+            .wasInvoked(exactly = 1.time)
+    }
 }

@@ -7,6 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -14,8 +16,9 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.*
 import vn.luongvo.kmm.survey.android.extension.placeholder
 import vn.luongvo.kmm.survey.android.ui.common.NextCircleButton
-import vn.luongvo.kmm.survey.android.ui.providers.LoadingParameterProvider
+import vn.luongvo.kmm.survey.android.ui.preview.LoadingParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.home.HomeSurveyDetail
+import vn.luongvo.kmm.survey.android.ui.screens.home.SurveyUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
@@ -25,9 +28,9 @@ import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 fun HomeFooter(
     pagerState: PagerState,
     isLoading: Boolean,
-    title: String,
-    description: String,
-    modifier: Modifier
+    survey: SurveyUiModel?,
+    modifier: Modifier = Modifier,
+    onSurveyClick: (SurveyUiModel?) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -39,8 +42,8 @@ fun HomeFooter(
         } else {
             HomeFooterContent(
                 pagerState = pagerState,
-                title = title,
-                description = description
+                survey = survey,
+                onSurveyClick = onSurveyClick
             )
         }
     }
@@ -50,8 +53,8 @@ fun HomeFooter(
 @Composable
 private fun HomeFooterContent(
     pagerState: PagerState,
-    title: String,
-    description: String
+    survey: SurveyUiModel?,
+    onSurveyClick: (SurveyUiModel?) -> Unit
 ) {
     HorizontalPagerIndicator(
         pagerState = pagerState,
@@ -59,12 +62,12 @@ private fun HomeFooterContent(
         inactiveColor = White20,
         modifier = Modifier.padding(vertical = dimensions.paddingLarge),
     )
-    Crossfade(targetState = title) {
+    Crossfade(targetState = survey?.title) {
         Text(
-            text = it,
+            text = it.orEmpty(),
             color = White,
             style = typography.h5,
-            maxLines = 4,
+            maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
     }
@@ -74,11 +77,11 @@ private fun HomeFooterContent(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Crossfade(
-            targetState = description,
+            targetState = survey?.description,
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = it,
+                text = it.orEmpty(),
                 color = White70,
                 style = typography.body1,
                 maxLines = 2,
@@ -87,10 +90,8 @@ private fun HomeFooterContent(
         }
         Spacer(modifier = Modifier.width(dimensions.paddingMedium))
         NextCircleButton(
-            onClick = {
-                // TODO navigate to Survey Detail screen
-            },
-            contentDescription = HomeSurveyDetail
+            onClick = { onSurveyClick(survey) },
+            modifier = Modifier.semantics { contentDescription = HomeSurveyDetail }
         )
     }
 }
@@ -138,9 +139,12 @@ fun HomeFooterPreview(
         HomeFooter(
             pagerState = rememberPagerState(),
             isLoading = isLoading,
-            title = "ibis Bangkok Riverside",
-            description = "We'd love to hear from you!",
-            modifier = Modifier.wrapContentHeight()
-        )
+            survey = SurveyUiModel(
+                id = "1",
+                title = "Scarlett Bangkok",
+                description = "We'd love to hear from you!",
+                coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
+            )
+        ) {}
     }
 }

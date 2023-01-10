@@ -15,6 +15,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -26,7 +28,7 @@ import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
-import vn.luongvo.kmm.survey.android.ui.providers.LoadingParameterProvider
+import vn.luongvo.kmm.survey.android.ui.preview.LoadingParameterProvider
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
@@ -222,7 +224,9 @@ private fun LoginForm(
         PrimaryButton(
             text = stringResource(id = R.string.login_button),
             onClick = onLogInClick,
-            contentDescription = LoginButton
+            modifier = Modifier
+                .fillMaxWidth()
+                .semantics { contentDescription = LoginButton },
         )
     }
 }

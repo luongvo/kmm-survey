@@ -5,8 +5,7 @@ import kotlinx.coroutines.flow.flowOf
 import vn.luongvo.kmm.survey.data.extensions.flowTransform
 import vn.luongvo.kmm.survey.data.local.datasource.TokenLocalDataSource
 import vn.luongvo.kmm.survey.data.remote.datasource.AuthRemoteDataSource
-import vn.luongvo.kmm.survey.data.remote.model.request.LoginRequestBody
-import vn.luongvo.kmm.survey.data.remote.model.request.RefreshTokenRequestBody
+import vn.luongvo.kmm.survey.data.remote.model.request.*
 import vn.luongvo.kmm.survey.data.remote.model.response.toToken
 import vn.luongvo.kmm.survey.domain.model.Token
 import vn.luongvo.kmm.survey.domain.repository.AuthRepository
@@ -32,8 +31,17 @@ class AuthRepositoryImpl(
         tokenLocalDataSource.saveToken(token)
     }
 
+    override fun clearLocalToken() {
+        tokenLocalDataSource.clear()
+    }
+
     override val isLoggedIn: Flow<Boolean>
         get() = flowOf(
             tokenLocalDataSource.tokenType.isNotBlank() && tokenLocalDataSource.accessToken.isNotBlank()
         )
+
+    override fun logOut(): Flow<Unit> = flowTransform {
+        authRemoteDataSource
+            .logOut(LogoutRequestBody(accessToken = tokenLocalDataSource.accessToken))
+    }
 }

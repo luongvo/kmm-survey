@@ -11,6 +11,8 @@ interface TokenLocalDataSource {
 
     fun saveToken(token: Token)
 
+    fun clear()
+
     val tokenType: String
 
     val accessToken: String
@@ -24,6 +26,10 @@ class TokenLocalDataSourceImpl(private val settings: Settings) : TokenLocalDataS
         settings[TOKEN_TYPE_KEY] = tokenType
         settings[ACCESS_TOKEN_KEY] = accessToken
         settings[REFRESH_TOKEN_KEY] = refreshToken
+    }
+
+    override fun clear() {
+        settings.clear()
     }
 
     override val tokenType: String

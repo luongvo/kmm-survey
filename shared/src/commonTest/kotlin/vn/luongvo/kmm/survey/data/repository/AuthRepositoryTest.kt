@@ -13,6 +13,7 @@ import vn.luongvo.kmm.survey.test.Fake.tokenResponse
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
+@Suppress("TooManyFunctions")
 @ExperimentalCoroutinesApi
 class AuthRepositoryTest {
 
@@ -85,7 +86,7 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun `when saving token - it executes the local data source`() = runTest {
+    fun `when saving token - it executes saveToken method in the local data source`() = runTest {
         repository.saveToken(token)
         verify(mockTokenLocalDataSource)
             .function(mockTokenLocalDataSource::saveToken)
@@ -133,5 +134,46 @@ class AuthRepositoryTest {
             awaitItem() shouldBe false
             awaitComplete()
         }
+    }
+
+    @Test
+    fun `when calling logOut successfully - it returns Unit`() = runTest {
+        given(mockAuthRemoteDataSource)
+            .suspendFunction(mockAuthRemoteDataSource::logOut)
+            .whenInvokedWith(any())
+            .thenReturn(Unit)
+        given(mockTokenLocalDataSource)
+            .invocation { mockTokenLocalDataSource.accessToken }
+            .thenReturn("accessToken")
+
+        repository.logOut().test {
+            awaitItem() shouldBe Unit
+            awaitComplete()
+        }
+    }
+
+    @Test
+    fun `when calling logOut fails - it throws the corresponding error`() = runTest {
+        val throwable = Throwable()
+        given(mockAuthRemoteDataSource)
+            .suspendFunction(mockAuthRemoteDataSource::logOut)
+            .whenInvokedWith(any())
+            .thenThrow(throwable)
+        given(mockTokenLocalDataSource)
+            .invocation { mockTokenLocalDataSource.accessToken }
+            .thenReturn("accessToken")
+
+        repository.logOut().test {
+            awaitError() shouldBe throwable
+        }
+    }
+
+    @Test
+    fun `when calling clearLocalToken - it executes clear method in the local data source`() = runTest {
+        repository.clearLocalToken()
+
+        verify(mockTokenLocalDataSource)
+            .function(mockTokenLocalDataSource::clear)
+            .wasInvoked(exactly = 1.time)
     }
 }

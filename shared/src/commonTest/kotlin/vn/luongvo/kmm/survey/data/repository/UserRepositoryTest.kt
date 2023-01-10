@@ -52,4 +52,14 @@ class UserRepositoryTest {
             awaitError() shouldBe throwable
         }
     }
+
+    @Test
+    fun `when calling clearClientTokenConfig - it executes clearClientTokenConfig method in the user data source`() =
+        runTest {
+            repository.clearClientTokenConfig()
+
+            verify(mockDataSource)
+                .function(mockDataSource::clearClientTokenConfig)
+                .wasInvoked(exactly = 1.time)
+        }
 }

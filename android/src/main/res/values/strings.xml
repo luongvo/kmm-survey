@@ -5,10 +5,14 @@
     <string name="generic_error">Unexpected error!</string>
     <string name="generic_ok">OK</string>
 
+    <string name="home_logout">Logout</string>
     <string name="home_today">Today</string>
 
     <string name="login_button">Log in</string>
     <string name="login_email">Email</string>
     <string name="login_forgot">Forgot?</string>
     <string name="login_password">Password</string>
+
+    <string name="survey_start">Start Survey</string>
+    <string name="survey_submit">Submit</string>
 </resources>
