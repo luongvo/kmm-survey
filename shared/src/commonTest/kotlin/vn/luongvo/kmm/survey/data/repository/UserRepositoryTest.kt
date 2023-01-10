@@ -54,11 +54,12 @@ class UserRepositoryTest {
     }
 
     @Test
-    fun `when calling clearClientTokenConfig - it executes clearClientTokenConfig in the user data source`() = runTest {
-        repository.clearClientTokenConfig()
+    fun `when calling clearClientTokenConfig - it executes clearClientTokenConfig method in the user data source`() =
+        runTest {
+            repository.clearClientTokenConfig()
 
-        verify(mockDataSource)
-            .function(mockDataSource::clearClientTokenConfig)
-            .wasInvoked(exactly = 1.time)
-    }
+            verify(mockDataSource)
+                .function(mockDataSource::clearClientTokenConfig)
+                .wasInvoked(exactly = 1.time)
+        }
 }

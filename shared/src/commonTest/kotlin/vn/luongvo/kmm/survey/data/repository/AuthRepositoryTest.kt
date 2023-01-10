@@ -85,7 +85,7 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun `when saving token - it executes saveToken in the local data source`() = runTest {
+    fun `when saving token - it executes saveToken method in the local data source`() = runTest {
         repository.saveToken(token)
         verify(mockTokenLocalDataSource)
             .function(mockTokenLocalDataSource::saveToken)
@@ -168,7 +168,7 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun `when calling clearLocalToken - it executes clearToken in the local data source`() = runTest {
+    fun `when calling clearLocalToken - it executes clear method in the local data source`() = runTest {
         repository.clearLocalToken()
 
         verify(mockTokenLocalDataSource)
