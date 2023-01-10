@@ -1,11 +1,12 @@
-package vn.luongvo.kmm.survey.android.ui.screens
+package vn.luongvo.kmm.survey.android.ui.screens.home.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Divider
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color.Companion.White
@@ -14,60 +15,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
-import kotlinx.coroutines.launch
-import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.R
-import vn.luongvo.kmm.survey.android.ui.common.RtlModalDrawer
-import vn.luongvo.kmm.survey.android.ui.navigation.AppNavigation
-import vn.luongvo.kmm.survey.android.ui.screens.home.*
+import vn.luongvo.kmm.survey.android.ui.screens.home.UserUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.colors
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun MainScreen(
-    viewModel: HomeViewModel = getViewModel(),
-    initialDrawerValue: DrawerValue = DrawerValue.Closed
-) {
-    val drawerState = rememberDrawerState(initialDrawerValue)
-    val scope = rememberCoroutineScope()
-    val user by viewModel.user.collectAsStateWithLifecycle()
-    val appVersion by viewModel.appVersion.collectAsStateWithLifecycle()
-
-    RtlModalDrawer(
-        drawerState = drawerState,
-        gesturesEnabled = drawerState.isOpen,
-        drawerContent = {
-            Drawer(
-                user = user,
-                appVersion = appVersion,
-                onLogoutClick = {
-                    scope.launch {
-                        drawerState.close()
-                    }
-                    viewModel.logOut()
-                }
-            )
-        }
-    ) {
-        AppNavigation(
-            sharedHomeViewModel = viewModel,
-            onOpenDrawer = {
-                scope.launch {
-                    drawerState.open()
-                }
-            }
-        )
-    }
-}
-
-@Composable
-private fun Drawer(
+fun HomeDrawer(
     user: UserUiModel?,
     appVersion: String,
     onLogoutClick: () -> Unit,
@@ -94,7 +51,7 @@ private fun Drawer(
             )
             AsyncImage(
                 model = user?.avatarUrl.orEmpty(),
-                contentDescription = HomeUserAvatar,
+                contentDescription = null,
                 modifier = Modifier
                     .size(dimensions.avatarSize)
                     .clip(CircleShape)
@@ -124,19 +81,9 @@ private fun Drawer(
 
 @Preview
 @Composable
-fun MainScreenPreview() {
+fun HomeDrawerPreview() {
     ComposeTheme {
-        MainScreen(
-            initialDrawerValue = DrawerValue.Open
-        )
-    }
-}
-
-@Preview
-@Composable
-fun DrawerPreview() {
-    ComposeTheme {
-        Drawer(
+        HomeDrawer(
             user = UserUiModel(
                 email = "luong@nimblehq.co",
                 name = "Luong",

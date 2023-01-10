@@ -14,6 +14,7 @@ import com.google.accompanist.pager.*
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.ui.common.DimmedImageBackground
+import vn.luongvo.kmm.survey.android.ui.common.RtlModalDrawer
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.ui.providers.LoadingParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.home.views.*
@@ -28,14 +29,14 @@ const val HomeSurveyDetail = "HomeSurveyDetail"
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = getViewModel(),
-    navigator: (destination: AppDestination) -> Unit,
-    onOpenDrawer: () -> Unit
+    navigator: (destination: AppDestination) -> Unit
 ) {
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val error by viewModel.error.collectAsStateWithLifecycle()
     val currentDate by viewModel.currentDate.collectAsStateWithLifecycle()
     val user by viewModel.user.collectAsStateWithLifecycle()
     val surveys by viewModel.surveys.collectAsStateWithLifecycle()
+    val appVersion by viewModel.appVersion.collectAsStateWithLifecycle()
 
     val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current
@@ -55,15 +56,59 @@ fun HomeScreen(
         viewModel.init()
     }
 
-    HomeScreenContent(
+    HomeScreenWithDrawer(
+        appVersion = appVersion,
         scaffoldState = scaffoldState,
         isLoading = isLoading,
         currentDate = currentDate,
         user = user,
         surveys = surveys,
         onSurveyClick = { survey -> viewModel.navigateToSurvey(survey?.id.orEmpty()) },
-        onUserAvatarClick = onOpenDrawer
+        onMenuLogoutClick = { viewModel.logOut() }
     )
+}
+
+@Composable
+private fun HomeScreenWithDrawer(
+    appVersion: String,
+    initialDrawerState: DrawerValue = DrawerValue.Closed,
+    scaffoldState: ScaffoldState,
+    isLoading: Boolean,
+    currentDate: String,
+    user: UserUiModel?,
+    surveys: List<SurveyUiModel>,
+    onSurveyClick: (SurveyUiModel?) -> Unit,
+    onMenuLogoutClick: () -> Unit
+) {
+    val drawerState = rememberDrawerState(initialDrawerState)
+    val scope = rememberCoroutineScope()
+
+    RtlModalDrawer(
+        drawerState = drawerState,
+        gesturesEnabled = drawerState.isOpen,
+        drawerContent = {
+            HomeDrawer(
+                user = user,
+                appVersion = appVersion,
+                onLogoutClick = {
+                    scope.launch { drawerState.close() }
+                    onMenuLogoutClick()
+                }
+            )
+        }
+    ) {
+        HomeScreenContent(
+            scaffoldState = scaffoldState,
+            isLoading = isLoading,
+            currentDate = currentDate,
+            user = user,
+            surveys = surveys,
+            onSurveyClick = onSurveyClick,
+            onUserAvatarClick = {
+                scope.launch { drawerState.open() }
+            }
+        )
+    }
 }
 
 @OptIn(ExperimentalPagerApi::class)
@@ -132,7 +177,8 @@ fun HomeScreenPreview(
     @PreviewParameter(LoadingParameterProvider::class) isLoading: Boolean
 ) {
     ComposeTheme {
-        HomeScreenContent(
+        HomeScreenWithDrawer(
+            appVersion = "v1.0.0",
             scaffoldState = rememberScaffoldState(),
             isLoading = isLoading,
             currentDate = "Monday, JUNE 15",
@@ -156,7 +202,7 @@ fun HomeScreenPreview(
                 )
             ),
             onSurveyClick = {},
-            onUserAvatarClick = {}
+            onMenuLogoutClick = {}
         )
     }
 }
