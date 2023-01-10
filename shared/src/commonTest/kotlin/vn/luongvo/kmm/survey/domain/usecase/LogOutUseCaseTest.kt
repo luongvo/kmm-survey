@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import vn.luongvo.kmm.survey.domain.repository.AuthRepository
+import vn.luongvo.kmm.survey.domain.repository.UserRepository
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
@@ -15,19 +16,20 @@ import kotlin.test.Test
 class LogOutUseCaseTest {
 
     @Mock
-    private val mockRepository = mock(AuthRepository::class)
+    private val mockAuthRepository = mock(AuthRepository::class)
+    private val mockUserRepository = mock(UserRepository::class)
 
     private lateinit var useCase: LogOutUseCase
 
     @BeforeTest
     fun setUp() {
-        useCase = LogOutUseCaseImpl(mockRepository)
+        useCase = LogOutUseCaseImpl(mockAuthRepository, mockUserRepository)
     }
 
     @Test
     fun `when calling logOut successfully - it returns Unit`() = runTest {
-        given(mockRepository)
-            .function(mockRepository::logOut)
+        given(mockAuthRepository)
+            .function(mockAuthRepository::logOut)
             .whenInvoked()
             .thenReturn(flowOf(Unit))
 
@@ -36,27 +38,34 @@ class LogOutUseCaseTest {
             awaitComplete()
         }
 
-        verify(mockRepository)
-            .function(mockRepository::clearToken)
+        verify(mockAuthRepository)
+            .function(mockAuthRepository::clearLocalToken)
+            .wasInvoked(exactly = 1.time)
+        verify(mockUserRepository)
+            .function(mockUserRepository::clearClientTokenConfig)
             .wasInvoked(exactly = 1.time)
     }
 
     @Test
-    fun `when calling logOut fails - it throws the corresponding error`() = runTest {
+    fun `when calling logOut fails - it still returns Unit`() = runTest {
         val throwable = Throwable()
-        given(mockRepository)
-            .function(mockRepository::logOut)
+        given(mockAuthRepository)
+            .function(mockAuthRepository::logOut)
             .whenInvoked()
             .thenReturn(
                 flow { throw throwable }
             )
 
         useCase().test {
-            awaitError() shouldBe throwable
+            awaitItem() shouldBe Unit
+            awaitComplete()
         }
 
-        verify(mockRepository)
-            .function(mockRepository::clearToken)
-            .wasNotInvoked()
+        verify(mockAuthRepository)
+            .function(mockAuthRepository::clearLocalToken)
+            .wasInvoked(exactly = 1.time)
+        verify(mockUserRepository)
+            .function(mockUserRepository::clearClientTokenConfig)
+            .wasInvoked(exactly = 1.time)
     }
 }

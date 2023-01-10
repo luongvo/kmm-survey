@@ -1,27 +1,24 @@
-package vn.luongvo.kmm.survey.android.ui.screens
+package vn.luongvo.kmm.survey.android.ui.screens.home.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Divider
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import kotlinx.coroutines.launch
-import timber.log.Timber
-import vn.luongvo.kmm.survey.android.BuildConfig
 import vn.luongvo.kmm.survey.android.R
-import vn.luongvo.kmm.survey.android.ui.common.RtlModalDrawer
-import vn.luongvo.kmm.survey.android.ui.navigation.AppNavigation
-import vn.luongvo.kmm.survey.android.ui.screens.home.HomeUserAvatar
+import vn.luongvo.kmm.survey.android.ui.preview.HomeParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.home.UserUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.colors
@@ -29,41 +26,9 @@ import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 
 @Composable
-fun MainScreen(
-    initialDrawerValue: DrawerValue = DrawerValue.Closed
-) {
-    val drawerState = rememberDrawerState(initialDrawerValue)
-    val scope = rememberCoroutineScope()
-    val openDrawer = {
-        scope.launch {
-            drawerState.open()
-        }
-    }
-    var user by remember { mutableStateOf<UserUiModel?>(null) }
-
-    RtlModalDrawer(
-        drawerState = drawerState,
-        gesturesEnabled = drawerState.isOpen,
-        drawerContent = {
-            Drawer(
-                user = user,
-                onLogoutClick = {
-                    // TODO https://github.com/luongvo/kmm-survey/issues/19
-                    Timber.d("onLogoutClick")
-                }
-            )
-        }
-    ) {
-        AppNavigation(
-            onDrawerUiStateChange = { user = it },
-            onOpenDrawer = { openDrawer() }
-        )
-    }
-}
-
-@Composable
-private fun Drawer(
+fun HomeDrawer(
     user: UserUiModel?,
+    appVersion: String,
     onLogoutClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -88,7 +53,7 @@ private fun Drawer(
             )
             AsyncImage(
                 model = user?.avatarUrl.orEmpty(),
-                contentDescription = HomeUserAvatar,
+                contentDescription = null,
                 modifier = Modifier
                     .size(dimensions.avatarSize)
                     .clip(CircleShape)
@@ -109,7 +74,7 @@ private fun Drawer(
         )
         Spacer(modifier = Modifier.weight(1f))
         Text(
-            text = "v${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+            text = appVersion,
             color = White50,
             style = typography.subtitle1.copy(fontSize = 11.sp)
         )
@@ -118,25 +83,16 @@ private fun Drawer(
 
 @Preview
 @Composable
-fun MainScreenPreview() {
-    ComposeTheme {
-        MainScreen(
-            initialDrawerValue = DrawerValue.Open
-        )
-    }
-}
-
-@Preview
-@Composable
-fun DrawerPreview() {
-    ComposeTheme {
-        Drawer(
-            user = UserUiModel(
-                email = "luong@nimblehq.co",
-                name = "Luong",
-                avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23"
-            ),
-            onLogoutClick = {}
-        )
+fun HomeDrawerPreview(
+    @PreviewParameter(HomeParameterProvider::class, limit = 1) params: HomeParameterProvider.Params
+) {
+    with(params) {
+        ComposeTheme {
+            HomeDrawer(
+                user = user,
+                appVersion = appVersion,
+                onLogoutClick = {}
+            )
+        }
     }
 }

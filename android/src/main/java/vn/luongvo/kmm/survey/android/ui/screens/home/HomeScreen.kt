@@ -11,10 +11,12 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.pager.*
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.ui.common.DimmedImageBackground
+import vn.luongvo.kmm.survey.android.ui.common.RtlModalDrawer
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
-import vn.luongvo.kmm.survey.android.ui.providers.LoadingParameterProvider
+import vn.luongvo.kmm.survey.android.ui.preview.*
 import vn.luongvo.kmm.survey.android.ui.screens.home.views.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
@@ -27,23 +29,23 @@ const val HomeSurveyDetail = "HomeSurveyDetail"
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = getViewModel(),
-    navigator: (destination: AppDestination) -> Unit,
-    onDrawerUiStateChange: (UserUiModel?) -> Unit,
-    onOpenDrawer: () -> Unit
+    navigator: (destination: AppDestination) -> Unit
 ) {
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val error by viewModel.error.collectAsStateWithLifecycle()
     val currentDate by viewModel.currentDate.collectAsStateWithLifecycle()
     val user by viewModel.user.collectAsStateWithLifecycle()
     val surveys by viewModel.surveys.collectAsStateWithLifecycle()
+    val appVersion by viewModel.appVersion.collectAsStateWithLifecycle()
 
     val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current
-    LaunchedEffect(error) {
-        error?.let {
+    val scope = rememberCoroutineScope()
+    error?.let {
+        scope.launch {
             scaffoldState.snackbarHostState.showSnackbar(message = it.userReadableMessage(context))
-            viewModel.clearError()
         }
+        viewModel.clearError()
     }
 
     LaunchedEffect(viewModel.navigator) {
@@ -54,17 +56,59 @@ fun HomeScreen(
         viewModel.init()
     }
 
-    onDrawerUiStateChange(user)
-
-    HomeScreenContent(
+    HomeScreenWithDrawer(
+        appVersion = appVersion,
         scaffoldState = scaffoldState,
         isLoading = isLoading,
         currentDate = currentDate,
         user = user,
         surveys = surveys,
         onSurveyClick = { survey -> viewModel.navigateToSurvey(survey?.id.orEmpty()) },
-        onUserAvatarClick = onOpenDrawer
+        onMenuLogoutClick = { viewModel.logOut() }
     )
+}
+
+@Composable
+private fun HomeScreenWithDrawer(
+    appVersion: String,
+    initialDrawerState: DrawerValue = DrawerValue.Closed,
+    scaffoldState: ScaffoldState,
+    isLoading: Boolean,
+    currentDate: String,
+    user: UserUiModel?,
+    surveys: List<SurveyUiModel>,
+    onSurveyClick: (SurveyUiModel?) -> Unit,
+    onMenuLogoutClick: () -> Unit
+) {
+    val drawerState = rememberDrawerState(initialDrawerState)
+    val scope = rememberCoroutineScope()
+
+    RtlModalDrawer(
+        drawerState = drawerState,
+        gesturesEnabled = drawerState.isOpen,
+        drawerContent = {
+            HomeDrawer(
+                user = user,
+                appVersion = appVersion,
+                onLogoutClick = {
+                    scope.launch { drawerState.close() }
+                    onMenuLogoutClick()
+                }
+            )
+        }
+    ) {
+        HomeScreenContent(
+            scaffoldState = scaffoldState,
+            isLoading = isLoading,
+            currentDate = currentDate,
+            user = user,
+            surveys = surveys,
+            onSurveyClick = onSurveyClick,
+            onUserAvatarClick = {
+                scope.launch { drawerState.open() }
+            }
+        )
+    }
 }
 
 @OptIn(ExperimentalPagerApi::class)
@@ -130,34 +174,21 @@ private fun HomeScreenContent(
 @Preview(showSystemUi = true)
 @Composable
 fun HomeScreenPreview(
-    @PreviewParameter(LoadingParameterProvider::class) isLoading: Boolean
+    @PreviewParameter(HomeParameterProvider::class) params: HomeParameterProvider.Params
 ) {
-    ComposeTheme {
-        HomeScreenContent(
-            scaffoldState = rememberScaffoldState(),
-            isLoading = isLoading,
-            currentDate = "Monday, JUNE 15",
-            user = UserUiModel(
-                email = "luong@nimblehq.co",
-                name = "Luong",
-                avatarUrl = "https://secure.gravatar.com/avatar/8fae17b9d0c4cca18a9661bcdf650f23"
-            ),
-            surveys = listOf(
-                SurveyUiModel(
-                    id = "1",
-                    title = "Scarlett Bangkok",
-                    description = "We'd love to hear from you!",
-                    coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
-                ),
-                SurveyUiModel(
-                    id = "2",
-                    title = "ibis Bangkok Riverside",
-                    description = "We'd love to hear from you!",
-                    coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/287db81c5e4242412cc0_"
-                )
-            ),
-            onSurveyClick = {},
-            onUserAvatarClick = {}
-        )
+    with(params) {
+        ComposeTheme {
+            HomeScreenWithDrawer(
+                appVersion = appVersion,
+                initialDrawerState = drawerState,
+                scaffoldState = rememberScaffoldState(),
+                isLoading = isLoading,
+                currentDate = currentDate,
+                user = user,
+                surveys = surveys,
+                onSurveyClick = {},
+                onMenuLogoutClick = {}
+            )
+        }
     }
 }

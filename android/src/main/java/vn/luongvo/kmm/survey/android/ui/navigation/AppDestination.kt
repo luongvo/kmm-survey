@@ -14,6 +14,8 @@ sealed class AppDestination(val route: String = "") {
 
     object Up : AppDestination()
 
+    object Root : AppDestination("root")
+
     object Login : AppDestination("login")
 
     object Home : AppDestination("home")

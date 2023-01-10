@@ -3,6 +3,7 @@ package vn.luongvo.kmm.survey.android.ui.screens.home
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import vn.luongvo.kmm.survey.android.BuildConfig
 import vn.luongvo.kmm.survey.android.ui.base.BaseViewModel
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.util.DateFormatter
@@ -23,6 +24,9 @@ class HomeViewModel(
     private val _currentDate = MutableStateFlow("")
     val currentDate: StateFlow<String> = _currentDate
 
+    private val _appVersion = MutableStateFlow("")
+    val appVersion: StateFlow<String> = _appVersion
+
     private val _user = MutableStateFlow<UserUiModel?>(null)
     val user: StateFlow<UserUiModel?> = _user
 
@@ -34,6 +38,7 @@ class HomeViewModel(
             _currentDate.emit(
                 dateFormatter.format(Calendar.getInstance().time, HeaderDateFormat)
             )
+            _appVersion.emit("v${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})")
         }
 
         getUserProfileUseCase()
@@ -62,7 +67,7 @@ class HomeViewModel(
         logOutUseCase()
             .catch { e -> _error.emit(e) }
             .onEach {
-                // TODO https://github.com/luongvo/kmm-survey/issues/19
+                _navigator.emit(AppDestination.Login)
             }
             .launchIn(viewModelScope)
     }

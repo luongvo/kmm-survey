@@ -13,6 +13,7 @@ import vn.luongvo.kmm.survey.test.Fake.tokenResponse
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
+@Suppress("TooManyFunctions")
 @ExperimentalCoroutinesApi
 class AuthRepositoryTest {
 
@@ -85,7 +86,7 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun `when saving token - it executes the local data source`() = runTest {
+    fun `when saving token - it executes saveToken method in the local data source`() = runTest {
         repository.saveToken(token)
         verify(mockTokenLocalDataSource)
             .function(mockTokenLocalDataSource::saveToken)
@@ -168,8 +169,8 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun `when calling clearToken - it executes the local data source`() = runTest {
-        repository.clearToken()
+    fun `when calling clearLocalToken - it executes clear method in the local data source`() = runTest {
+        repository.clearLocalToken()
 
         verify(mockTokenLocalDataSource)
             .function(mockTokenLocalDataSource::clear)

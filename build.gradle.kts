@@ -75,7 +75,7 @@ koverMerged {
         "*.ComposableSingletons*",              // Jetpack Compose generated
         "*.*\$*Preview\$*",                     // Jetpack Compose Preview functions
         "*.di.*",                               // Koin
-        "*.ui.providers*",                      // Jetpack Compose Preview providers
+        "*.ui.preview.*",                       // Jetpack Compose Preview providers
         "*.*Test",                              // Test files
         "*.*Test*",                             // Test cases
         "*.*Mock",                              // mockative @Mock generated

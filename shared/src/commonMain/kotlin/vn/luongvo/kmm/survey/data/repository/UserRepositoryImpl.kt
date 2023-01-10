@@ -16,4 +16,8 @@ class UserRepositoryImpl(
             .getUserProfile()
             .toUser()
     }
+
+    override fun clearClientTokenConfig() {
+        userRemoteDataSource.clearClientTokenConfig()
+    }
 }

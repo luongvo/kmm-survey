@@ -31,7 +31,7 @@ class AuthRepositoryImpl(
         tokenLocalDataSource.saveToken(token)
     }
 
-    override fun clearToken() {
+    override fun clearLocalToken() {
         tokenLocalDataSource.clear()
     }
 

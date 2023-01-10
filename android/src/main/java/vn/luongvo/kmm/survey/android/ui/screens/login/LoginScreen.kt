@@ -28,7 +28,7 @@ import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
-import vn.luongvo.kmm.survey.android.ui.providers.LoadingParameterProvider
+import vn.luongvo.kmm.survey.android.ui.preview.LoadingParameterProvider
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme

@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.*
 import androidx.navigation.compose.*
 import vn.luongvo.kmm.survey.android.ui.screens.home.HomeScreen
-import vn.luongvo.kmm.survey.android.ui.screens.home.UserUiModel
 import vn.luongvo.kmm.survey.android.ui.screens.login.LoginScreen
 import vn.luongvo.kmm.survey.android.ui.screens.survey.SurveyScreen
 
@@ -12,10 +11,9 @@ import vn.luongvo.kmm.survey.android.ui.screens.survey.SurveyScreen
 fun AppNavigation(
     navController: NavHostController = rememberNavController(),
     startDestination: String = AppDestination.Login.destination,
-    onDrawerUiStateChange: (UserUiModel?) -> Unit = {},
-    onOpenDrawer: () -> Unit = {}
 ) {
     NavHost(
+        route = AppDestination.Root.route,
         navController = navController,
         startDestination = startDestination
     ) {
@@ -27,8 +25,6 @@ fun AppNavigation(
         composable(AppDestination.Home) {
             HomeScreen(
                 navigator = { destination -> navController.navigate(destination) },
-                onDrawerUiStateChange = onDrawerUiStateChange,
-                onOpenDrawer = onOpenDrawer
             )
         }
         composable(AppDestination.Survey) { backStackEntry ->
@@ -60,8 +56,18 @@ private fun NavHostController.navigate(destination: AppDestination) {
             route = destination.destination,
             navOptions {
                 popUpTo(
-                    route = AppDestination.Login.route
-                ) { inclusive = true }
+                    route = AppDestination.Root.route
+                ) { inclusive = false }
+                launchSingleTop = true
+            }
+        )
+        is AppDestination.Login -> navigate(
+            route = destination.destination,
+            navOptions {
+                popUpTo(
+                    route = AppDestination.Root.route
+                ) { inclusive = false }
+                launchSingleTop = true
             }
         )
         else -> navigate(route = destination.destination)
