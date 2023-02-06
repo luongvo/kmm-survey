@@ -11,6 +11,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import timber.log.Timber
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
 import vn.luongvo.kmm.survey.android.ui.screens.survey.*
@@ -62,6 +63,12 @@ fun SurveyQuestion(
                 style = AppTheme.typography.h4
             )
             Spacer(modifier = Modifier.weight(1f))
+            AnswerForm(
+                question = question,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+            )
+            Spacer(modifier = Modifier.weight(1f))
             if (index != count) {
                 NextCircleButton(
                     onClick = onNextClick,
@@ -84,6 +91,22 @@ fun SurveyQuestion(
     }
 }
 
+@Composable
+private fun AnswerForm(
+    modifier: Modifier = Modifier,
+    question: QuestionUiModel
+) {
+    when (question.displayType) {
+        DisplayType.STAR -> RatingBar(
+            onValueChange = {
+                Timber.d("${question.displayType} -> onInputChange: $it")
+            },
+            modifier = modifier
+        )
+        else -> Unit
+    }
+}
+
 @Preview
 @Composable
 fun SurveyQuestionPreview() {
@@ -94,6 +117,7 @@ fun SurveyQuestionPreview() {
             question = QuestionUiModel(
                 id = "1",
                 text = "How fulfilled did you feel during this WFH period?",
+                displayType = DisplayType.STAR,
                 coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l",
                 answers = null
             ),

@@ -138,6 +138,7 @@ fun SurveyScreenPreview(
                     QuestionUiModel(
                         id = "1",
                         text = "How fulfilled did you feel during this WFH period?",
+                        displayType = DisplayType.STAR,
                         coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l",
                         answers = null
                     )
