@@ -96,7 +96,7 @@ private fun RatingBar(
             Button(
                 onClick = {
                     selectedIndex = index
-                    onValueChange(answers[selectedIndex].text)
+                    onValueChange(answers.getOrNull(selectedIndex)?.text.orEmpty())
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color.Transparent
