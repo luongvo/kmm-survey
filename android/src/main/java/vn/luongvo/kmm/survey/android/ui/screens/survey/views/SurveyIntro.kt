@@ -10,9 +10,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
+import vn.luongvo.kmm.survey.android.ui.preview.SurveyDetailParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.home.SurveyUiModel
 import vn.luongvo.kmm.survey.android.ui.screens.survey.SurveyBackButton
 import vn.luongvo.kmm.survey.android.ui.theme.*
@@ -72,15 +74,12 @@ fun SurveyIntro(
 
 @Preview
 @Composable
-fun SurveyIntroPreview() {
+fun SurveyIntroPreview(
+    @PreviewParameter(SurveyDetailParameterProvider::class) params: SurveyDetailParameterProvider.Params
+) {
     ComposeTheme {
         SurveyIntro(
-            survey = SurveyUiModel(
-                id = "1",
-                title = "Scarlett Bangkok",
-                description = "We'd love to hear from you!",
-                coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
-            ),
+            survey = params.survey,
             onBackClick = {},
             onStartClick = {}
         )

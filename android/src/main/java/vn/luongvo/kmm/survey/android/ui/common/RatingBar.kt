@@ -8,7 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import vn.luongvo.kmm.survey.android.ui.preview.SurveyDetailParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.survey.AnswerUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
@@ -56,14 +58,11 @@ fun RatingBar(
 
 @Preview
 @Composable
-fun RatingBarPreview() {
+fun RatingBarPreview(
+    @PreviewParameter(SurveyDetailParameterProvider::class) params: SurveyDetailParameterProvider.Params
+) {
     RatingBar(
-        answers = List(5) {
-            AnswerUiModel(
-                id = it.toString(),
-                text = (it + 1).toString()
-            )
-        },
+        answers = params.survey.questions[0].answers,
         onValueChange = {},
     )
 }

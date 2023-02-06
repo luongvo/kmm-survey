@@ -10,10 +10,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import timber.log.Timber
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
+import vn.luongvo.kmm.survey.android.ui.preview.SurveyDetailParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.survey.*
 import vn.luongvo.kmm.survey.android.ui.theme.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
@@ -112,23 +114,14 @@ private fun AnswerForm(
 
 @Preview
 @Composable
-fun SurveyQuestionPreview() {
+fun SurveyQuestionPreview(
+    @PreviewParameter(SurveyDetailParameterProvider::class) params: SurveyDetailParameterProvider.Params
+) {
     ComposeTheme {
         SurveyQuestion(
             index = 1,
             count = 5,
-            question = QuestionUiModel(
-                id = "1",
-                text = "How fulfilled did you feel during this WFH period?",
-                displayType = DisplayType.STAR,
-                coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l",
-                answers = List(5) {
-                    AnswerUiModel(
-                        id = it.toString(),
-                        text = (it + 1).toString()
-                    )
-                }
-            ),
+            question = params.survey.questions[0],
             onCloseClick = {},
             onNextClick = {},
             onSubmitClick = {}
