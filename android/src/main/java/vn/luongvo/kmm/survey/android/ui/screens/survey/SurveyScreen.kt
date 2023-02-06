@@ -123,7 +123,7 @@ private fun PagerState.scrollToNextPage(scope: CoroutineScope) {
 @Preview(showSystemUi = true)
 @Composable
 fun SurveyScreenPreview(
-    @PreviewParameter(SurveyDetailParameterProvider::class) params: SurveyDetailParameterProvider.Params
+    @PreviewParameter(SurveyDetailScreenParameterProvider::class) params: SurveyDetailParameterProvider.Params
 ) {
     with(params) {
         ComposeTheme {

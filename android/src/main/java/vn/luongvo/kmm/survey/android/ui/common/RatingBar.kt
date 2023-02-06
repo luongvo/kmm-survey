@@ -16,15 +16,46 @@ import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 
 const val EMOJI_STAR = "⭐️️"
+const val EMOJI_HEART = "❤️"
 
 @Composable
-fun RatingBar(
+fun StarRatingBar(
     modifier: Modifier = Modifier,
     answers: List<AnswerUiModel>,
     onValueChange: (String) -> Unit,
 ) {
-    var selectedIndex by remember { mutableStateOf(-1) }
     val emojis = List(answers.size) { EMOJI_STAR }
+    RatingBar(
+        modifier = modifier,
+        emojis = emojis,
+        answers = answers,
+        onValueChange = onValueChange
+    )
+}
+
+@Composable
+fun HeartRatingBar(
+    modifier: Modifier = Modifier,
+    answers: List<AnswerUiModel>,
+    onValueChange: (String) -> Unit,
+) {
+    val emojis = List(answers.size) { EMOJI_HEART }
+    RatingBar(
+        modifier = modifier,
+        emojis = emojis,
+        answers = answers,
+        onValueChange = onValueChange
+    )
+}
+
+@Composable
+private fun RatingBar(
+    modifier: Modifier = Modifier,
+    emojis: List<String>,
+    answers: List<AnswerUiModel>,
+    onValueChange: (String) -> Unit,
+) {
+    var selectedIndex by remember { mutableStateOf(-1) }
     LazyRow(
         modifier = modifier
     ) {
@@ -58,10 +89,21 @@ fun RatingBar(
 
 @Preview
 @Composable
-fun RatingBarPreview(
+fun StarRatingBarPreview(
     @PreviewParameter(SurveyDetailParameterProvider::class) params: SurveyDetailParameterProvider.Params
 ) {
-    RatingBar(
+    StarRatingBar(
+        answers = params.survey.questions[0].answers,
+        onValueChange = {},
+    )
+}
+
+@Preview
+@Composable
+fun HeartRatingBarPreview(
+    @PreviewParameter(SurveyDetailParameterProvider::class) params: SurveyDetailParameterProvider.Params
+) {
+    HeartRatingBar(
         answers = params.survey.questions[0].answers,
         onValueChange = {},
     )

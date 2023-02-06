@@ -100,7 +100,14 @@ private fun AnswerForm(
 ) {
     with(question) {
         when (displayType) {
-            DisplayType.STAR -> RatingBar(
+            DisplayType.STAR -> StarRatingBar(
+                answers = answers,
+                onValueChange = {
+                    Timber.d("$displayType -> onInputChange: $it")
+                },
+                modifier = modifier
+            )
+            DisplayType.HEART -> HeartRatingBar(
                 answers = answers,
                 onValueChange = {
                     Timber.d("$displayType -> onInputChange: $it")
