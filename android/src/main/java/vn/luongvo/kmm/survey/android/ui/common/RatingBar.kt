@@ -15,8 +15,11 @@ import vn.luongvo.kmm.survey.android.ui.screens.survey.AnswerUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 
-const val EMOJI_STAR = "⭐️️"
-const val EMOJI_HEART = "❤️"
+private const val EMOJI_STAR = "⭐️️"
+private const val EMOJI_HEART = "❤️"
+
+private const val EMOJI_ALPHA_SELECTED = 1f
+private const val EMOJI_ALPHA_UNSELECTED = 0.5f
 
 @Composable
 fun StarRatingBar(
@@ -61,7 +64,7 @@ private fun RatingBar(
     ) {
         items(emojis.size) { index ->
             val isSelected = index <= selectedIndex
-            val alpha = if (isSelected) 1f else 0.5f
+            val alpha = if (isSelected) EMOJI_ALPHA_SELECTED else EMOJI_ALPHA_UNSELECTED
             Button(
                 onClick = {
                     selectedIndex = index
@@ -80,7 +83,7 @@ private fun RatingBar(
                     modifier = Modifier.alpha(alpha)
                 )
             }
-            if (index < emojis.size - 1) {
+            if (index < emojis.lastIndex) {
                 Spacer(modifier = Modifier.width(dimensions.paddingSmall))
             }
         }

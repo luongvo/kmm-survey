@@ -4,6 +4,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.home.SurveyUiModel
 import vn.luongvo.kmm.survey.android.ui.screens.survey.*
 
+@Suppress("MagicNumber")
 class SurveyDetailParameterProvider : PreviewParameterProvider<SurveyDetailParameterProvider.Params> {
 
     override val values = sequenceOf(
