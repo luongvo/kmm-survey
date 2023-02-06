@@ -4,5 +4,5 @@ data class Answer(
     val id: String,
     val text: String?,
     val displayOrder: Int?,
-    var inputMaskPlaceholder: String?
+    val inputMaskPlaceholder: String?
 )

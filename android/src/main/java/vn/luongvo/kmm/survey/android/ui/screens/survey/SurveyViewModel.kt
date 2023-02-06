@@ -37,7 +37,7 @@ class SurveyViewModel(
                         id = survey.questions[1].id,
                         answers = listOf(
                             AnswerSubmission(
-                                id = survey.questions[1].answers?.get(0)?.id.orEmpty(),
+                                id = survey.questions[1].answers[0].id,
                                 answer = "answer"
                             )
                         )

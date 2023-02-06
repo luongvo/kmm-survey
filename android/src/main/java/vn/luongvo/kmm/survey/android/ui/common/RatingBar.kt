@@ -9,6 +9,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import vn.luongvo.kmm.survey.android.ui.screens.survey.AnswerUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 
@@ -17,20 +18,21 @@ const val EMOJI_STAR = "⭐️️"
 @Composable
 fun RatingBar(
     modifier: Modifier = Modifier,
-    onValueChange: (Int) -> Unit,
+    answers: List<AnswerUiModel>,
+    onValueChange: (String) -> Unit,
 ) {
-    var selectedIndex by remember { mutableStateOf(0) }
-    val emojis = List(5) { EMOJI_STAR }
+    var selectedIndex by remember { mutableStateOf(-1) }
+    val emojis = List(answers.size) { EMOJI_STAR }
     LazyRow(
         modifier = modifier
     ) {
         items(emojis.size) { index ->
-            val isSelected = index < selectedIndex
+            val isSelected = index <= selectedIndex
             val alpha = if (isSelected) 1f else 0.5f
             Button(
                 onClick = {
-                    selectedIndex = index + 1
-                    onValueChange(selectedIndex)
+                    selectedIndex = index
+                    onValueChange(answers[selectedIndex].text)
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color.Transparent
@@ -56,6 +58,12 @@ fun RatingBar(
 @Composable
 fun RatingBarPreview() {
     RatingBar(
+        answers = List(5) {
+            AnswerUiModel(
+                id = it.toString(),
+                text = (it + 1).toString()
+            )
+        },
         onValueChange = {},
     )
 }

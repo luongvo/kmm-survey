@@ -96,14 +96,17 @@ private fun AnswerForm(
     modifier: Modifier = Modifier,
     question: QuestionUiModel
 ) {
-    when (question.displayType) {
-        DisplayType.STAR -> RatingBar(
-            onValueChange = {
-                Timber.d("${question.displayType} -> onInputChange: $it")
-            },
-            modifier = modifier
-        )
-        else -> Unit
+    with(question) {
+        when (displayType) {
+            DisplayType.STAR -> RatingBar(
+                answers = answers,
+                onValueChange = {
+                    Timber.d("$displayType -> onInputChange: $it")
+                },
+                modifier = modifier
+            )
+            else -> Unit
+        }
     }
 }
 
@@ -119,7 +122,12 @@ fun SurveyQuestionPreview() {
                 text = "How fulfilled did you feel during this WFH period?",
                 displayType = DisplayType.STAR,
                 coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l",
-                answers = null
+                answers = List(5) {
+                    AnswerUiModel(
+                        id = it.toString(),
+                        text = (it + 1).toString()
+                    )
+                }
             ),
             onCloseClick = {},
             onNextClick = {},
