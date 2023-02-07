@@ -19,6 +19,8 @@ object Versions {
     const val COMPOSE_NAVIGATION = "2.5.2"
     const val COMPOSE_UI = "1.3.2"
 
+    const val COMPOSE_NUMBERPICKER = "1.0.3"
+
     const val DETEKT = "1.21.0"
 
     const val FIREBASE_BOM = "31.1.0"
@@ -83,6 +85,8 @@ object Dependencies {
             "com.google.accompanist:accompanist-pager-indicators:${Versions.COMPOSE_ACCOMPANIST}"
         const val ACCOMPANIST_PLACEHOLDER =
             "com.google.accompanist:accompanist-placeholder:${Versions.COMPOSE_ACCOMPANIST}"
+
+        const val NUMBERPICKER = "com.chargemap.compose:numberpicker:${Versions.COMPOSE_NUMBERPICKER}"
     }
 
     object Firebase {
