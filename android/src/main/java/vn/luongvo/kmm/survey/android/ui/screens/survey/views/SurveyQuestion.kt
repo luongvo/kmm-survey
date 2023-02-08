@@ -114,6 +114,13 @@ private fun AnswerForm(
                 },
                 modifier = modifier
             )
+            DisplayType.SMILEY -> SmileyRatingBar(
+                answers = answers,
+                onValueChange = {
+                    Timber.d("$displayType -> onValueChange: $it")
+                },
+                modifier = modifier
+            )
             else -> Unit
         }
     }

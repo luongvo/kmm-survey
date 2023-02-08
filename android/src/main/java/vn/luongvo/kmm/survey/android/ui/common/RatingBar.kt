@@ -17,6 +17,11 @@ import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 
 private const val EMOJI_STAR = "⭐️️"
 private const val EMOJI_HEART = "❤️"
+private const val EMOJI_RED_ANGRY_FACE = "\uD83D\uDE21" // 😡
+private const val EMOJI_CONFUSED_FACE = "\uD83D\uDE15" // 😕
+private const val EMOJI_NEUTRAL_FACE = "\uD83D\uDE10" // 😐
+private const val EMOJI_SLIGHTLY_SMILING_FACE = "\uD83D\uDE42" // 🙂
+private const val EMOJI_GRINNING_FACE_WITH_SMILING_EYES = "\uD83D\uDE04" // 😄
 
 private const val EMOJI_ALPHA_SELECTED = 1f
 private const val EMOJI_ALPHA_UNSELECTED = 0.5f
@@ -52,23 +57,49 @@ fun HeartRatingBar(
 }
 
 @Composable
+fun SmileyRatingBar(
+    answers: List<AnswerUiModel>,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val emojis = listOf(
+        EMOJI_RED_ANGRY_FACE,
+        EMOJI_CONFUSED_FACE,
+        EMOJI_NEUTRAL_FACE,
+        EMOJI_SLIGHTLY_SMILING_FACE,
+        EMOJI_GRINNING_FACE_WITH_SMILING_EYES
+    )
+    RatingBar(
+        modifier = modifier,
+        emojis = emojis,
+        answers = answers,
+        isSingleSelection = true,
+        onValueChange = onValueChange
+    )
+}
+
+@Composable
 private fun RatingBar(
     emojis: List<String>,
     answers: List<AnswerUiModel>,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    isSingleSelection: Boolean = false,
 ) {
     var selectedIndex by remember { mutableStateOf(-1) }
     LazyRow(
         modifier = modifier
     ) {
         items(emojis.size) { index ->
-            val isSelected = index <= selectedIndex
+            val isSelected = if (isSingleSelection)
+                index == selectedIndex
+            else
+                index <= selectedIndex
             val alpha = if (isSelected) EMOJI_ALPHA_SELECTED else EMOJI_ALPHA_UNSELECTED
             Button(
                 onClick = {
                     selectedIndex = index
-                    onValueChange(answers[selectedIndex].text)
+                    onValueChange(answers.getOrNull(selectedIndex)?.text.orEmpty())
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color.Transparent
@@ -107,6 +138,17 @@ fun HeartRatingBarPreview(
     @PreviewParameter(SurveyDetailParameterProvider::class) params: SurveyDetailParameterProvider.Params
 ) {
     HeartRatingBar(
+        answers = params.survey.questions[0].answers,
+        onValueChange = {},
+    )
+}
+
+@Preview
+@Composable
+fun SmileyRatingBarPreview(
+    @PreviewParameter(SurveyDetailParameterProvider::class) params: SurveyDetailParameterProvider.Params
+) {
+    SmileyRatingBar(
         answers = params.survey.questions[0].answers,
         onValueChange = {},
     )
