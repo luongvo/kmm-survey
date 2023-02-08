@@ -13,6 +13,9 @@
     <string name="login_forgot">Forgot?</string>
     <string name="login_password">Password</string>
 
+    <string name="nps_extremely_likely">Extremely Likely</string>
+    <string name="nps_not_at_all_likely">Not at all Likely</string>
+
     <string name="survey_start">Start Survey</string>
     <string name="survey_submit">Submit</string>
 </resources>
