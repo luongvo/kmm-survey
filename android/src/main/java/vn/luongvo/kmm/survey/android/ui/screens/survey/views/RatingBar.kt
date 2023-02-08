@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import vn.luongvo.kmm.survey.android.ui.preview.SurveyDetailParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.survey.AnswerUiModel
+import vn.luongvo.kmm.survey.android.ui.screens.survey.textAt
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 
@@ -99,7 +100,7 @@ private fun RatingBar(
             Button(
                 onClick = {
                     selectedIndex = index
-                    onValueChange(answers.getOrNull(selectedIndex)?.text.orEmpty())
+                    onValueChange(answers.textAt(index))
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color.Transparent

@@ -16,6 +16,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.screens.survey.AnswerUiModel
+import vn.luongvo.kmm.survey.android.ui.screens.survey.textAt
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.shapes
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
@@ -27,7 +28,7 @@ fun Nps(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var selectedIndex by remember { mutableStateOf(-1) }
+    var selectedIndex by remember { mutableStateOf(0) }
     ConstraintLayout(
         modifier = modifier
     ) {
@@ -52,7 +53,7 @@ fun Nps(
                 Button(
                     onClick = {
                         selectedIndex = index
-                        onValueChange(answers.getOrNull(selectedIndex)?.text.orEmpty())
+                        onValueChange(answers.textAt(index))
                     },
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = Color.Transparent
@@ -64,7 +65,7 @@ fun Nps(
                         .fillMaxHeight()
                 ) {
                     Text(
-                        text = "${index + 1}",
+                        text = answers.textAt(index),
                         color = if (isSelected) White else White50,
                         style = if (isSelected) typography.h6 else typography.h6.copy(fontWeight = FontWeight.Normal)
                     )
@@ -91,7 +92,7 @@ fun Nps(
                     width = Dimension.fillToConstraints
                 }
         ) {
-            val isHalfLeftItemsSelected = selectedIndex < answers.size / 2
+            val isHalfLeftItemsSelected = selectedIndex <= answers.size / 2
             Text(
                 text = stringResource(id = R.string.nps_not_at_all_likely),
                 color = if (isHalfLeftItemsSelected) White else White50,
