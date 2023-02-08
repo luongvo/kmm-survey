@@ -3,10 +3,8 @@
 package vn.luongvo.kmm.survey.android.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.unit.dp
 
 @Composable
 fun ComposeTheme(
@@ -18,17 +16,11 @@ fun ComposeTheme(
     } else {
         LightColorPalette
     }
-    val dimensions = LocalAppDimensions.current
-    val styles = LocalAppStyles.current
     val typography = LocalAppTypography.current
-    val shapes = Shapes(
-        medium = RoundedCornerShape(10.dp)
-    )
+    val shapes = LocalAppShapes.current
 
     CompositionLocalProvider(
-        LocalColors provides colors,
-        LocalAppDimensions provides dimensions,
-        LocalAppStyles provides styles
+        LocalAppColors provides colors
     ) {
         MaterialTheme(
             colors = colors.themeColors,
@@ -48,7 +40,7 @@ object AppTheme {
     val colors: AppColors
         @Composable
         @ReadOnlyComposable
-        get() = LocalColors.current
+        get() = LocalAppColors.current
 
     val typography: Typography
         @Composable
@@ -58,7 +50,7 @@ object AppTheme {
     val shapes: Shapes
         @Composable
         @ReadOnlyComposable
-        get() = MaterialTheme.shapes
+        get() = LocalAppShapes.current
 
     val dimensions: AppDimensions
         @Composable

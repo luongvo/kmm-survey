@@ -29,4 +29,4 @@ internal val DarkColorPalette = AppColors(
     )
 )
 
-internal val LocalColors = staticCompositionLocalOf { LightColorPalette }
+internal val LocalAppColors = staticCompositionLocalOf { LightColorPalette }

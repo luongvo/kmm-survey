@@ -121,6 +121,13 @@ private fun AnswerForm(
                 },
                 modifier = modifier
             )
+            DisplayType.NPS -> Nps(
+                answers = answers,
+                onValueChange = {
+                    Timber.d("$displayType -> onValueChange: $it")
+                },
+                modifier = modifier
+            )
             DisplayType.DROPDOWN -> Picker(
                 answers = answers,
                 onValueChange = {

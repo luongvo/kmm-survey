@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.sp
 import com.chargemap.compose.numberpicker.ListItemPicker
 import vn.luongvo.kmm.survey.android.ui.preview.SurveyDetailParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.survey.AnswerUiModel
@@ -32,8 +31,8 @@ fun Picker(
         },
         list = values,
         dividersColor = White50,
-        textStyle = typography.body1.copy(fontSize = 20.sp),
-        selectedTextStyle = typography.body1.copy(fontSize = 20.sp, fontWeight = FontWeight.Bold),
+        textStyle = typography.h6.copy(fontWeight = FontWeight.Normal),
+        selectedTextStyle = typography.h6,
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = dimensions.paddingHuge)
