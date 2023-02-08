@@ -1,4 +1,4 @@
-package vn.luongvo.kmm.survey.android.ui.common
+package vn.luongvo.kmm.survey.android.ui.screens.survey.views
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
