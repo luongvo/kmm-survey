@@ -50,34 +50,15 @@ fun Nps(
         ) {
             items(answers.size) { index ->
                 val isSelected = index <= selectedIndex
-                Button(
+                NpsItem(
+                    answers = answers,
+                    index = index,
+                    isSelected = isSelected,
                     onClick = {
                         selectedIndex = index
                         onValueChange(answers.textAt(index))
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Transparent
-                    ),
-                    elevation = null,
-                    contentPadding = PaddingValues(0.dp),
-                    modifier = Modifier
-                        .width(34.dp)
-                        .fillMaxHeight()
-                ) {
-                    Text(
-                        text = answers.textAt(index),
-                        color = if (isSelected) White else White50,
-                        style = if (isSelected) typography.h6 else typography.h6.copy(fontWeight = FontWeight.Normal)
-                    )
-                }
-                if (index < answers.lastIndex) {
-                    Spacer(
-                        modifier = Modifier
-                            .width(0.5.dp)
-                            .fillMaxHeight()
-                            .background(White)
-                    )
-                }
+                    }
+                )
             }
         }
         Row(
@@ -107,6 +88,41 @@ fun Nps(
     }
 }
 
+@Composable
+private fun NpsItem(
+    answers: List<AnswerUiModel>,
+    index: Int,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    Button(
+        onClick = { onClick() },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Color.Transparent
+        ),
+        elevation = null,
+        contentPadding = PaddingValues(0.dp),
+        modifier = Modifier
+            .width(34.dp)
+            .fillMaxHeight()
+    ) {
+        Text(
+            text = answers.textAt(index),
+            color = if (isSelected) White else White50,
+            style = if (isSelected) typography.h6 else typography.h6.copy(fontWeight = FontWeight.Normal)
+        )
+    }
+    if (index < answers.lastIndex) {
+        Spacer(
+            modifier = Modifier
+                .width(0.5.dp)
+                .fillMaxHeight()
+                .background(White)
+        )
+    }
+}
+
+@Suppress("MagicNumber")
 @Preview
 @Composable
 fun NpsPreview() {
