@@ -10,9 +10,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import timber.log.Timber
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
+import vn.luongvo.kmm.survey.android.ui.preview.SurveyDetailParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.survey.*
 import vn.luongvo.kmm.survey.android.ui.theme.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
@@ -62,6 +65,12 @@ fun SurveyQuestion(
                 style = AppTheme.typography.h4
             )
             Spacer(modifier = Modifier.weight(1f))
+            AnswerForm(
+                question = question,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+            )
+            Spacer(modifier = Modifier.weight(1f))
             if (index != count) {
                 NextCircleButton(
                     onClick = onNextClick,
@@ -84,19 +93,42 @@ fun SurveyQuestion(
     }
 }
 
+@Composable
+private fun AnswerForm(
+    modifier: Modifier = Modifier,
+    question: QuestionUiModel
+) {
+    with(question) {
+        when (displayType) {
+            DisplayType.STAR -> StarRatingBar(
+                answers = answers,
+                onValueChange = {
+                    Timber.d("$displayType -> onValueChange: $it")
+                },
+                modifier = modifier
+            )
+            DisplayType.HEART -> HeartRatingBar(
+                answers = answers,
+                onValueChange = {
+                    Timber.d("$displayType -> onValueChange: $it")
+                },
+                modifier = modifier
+            )
+            else -> Unit
+        }
+    }
+}
+
 @Preview
 @Composable
-fun SurveyQuestionPreview() {
+fun SurveyQuestionPreview(
+    @PreviewParameter(SurveyDetailParameterProvider::class) params: SurveyDetailParameterProvider.Params
+) {
     ComposeTheme {
         SurveyQuestion(
             index = 1,
             count = 5,
-            question = QuestionUiModel(
-                id = "1",
-                text = "How fulfilled did you feel during this WFH period?",
-                coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l",
-                answers = null
-            ),
+            question = params.survey.questions[0],
             onCloseClick = {},
             onNextClick = {},
             onSubmitClick = {}

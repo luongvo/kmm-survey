@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.*
 import vn.luongvo.kmm.survey.android.extension.placeholder
 import vn.luongvo.kmm.survey.android.ui.common.NextCircleButton
-import vn.luongvo.kmm.survey.android.ui.preview.LoadingParameterProvider
+import vn.luongvo.kmm.survey.android.ui.preview.HomeParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.home.HomeSurveyDetail
 import vn.luongvo.kmm.survey.android.ui.screens.home.SurveyUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.*
@@ -133,18 +133,15 @@ private fun HomeFooterLoadingContent() {
 @Preview
 @Composable
 fun HomeFooterPreview(
-    @PreviewParameter(LoadingParameterProvider::class) isLoading: Boolean
+    @PreviewParameter(HomeParameterProvider::class) params: HomeParameterProvider.Params
 ) {
-    ComposeTheme {
-        HomeFooter(
-            pagerState = rememberPagerState(),
-            isLoading = isLoading,
-            survey = SurveyUiModel(
-                id = "1",
-                title = "Scarlett Bangkok",
-                description = "We'd love to hear from you!",
-                coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
-            )
-        ) {}
+    with(params) {
+        ComposeTheme {
+            HomeFooter(
+                pagerState = rememberPagerState(),
+                isLoading = isLoading,
+                survey = params.surveys[0]
+            ) {}
+        }
     }
 }

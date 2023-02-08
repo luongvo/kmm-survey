@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.ui.common.*
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
-import vn.luongvo.kmm.survey.android.ui.preview.LoadingParameterProvider
+import vn.luongvo.kmm.survey.android.ui.preview.*
 import vn.luongvo.kmm.survey.android.ui.screens.home.SurveyUiModel
 import vn.luongvo.kmm.survey.android.ui.screens.survey.views.SurveyIntro
 import vn.luongvo.kmm.survey.android.ui.screens.survey.views.SurveyQuestion
@@ -123,28 +123,17 @@ private fun PagerState.scrollToNextPage(scope: CoroutineScope) {
 @Preview(showSystemUi = true)
 @Composable
 fun SurveyScreenPreview(
-    @PreviewParameter(LoadingParameterProvider::class) isLoading: Boolean
+    @PreviewParameter(SurveyDetailScreenParameterProvider::class) params: SurveyDetailParameterProvider.Params
 ) {
-    ComposeTheme {
-        SurveyScreenContent(
-            scaffoldState = rememberScaffoldState(),
-            isLoading = isLoading,
-            survey = SurveyUiModel(
-                id = "1",
-                title = "Scarlett Bangkok",
-                description = "We'd love to hear from you!",
-                coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_",
-                questions = listOf(
-                    QuestionUiModel(
-                        id = "1",
-                        text = "How fulfilled did you feel during this WFH period?",
-                        coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l",
-                        answers = null
-                    )
-                )
-            ),
-            onBackClick = {},
-            onSubmitClick = {}
-        )
+    with(params) {
+        ComposeTheme {
+            SurveyScreenContent(
+                scaffoldState = rememberScaffoldState(),
+                isLoading = isLoading,
+                survey = survey,
+                onBackClick = {},
+                onSubmitClick = {}
+            )
+        }
     }
 }
