@@ -23,9 +23,9 @@ private const val EMOJI_ALPHA_UNSELECTED = 0.5f
 
 @Composable
 fun StarRatingBar(
-    modifier: Modifier = Modifier,
     answers: List<AnswerUiModel>,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val emojis = List(answers.size) { EMOJI_STAR }
     RatingBar(
@@ -38,9 +38,9 @@ fun StarRatingBar(
 
 @Composable
 fun HeartRatingBar(
-    modifier: Modifier = Modifier,
     answers: List<AnswerUiModel>,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val emojis = List(answers.size) { EMOJI_HEART }
     RatingBar(
@@ -53,10 +53,10 @@ fun HeartRatingBar(
 
 @Composable
 private fun RatingBar(
-    modifier: Modifier = Modifier,
     emojis: List<String>,
     answers: List<AnswerUiModel>,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var selectedIndex by remember { mutableStateOf(-1) }
     LazyRow(

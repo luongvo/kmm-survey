@@ -103,14 +103,14 @@ private fun AnswerForm(
             DisplayType.STAR -> StarRatingBar(
                 answers = answers,
                 onValueChange = {
-                    Timber.d("$displayType -> onInputChange: $it")
+                    Timber.d("$displayType -> onValueChange: $it")
                 },
                 modifier = modifier
             )
             DisplayType.HEART -> HeartRatingBar(
                 answers = answers,
                 onValueChange = {
-                    Timber.d("$displayType -> onInputChange: $it")
+                    Timber.d("$displayType -> onValueChange: $it")
                 },
                 modifier = modifier
             )
