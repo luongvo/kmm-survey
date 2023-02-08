@@ -117,7 +117,7 @@ private fun AnswerForm(
             DisplayType.SMILEY -> SmileyRatingBar(
                 answers = answers,
                 onValueChange = {
-                    Timber.d("$displayType -> onInputChange: $it")
+                    Timber.d("$displayType -> onValueChange: $it")
                 },
                 modifier = modifier
             )

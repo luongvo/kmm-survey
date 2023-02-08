@@ -58,9 +58,9 @@ fun HeartRatingBar(
 
 @Composable
 fun SmileyRatingBar(
-    modifier: Modifier = Modifier,
     answers: List<AnswerUiModel>,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val emojis = listOf(
         EMOJI_RED_ANGRY_FACE,
@@ -82,16 +82,19 @@ fun SmileyRatingBar(
 private fun RatingBar(
     emojis: List<String>,
     answers: List<AnswerUiModel>,
-    isSingleSelection: Boolean = false,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    isSingleSelection: Boolean = false,
 ) {
     var selectedIndex by remember { mutableStateOf(-1) }
     LazyRow(
         modifier = modifier
     ) {
         items(emojis.size) { index ->
-            val isSelected = if (isSingleSelection) index == selectedIndex else index <= selectedIndex
+            val isSelected = if (isSingleSelection)
+                index == selectedIndex
+            else
+                index <= selectedIndex
             val alpha = if (isSelected) EMOJI_ALPHA_SELECTED else EMOJI_ALPHA_UNSELECTED
             Button(
                 onClick = {
