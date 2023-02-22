@@ -82,13 +82,17 @@ private fun SurveyQuestionContent(
             color = Color.White,
             style = AppTheme.typography.h4
         )
-        Spacer(modifier = Modifier.weight(1f))
-        AnswerForm(
-            question = question,
+        Box(
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-        )
-        Spacer(modifier = Modifier.weight(1f))
+                .fillMaxWidth()
+                .padding(vertical = dimensions.paddingSmall)
+                .weight(1f)
+        ) {
+            AnswerForm(
+                question = question,
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
         if (index != count) {
             NextCircleButton(
                 onClick = onNextClick,
