@@ -4,10 +4,12 @@ import vn.luongvo.kmm.survey.domain.model.Answer
 
 data class AnswerUiModel(
     val id: String,
-    val text: String
+    val text: String,
+    val inputMaskPlaceholder: String
 )
 
 fun Answer.toUiModel() = AnswerUiModel(
     id = id,
-    text = text.orEmpty()
+    text = text.orEmpty(),
+    inputMaskPlaceholder = inputMaskPlaceholder.orEmpty()
 )

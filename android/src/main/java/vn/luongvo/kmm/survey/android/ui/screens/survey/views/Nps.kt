@@ -137,7 +137,8 @@ fun NpsPreview() {
         answers = List(10) {
             AnswerUiModel(
                 id = it.toString(),
-                text = (it + 1).toString()
+                text = (it + 1).toString(),
+                inputMaskPlaceholder = ""
             )
         },
         onValueChange = {}

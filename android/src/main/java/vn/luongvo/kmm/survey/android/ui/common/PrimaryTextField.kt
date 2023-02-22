@@ -29,7 +29,8 @@ fun PrimaryTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
-    contentDescription: String = ""
+    contentDescription: String = "",
+    isHighlightBackgroundIfNotEmpty: Boolean = false
 ) {
     val focusManager = LocalFocusManager.current
     TextField(
@@ -44,7 +45,7 @@ fun PrimaryTextField(
         singleLine = true,
         colors = TextFieldDefaults.textFieldColors(
             textColor = White,
-            backgroundColor = White18,
+            backgroundColor = if (isHighlightBackgroundIfNotEmpty && value.isNotEmpty()) White30 else White18,
             cursorColor = White,
             unfocusedIndicatorColor = Transparent,
             focusedIndicatorColor = Transparent,
