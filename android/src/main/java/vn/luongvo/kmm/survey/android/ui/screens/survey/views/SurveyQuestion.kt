@@ -163,6 +163,13 @@ private fun AnswerForm(
                 },
                 modifier = modifier
             )
+            DisplayType.TEXTAREA -> TextArea(
+                answer = answers.first(),
+                onValueChange = {
+                    Timber.d("$displayType -> onValueChange: $it")
+                },
+                modifier = modifier
+            )
             DisplayType.DROPDOWN -> Picker(
                 answers = answers,
                 onValueChange = {

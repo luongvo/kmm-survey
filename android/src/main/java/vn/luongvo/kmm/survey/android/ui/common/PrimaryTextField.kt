@@ -26,6 +26,7 @@ fun PrimaryTextField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
+    modifier: Modifier = Modifier,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
@@ -58,7 +59,7 @@ fun PrimaryTextField(
             imeAction = imeAction
         ),
         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .size(dimensions.inputHeight)
             .clip(shapes.medium)
