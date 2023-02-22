@@ -1,7 +1,7 @@
 package vn.luongvo.kmm.survey.android.ui.common
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -31,7 +31,8 @@ fun PrimaryTextField(
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
     contentDescription: String = "",
-    isHighlightBackgroundIfNotEmpty: Boolean = false
+    isHighlightBackgroundIfNotEmpty: Boolean = false,
+    singleLine: Boolean = true
 ) {
     val focusManager = LocalFocusManager.current
     TextField(
@@ -43,7 +44,7 @@ fun PrimaryTextField(
                 style = typography.body1
             )
         },
-        singleLine = true,
+        singleLine = singleLine,
         colors = TextFieldDefaults.textFieldColors(
             textColor = White,
             backgroundColor = if (isHighlightBackgroundIfNotEmpty && value.isNotEmpty()) White30 else White18,
@@ -61,7 +62,7 @@ fun PrimaryTextField(
         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
         modifier = modifier
             .fillMaxWidth()
-            .size(dimensions.inputHeight)
+            .heightIn(min = dimensions.inputHeight)
             .clip(shapes.medium)
             .semantics { this.contentDescription = contentDescription }
     )

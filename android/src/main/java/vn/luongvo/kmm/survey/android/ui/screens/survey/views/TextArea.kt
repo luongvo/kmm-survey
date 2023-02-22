@@ -25,6 +25,7 @@ fun TextArea(
             onValueChange(value)
         },
         placeholder = answer.inputMaskPlaceholder,
+        singleLine = false,
         modifier = modifier
     )
 }
