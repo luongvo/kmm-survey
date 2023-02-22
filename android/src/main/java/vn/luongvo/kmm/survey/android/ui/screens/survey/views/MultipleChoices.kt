@@ -29,21 +29,22 @@ fun MultipleChoices(
     onValueChange: (List<String>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var selectedIndexes by remember { mutableStateOf(emptySet<Int>()) }
+    var selectedIds by remember { mutableStateOf(emptySet<String>()) }
     LazyColumn(modifier = modifier.padding(horizontal = 80.dp)) {
         items(answers.size) { index ->
-            val isSelected = selectedIndexes.contains(index)
+            val answer = answers[index]
+            val isSelected = selectedIds.contains(answer.id)
 
             ChoiceItem(
-                answer = answers[index],
+                answer = answer,
                 isSelected = isSelected,
                 onClick = {
-                    selectedIndexes = if (selectedIndexes.contains(index)) {
-                        selectedIndexes.minus(index)
+                    selectedIds = if (selectedIds.contains(answer.id)) {
+                        selectedIds.minus(answer.id)
                     } else {
-                        selectedIndexes.plus(index)
+                        selectedIds.plus(answer.id)
                     }
-                    onValueChange(selectedIndexes.map { answers[it].id })
+                    onValueChange(selectedIds.toList())
                 }
             )
 
