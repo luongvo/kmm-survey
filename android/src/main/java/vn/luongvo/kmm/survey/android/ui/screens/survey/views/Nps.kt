@@ -81,17 +81,7 @@ fun Nps(
                     width = Dimension.fillToConstraints
                 }
         ) {
-            val isHalfLeftItemsSelected = selectedIndex <= answers.size / 2
-            Text(
-                text = stringResource(id = R.string.nps_not_at_all_likely),
-                color = if (isHalfLeftItemsSelected) White else White50,
-                style = typography.body1.copy(fontWeight = FontWeight.Bold),
-            )
-            Text(
-                text = stringResource(id = R.string.nps_extremely_likely),
-                color = if (isHalfLeftItemsSelected.not()) White else White50,
-                style = typography.body1.copy(fontWeight = FontWeight.Bold),
-            )
+            NpsDescriptions(answers, selectedIndex)
         }
     }
 }
@@ -119,6 +109,24 @@ private fun NpsItem(
             style = if (isSelected) typography.h6 else typography.h6.copy(fontWeight = FontWeight.Normal)
         )
     }
+}
+
+@Composable
+private fun NpsDescriptions(
+    answers: List<AnswerUiModel>,
+    selectedIndex: Int
+) {
+    val isHalfLeftItemsSelected = selectedIndex <= answers.size / 2
+    Text(
+        text = stringResource(id = R.string.nps_not_at_all_likely),
+        color = if (isHalfLeftItemsSelected) White else White50,
+        style = typography.body1.copy(fontWeight = FontWeight.Bold),
+    )
+    Text(
+        text = stringResource(id = R.string.nps_extremely_likely),
+        color = if (isHalfLeftItemsSelected.not()) White else White50,
+        style = typography.body1.copy(fontWeight = FontWeight.Bold),
+    )
 }
 
 @Suppress("MagicNumber")
