@@ -12,7 +12,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import vn.luongvo.kmm.survey.android.ui.preview.SurveyDetailParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.survey.AnswerUiModel
-import vn.luongvo.kmm.survey.android.ui.screens.survey.textAt
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 
@@ -69,7 +68,10 @@ fun SmileyRatingBar(
         EMOJI_NEUTRAL_FACE,
         EMOJI_SLIGHTLY_SMILING_FACE,
         EMOJI_GRINNING_FACE_WITH_SMILING_EYES
-    )
+    ).apply {
+        // Limit emojis is not over answers
+        take(minOf(size, answers.size))
+    }
     RatingBar(
         modifier = modifier,
         emojis = emojis,
@@ -100,7 +102,7 @@ private fun RatingBar(
             Button(
                 onClick = {
                     selectedIndex = index
-                    onValueChange(answers.textAt(index))
+                    onValueChange(answers[index].text)
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color.Transparent

@@ -11,5 +11,3 @@ fun Answer.toUiModel() = AnswerUiModel(
     id = id,
     text = text.orEmpty()
 )
-
-fun List<AnswerUiModel>.textAt(index: Int) = getOrNull(index)?.text.orEmpty()

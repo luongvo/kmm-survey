@@ -16,7 +16,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.screens.survey.AnswerUiModel
-import vn.luongvo.kmm.survey.android.ui.screens.survey.textAt
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.shapes
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
@@ -40,7 +39,7 @@ fun Nps(
         LazyRow(
             modifier = Modifier
                 .border(BorderStroke(0.5.dp, White), shapes.medium)
-                .height(56.dp)
+                .height(dimensions.inputHeight)
                 .wrapContentWidth()
                 .constrainAs(itemsRef) {
                     top.linkTo(parent.top)
@@ -50,15 +49,24 @@ fun Nps(
         ) {
             items(answers.size) { index ->
                 val isSelected = index <= selectedIndex
+                val answer = answers[index]
                 NpsItem(
-                    answers = answers,
-                    index = index,
+                    answer = answer,
                     isSelected = isSelected,
                     onClick = {
                         selectedIndex = index
-                        onValueChange(answers.textAt(index))
+                        onValueChange(answer.text)
                     }
                 )
+
+                if (index < answers.lastIndex) {
+                    Spacer(
+                        modifier = Modifier
+                            .width(0.5.dp)
+                            .fillMaxHeight()
+                            .background(White)
+                    )
+                }
             }
         }
         Row(
@@ -90,8 +98,7 @@ fun Nps(
 
 @Composable
 private fun NpsItem(
-    answers: List<AnswerUiModel>,
-    index: Int,
+    answer: AnswerUiModel,
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
@@ -107,17 +114,9 @@ private fun NpsItem(
             .fillMaxHeight()
     ) {
         Text(
-            text = answers.textAt(index),
+            text = answer.text,
             color = if (isSelected) White else White50,
             style = if (isSelected) typography.h6 else typography.h6.copy(fontWeight = FontWeight.Normal)
-        )
-    }
-    if (index < answers.lastIndex) {
-        Spacer(
-            modifier = Modifier
-                .width(0.5.dp)
-                .fillMaxHeight()
-                .background(White)
         )
     }
 }
