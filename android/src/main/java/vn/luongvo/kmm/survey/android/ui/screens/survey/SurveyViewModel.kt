@@ -5,7 +5,8 @@ import kotlinx.coroutines.flow.*
 import vn.luongvo.kmm.survey.android.ui.base.BaseViewModel
 import vn.luongvo.kmm.survey.android.ui.screens.home.SurveyUiModel
 import vn.luongvo.kmm.survey.android.ui.screens.home.toUiModel
-import vn.luongvo.kmm.survey.domain.model.*
+import vn.luongvo.kmm.survey.domain.model.QuestionSubmission
+import vn.luongvo.kmm.survey.domain.model.SurveySubmission
 import vn.luongvo.kmm.survey.domain.usecase.GetSurveyDetailUseCase
 import vn.luongvo.kmm.survey.domain.usecase.SubmitSurveyUseCase
 
@@ -16,6 +17,8 @@ class SurveyViewModel(
 
     private val _survey = MutableStateFlow<SurveyUiModel?>(null)
     val survey: StateFlow<SurveyUiModel?> = _survey
+
+    private val questionSubmissions = mutableListOf<QuestionSubmission>()
 
     fun getSurveyDetail(id: String) {
         getSurveyDetailUseCase(id = id)
@@ -29,20 +32,9 @@ class SurveyViewModel(
 
     fun submitSurvey() {
         _survey.value?.let { survey ->
-            // TODO integrate in https://github.com/luongvo/kmm-survey/issues/34
             val surveySubmission = SurveySubmission(
                 id = survey.id,
-                questions = listOf(
-                    QuestionSubmission(
-                        id = survey.questions[1].id,
-                        answers = listOf(
-                            AnswerSubmission(
-                                id = survey.questions[1].answers[0].id,
-                                answer = "answer"
-                            )
-                        )
-                    )
-                )
+                questions = questionSubmissions
             )
 
             submitSurveyUseCase(surveySubmission)
@@ -52,6 +44,21 @@ class SurveyViewModel(
                     // TODO navigate to the Completion screen
                 }
                 .launchIn(viewModelScope)
+        }
+    }
+
+    fun saveAnswerForQuestion(questionSubmission: QuestionSubmission) {
+        saveAnswersToQuestions(questionSubmission)
+    }
+
+    private fun saveAnswersToQuestions(questionSubmission: QuestionSubmission) {
+        val question = questionSubmissions.find { it.id == questionSubmission.id }
+
+        if (question == null) {
+            questionSubmissions.add(questionSubmission)
+        } else {
+            question.answers.clear();
+            question.answers.addAll(questionSubmission.answers);
         }
     }
 }

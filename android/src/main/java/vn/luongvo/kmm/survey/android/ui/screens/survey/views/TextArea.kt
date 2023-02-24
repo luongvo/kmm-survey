@@ -7,21 +7,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import vn.luongvo.kmm.survey.android.ui.common.PrimaryTextField
 import vn.luongvo.kmm.survey.android.ui.preview.SurveyDetailParameterProvider
-import vn.luongvo.kmm.survey.android.ui.screens.survey.AnswerInput
 import vn.luongvo.kmm.survey.android.ui.screens.survey.AnswerUiModel
+import vn.luongvo.kmm.survey.domain.model.AnswerSubmission
 
 @Composable
 fun TextArea(
     answer: AnswerUiModel,
-    onValueChange: (AnswerInput) -> Unit,
+    onValueChange: (AnswerSubmission) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var value by remember { mutableStateOf(AnswerInput(answer.id, "")) }
+    var value by remember { mutableStateOf(AnswerSubmission(answer.id, "")) }
 
     PrimaryTextField(
-        value = value.content,
+        value = value.answer.orEmpty(),
         onValueChange = {
-            value = AnswerInput(answer.id, it)
+            value = AnswerSubmission(answer.id, it)
             onValueChange(value)
         },
         placeholder = answer.inputMaskPlaceholder,

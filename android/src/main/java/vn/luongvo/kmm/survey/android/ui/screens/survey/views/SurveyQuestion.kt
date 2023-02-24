@@ -19,6 +19,7 @@ import vn.luongvo.kmm.survey.android.ui.preview.SurveyDetailParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.survey.*
 import vn.luongvo.kmm.survey.android.ui.theme.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
+import vn.luongvo.kmm.survey.domain.model.*
 
 @Composable
 fun SurveyQuestion(
@@ -26,6 +27,7 @@ fun SurveyQuestion(
     count: Int,
     question: QuestionUiModel,
     onCloseClick: () -> Unit,
+    onAnswer: (QuestionSubmission) -> Unit,
     onNextClick: () -> Unit,
     onSubmitClick: () -> Unit
 ) {
@@ -49,6 +51,7 @@ fun SurveyQuestion(
             index,
             count,
             question,
+            onAnswer,
             onNextClick,
             onSubmitClick
         )
@@ -60,6 +63,7 @@ private fun SurveyQuestionContent(
     index: Int,
     count: Int,
     question: QuestionUiModel,
+    onAnswer: (QuestionSubmission) -> Unit,
     onNextClick: () -> Unit,
     onSubmitClick: () -> Unit
 ) {
@@ -90,6 +94,7 @@ private fun SurveyQuestionContent(
         ) {
             AnswerForm(
                 question = question,
+                onAnswer = onAnswer,
                 modifier = Modifier.align(Alignment.Center)
             )
         }
@@ -117,29 +122,24 @@ private fun SurveyQuestionContent(
 @Composable
 private fun AnswerForm(
     modifier: Modifier = Modifier,
-    question: QuestionUiModel
+    question: QuestionUiModel,
+    onAnswer: (QuestionSubmission) -> Unit,
 ) {
     with(question) {
         when (displayType) {
             DisplayType.STAR -> StarRatingBar(
                 answers = answers,
-                onValueChange = {
-                    Timber.d("$displayType -> onValueChange: $it")
-                },
+                onValueChange = { onAnswer(question.toQuestionSubmission(it)) },
                 modifier = modifier
             )
             DisplayType.HEART -> HeartRatingBar(
                 answers = answers,
-                onValueChange = {
-                    Timber.d("$displayType -> onValueChange: $it")
-                },
+                onValueChange = { onAnswer(question.toQuestionSubmission(it)) },
                 modifier = modifier
             )
             DisplayType.SMILEY -> SmileyRatingBar(
                 answers = answers,
-                onValueChange = {
-                    Timber.d("$displayType -> onValueChange: $it")
-                },
+                onValueChange = { onAnswer(question.toQuestionSubmission(it)) },
                 modifier = modifier
             )
             DisplayType.CHOICE -> MultipleChoices(
@@ -182,6 +182,11 @@ private fun AnswerForm(
     }
 }
 
+private fun QuestionUiModel.toQuestionSubmission(answer: AnswerSubmission) = QuestionSubmission(
+    this.id,
+    mutableListOf(answer)
+)
+
 @Preview
 @Composable
 fun SurveyQuestionPreview(
@@ -193,6 +198,7 @@ fun SurveyQuestionPreview(
             count = 5,
             question = params.survey.questions[0],
             onCloseClick = {},
+            onAnswer = {},
             onNextClick = {},
             onSubmitClick = {}
         )

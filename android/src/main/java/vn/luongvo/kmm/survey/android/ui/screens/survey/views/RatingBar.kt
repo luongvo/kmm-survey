@@ -14,6 +14,7 @@ import vn.luongvo.kmm.survey.android.ui.preview.SurveyDetailParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.survey.AnswerUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
+import vn.luongvo.kmm.survey.domain.model.AnswerSubmission
 
 private const val EMOJI_STAR = "⭐️️"
 private const val EMOJI_HEART = "❤️"
@@ -29,7 +30,7 @@ private const val EMOJI_ALPHA_UNSELECTED = 0.5f
 @Composable
 fun StarRatingBar(
     answers: List<AnswerUiModel>,
-    onValueChange: (String) -> Unit,
+    onValueChange: (AnswerSubmission) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val emojis = List(answers.size) { EMOJI_STAR }
@@ -44,7 +45,7 @@ fun StarRatingBar(
 @Composable
 fun HeartRatingBar(
     answers: List<AnswerUiModel>,
-    onValueChange: (String) -> Unit,
+    onValueChange: (AnswerSubmission) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val emojis = List(answers.size) { EMOJI_HEART }
@@ -59,7 +60,7 @@ fun HeartRatingBar(
 @Composable
 fun SmileyRatingBar(
     answers: List<AnswerUiModel>,
-    onValueChange: (String) -> Unit,
+    onValueChange: (AnswerSubmission) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val emojis = listOf(
@@ -85,7 +86,7 @@ fun SmileyRatingBar(
 private fun RatingBar(
     emojis: List<String>,
     answers: List<AnswerUiModel>,
-    onValueChange: (String) -> Unit,
+    onValueChange: (AnswerSubmission) -> Unit,
     modifier: Modifier = Modifier,
     isSingleSelection: Boolean = false,
 ) {
@@ -102,7 +103,14 @@ private fun RatingBar(
             Button(
                 onClick = {
                     selectedIndex = index
-                    onValueChange(answers[index].text)
+                    onValueChange(
+                        answers[index].run {
+                            AnswerSubmission(
+                                id,
+                                text
+                            )
+                        }
+                    )
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color.Transparent
