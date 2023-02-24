@@ -51,7 +51,7 @@ class SurveyScreenTest {
     }
 
     @Test
-    fun `when entering the Survey screen and filling the survey answers, it shows UI correctly and navigates to the Completion screen`() =
+    fun `when entering and filling the survey answers, it shows UI correctly and navigates to the Completion screen`() =
         initComposable {
             onNodeWithContentDescription(SurveyBackButton).assertIsDisplayed()
             onNodeWithText("Scarlett Bangkok").assertIsDisplayed()

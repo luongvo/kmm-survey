@@ -118,6 +118,7 @@ private fun SurveyQuestionContent(
     }
 }
 
+@Suppress("ComplexMethod")
 @Composable
 private fun AnswerForm(
     modifier: Modifier = Modifier,
