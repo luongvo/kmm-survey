@@ -22,11 +22,12 @@ import vn.luongvo.kmm.survey.android.ui.preview.SurveyDetailParameterProvider
 import vn.luongvo.kmm.survey.android.ui.screens.survey.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
+import vn.luongvo.kmm.survey.domain.model.AnswerSubmission
 
 @Composable
 fun MultipleChoices(
     answers: List<AnswerUiModel>,
-    onValueChange: (List<String>) -> Unit,
+    onValueChange: (List<AnswerSubmission>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var selectedIds by remember { mutableStateOf(emptySet<String>()) }
@@ -44,7 +45,9 @@ fun MultipleChoices(
                     } else {
                         selectedIds.plus(answer.id)
                     }
-                    onValueChange(selectedIds.toList())
+                    onValueChange(
+                        selectedIds.map { AnswerSubmission(id = it) }
+                    )
                 }
             )
 

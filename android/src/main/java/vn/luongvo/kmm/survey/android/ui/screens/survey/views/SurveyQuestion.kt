@@ -144,9 +144,7 @@ private fun AnswerForm(
             )
             DisplayType.CHOICE -> MultipleChoices(
                 answers = answers,
-                onValueChange = {
-                    Timber.d("$displayType -> onValueChange: $it")
-                },
+                onValueChange = { onAnswer(question.toQuestionSubmission(it)) },
                 modifier = modifier
             )
             DisplayType.NPS -> Nps(
@@ -158,16 +156,12 @@ private fun AnswerForm(
             )
             DisplayType.TEXTFIELD -> TextFields(
                 answers = answers,
-                onValueChange = {
-                    Timber.d("$displayType -> onValueChange: $it")
-                },
+                onValueChange = { onAnswer(question.toQuestionSubmission(it)) },
                 modifier = modifier
             )
             DisplayType.TEXTAREA -> TextArea(
                 answer = answers.first(),
-                onValueChange = {
-                    Timber.d("$displayType -> onValueChange: $it")
-                },
+                onValueChange = { onAnswer(question.toQuestionSubmission(it)) },
                 modifier = modifier
             )
             DisplayType.DROPDOWN -> Picker(
@@ -182,9 +176,11 @@ private fun AnswerForm(
     }
 }
 
-private fun QuestionUiModel.toQuestionSubmission(answer: AnswerSubmission) = QuestionSubmission(
+private fun QuestionUiModel.toQuestionSubmission(answer: AnswerSubmission) = toQuestionSubmission(listOf(answer))
+
+private fun QuestionUiModel.toQuestionSubmission(answers: List<AnswerSubmission>) = QuestionSubmission(
     this.id,
-    mutableListOf(answer)
+    answers.toMutableList()
 )
 
 @Preview
