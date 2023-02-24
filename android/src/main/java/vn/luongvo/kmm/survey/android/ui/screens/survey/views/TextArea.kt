@@ -3,6 +3,7 @@ package vn.luongvo.kmm.survey.android.ui.screens.survey.views
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import vn.luongvo.kmm.survey.android.ui.common.PrimaryTextField
@@ -29,6 +30,7 @@ fun TextArea(
         },
         placeholder = answer.inputMaskPlaceholder,
         singleLine = false,
+        imeAction = ImeAction.Done,
         modifier = modifier
     )
 }

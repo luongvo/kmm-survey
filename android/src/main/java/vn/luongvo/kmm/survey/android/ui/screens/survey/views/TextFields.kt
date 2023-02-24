@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import vn.luongvo.kmm.survey.android.ui.common.PrimaryTextField
@@ -43,6 +44,7 @@ fun TextFields(
                     onValueChange(values)
                 },
                 placeholder = answer.inputMaskPlaceholder,
+                imeAction = if (index == answers.lastIndex) ImeAction.Done else ImeAction.Next,
                 isHighlightBackgroundIfNotEmpty = true
             )
         }
