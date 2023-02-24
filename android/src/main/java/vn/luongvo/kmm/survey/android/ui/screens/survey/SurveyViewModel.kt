@@ -49,10 +49,6 @@ class SurveyViewModel(
     }
 
     fun saveAnswerForQuestion(questionSubmission: QuestionSubmission) {
-        saveAnswersToQuestions(questionSubmission)
-    }
-
-    private fun saveAnswersToQuestions(questionSubmission: QuestionSubmission) {
         val question = questionSubmissions.find { it.id == questionSubmission.id }
 
         if (question == null) {
