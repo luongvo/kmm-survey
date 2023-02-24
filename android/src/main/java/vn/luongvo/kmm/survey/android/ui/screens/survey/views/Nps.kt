@@ -58,8 +58,8 @@ fun Nps(
                         selectedIndex = index
                         onValueChange(
                             AnswerSubmission(
-                                answer.id,
-                                answer.text
+                                id = answer.id,
+                                answer = answer.text
                             )
                         )
                     }

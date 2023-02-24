@@ -18,7 +18,7 @@ fun TextFields(
     onValueChange: (List<AnswerSubmission>) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var values by remember { mutableStateOf(answers.map { AnswerSubmission(it.id, "") }) }
+    var values by remember { mutableStateOf(answers.map { AnswerSubmission(id = it.id) }) }
 
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(dimensions.paddingSmall),
@@ -35,7 +35,10 @@ fun TextFields(
                 onValueChange = {
                     value = it
                     values = values.toMutableList().apply {
-                        this[index] = AnswerSubmission(answer.id, it)
+                        this[index] = AnswerSubmission(
+                            id = answer.id,
+                            answer = it
+                        )
                     }
                     onValueChange(values)
                 },

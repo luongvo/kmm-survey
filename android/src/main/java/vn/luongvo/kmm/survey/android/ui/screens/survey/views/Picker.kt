@@ -13,21 +13,26 @@ import vn.luongvo.kmm.survey.android.ui.screens.survey.AnswerUiModel
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.White50
+import vn.luongvo.kmm.survey.domain.model.AnswerSubmission
 
 @Composable
 fun Picker(
     modifier: Modifier = Modifier,
     answers: List<AnswerUiModel>,
-    onValueChange: (String) -> Unit,
+    onValueChange: (AnswerSubmission) -> Unit,
 ) {
     val values = answers.map { it.text }
     var state by remember { mutableStateOf(values[0]) }
     ListItemPicker(
         label = { it },
         value = state,
-        onValueChange = {
-            state = it
-            onValueChange(it)
+        onValueChange = { value, index ->
+            state = value
+            onValueChange(
+                AnswerSubmission(
+                    id = answers[index].id
+                )
+            )
         },
         list = values,
         dividersColor = White50,

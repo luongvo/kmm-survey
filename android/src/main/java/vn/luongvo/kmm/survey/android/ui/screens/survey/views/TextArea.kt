@@ -16,12 +16,15 @@ fun TextArea(
     onValueChange: (AnswerSubmission) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var value by remember { mutableStateOf(AnswerSubmission(answer.id, "")) }
+    var value by remember { mutableStateOf(AnswerSubmission(id = answer.id)) }
 
     PrimaryTextField(
         value = value.answer.orEmpty(),
         onValueChange = {
-            value = AnswerSubmission(answer.id, it)
+            value = AnswerSubmission(
+                id = answer.id,
+                answer = it
+            )
             onValueChange(value)
         },
         placeholder = answer.inputMaskPlaceholder,

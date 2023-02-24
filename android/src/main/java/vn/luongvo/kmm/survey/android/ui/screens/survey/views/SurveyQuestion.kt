@@ -12,7 +12,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import timber.log.Timber
 import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
 import vn.luongvo.kmm.survey.android.ui.preview.SurveyDetailParameterProvider
@@ -164,9 +163,7 @@ private fun AnswerForm(
             )
             DisplayType.DROPDOWN -> Picker(
                 answers = answers,
-                onValueChange = {
-                    Timber.d("$displayType -> onValueChange: $it")
-                },
+                onValueChange = { onAnswer(question.toQuestionSubmission(it)) },
                 modifier = modifier
             )
             else -> Unit

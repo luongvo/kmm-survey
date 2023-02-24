@@ -106,8 +106,8 @@ private fun RatingBar(
                     onValueChange(
                         answers[index].run {
                             AnswerSubmission(
-                                id,
-                                text
+                                id = id,
+                                answer = text
                             )
                         }
                     )
