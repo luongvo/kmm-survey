@@ -149,9 +149,7 @@ private fun AnswerForm(
             )
             DisplayType.NPS -> Nps(
                 answers = answers,
-                onValueChange = {
-                    Timber.d("$displayType -> onValueChange: $it")
-                },
+                onValueChange = { onAnswer(question.toQuestionSubmission(it)) },
                 modifier = modifier
             )
             DisplayType.TEXTFIELD -> TextFields(

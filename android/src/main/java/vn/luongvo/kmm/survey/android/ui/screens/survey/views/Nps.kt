@@ -20,11 +20,12 @@ import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.shapes
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.White50
+import vn.luongvo.kmm.survey.domain.model.AnswerSubmission
 
 @Composable
 fun Nps(
     answers: List<AnswerUiModel>,
-    onValueChange: (String) -> Unit,
+    onValueChange: (AnswerSubmission) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var selectedIndex by remember { mutableStateOf(0) }
@@ -55,7 +56,12 @@ fun Nps(
                     isSelected = isSelected,
                     onClick = {
                         selectedIndex = index
-                        onValueChange(answer.text)
+                        onValueChange(
+                            AnswerSubmission(
+                                answer.id,
+                                answer.text
+                            )
+                        )
                     }
                 )
 
