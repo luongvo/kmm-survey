@@ -52,6 +52,10 @@ fun SurveyScreen(
         viewModel.getSurveyDetail(id = surveyId)
     }
 
+    LaunchedEffect(viewModel.navigator) {
+        viewModel.navigator.collect { destination -> navigator(destination) }
+    }
+
     SurveyScreenContent(
         scaffoldState = scaffoldState,
         isLoading = isLoading,

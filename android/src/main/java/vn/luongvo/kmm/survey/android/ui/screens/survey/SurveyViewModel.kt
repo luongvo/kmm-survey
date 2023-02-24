@@ -3,6 +3,7 @@ package vn.luongvo.kmm.survey.android.ui.screens.survey
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.*
 import vn.luongvo.kmm.survey.android.ui.base.BaseViewModel
+import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.ui.screens.home.SurveyUiModel
 import vn.luongvo.kmm.survey.android.ui.screens.home.toUiModel
 import vn.luongvo.kmm.survey.domain.model.QuestionSubmission
@@ -41,7 +42,7 @@ class SurveyViewModel(
                 .injectLoading()
                 .catch { e -> _error.emit(e) }
                 .onEach {
-                    // TODO navigate to the Completion screen
+                    _navigator.emit(AppDestination.Completion)
                 }
                 .launchIn(viewModelScope)
         }

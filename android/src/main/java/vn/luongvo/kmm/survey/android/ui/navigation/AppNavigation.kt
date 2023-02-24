@@ -3,6 +3,7 @@ package vn.luongvo.kmm.survey.android.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.*
 import androidx.navigation.compose.*
+import vn.luongvo.kmm.survey.android.ui.screens.completion.CompletionScreen
 import vn.luongvo.kmm.survey.android.ui.screens.home.HomeScreen
 import vn.luongvo.kmm.survey.android.ui.screens.login.LoginScreen
 import vn.luongvo.kmm.survey.android.ui.screens.survey.SurveyScreen
@@ -32,6 +33,9 @@ fun AppNavigation(
                 surveyId = backStackEntry.arguments?.getString(SurveyIdArg).orEmpty(),
                 navigator = { destination -> navController.navigate(destination) }
             )
+        }
+        composable(AppDestination.Completion) {
+            CompletionScreen()
         }
     }
 }
@@ -66,6 +70,15 @@ private fun NavHostController.navigate(destination: AppDestination) {
             navOptions {
                 popUpTo(
                     route = AppDestination.Root.route
+                ) { inclusive = false }
+                launchSingleTop = true
+            }
+        )
+        is AppDestination.Completion -> navigate(
+            route = destination.destination,
+            navOptions {
+                popUpTo(
+                    route = AppDestination.Home.route
                 ) { inclusive = false }
                 launchSingleTop = true
             }
