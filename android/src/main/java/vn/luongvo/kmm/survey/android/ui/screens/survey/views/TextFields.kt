@@ -4,12 +4,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import vn.luongvo.kmm.survey.android.ui.common.PrimaryTextField
 import vn.luongvo.kmm.survey.android.ui.preview.SurveyDetailParameterProvider
-import vn.luongvo.kmm.survey.android.ui.screens.survey.AnswerUiModel
+import vn.luongvo.kmm.survey.android.ui.screens.survey.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.domain.model.AnswerSubmission
 
@@ -45,7 +47,8 @@ fun TextFields(
                 },
                 placeholder = answer.inputMaskPlaceholder,
                 imeAction = if (index == answers.lastIndex) ImeAction.Done else ImeAction.Next,
-                isHighlightBackgroundIfNotEmpty = true
+                isHighlightBackgroundIfNotEmpty = true,
+                modifier = Modifier.semantics { contentDescription = "$SurveyFormTextField$index" }
             )
         }
     }

@@ -51,33 +51,81 @@ class SurveyScreenTest {
     }
 
     @Test
-    fun `when entering the Survey screen, it shows UI correctly`() = initComposable {
-        onNodeWithContentDescription(SurveyBackButton).assertIsDisplayed()
-        onNodeWithText("Scarlett Bangkok").assertIsDisplayed()
-        onNodeWithText("We'd love to hear from you!").assertIsDisplayed()
-        onNodeWithText(context.getString(R.string.survey_start)).assertIsDisplayed().performClick()
+    fun `when entering the Survey screen and filling the survey answers, it shows UI correctly and navigates to the Completion screen`() =
+        initComposable {
+            onNodeWithContentDescription(SurveyBackButton).assertIsDisplayed()
+            onNodeWithText("Scarlett Bangkok").assertIsDisplayed()
+            onNodeWithText("We'd love to hear from you!").assertIsDisplayed()
+            onNodeWithText(context.getString(R.string.survey_start)).assertIsDisplayed().performClick()
 
-        testSurveyQuestionPage(1, "Food â€“ Variety, Taste and Presentation")
+            testAndFillQuestionAnswers()
 
-        testSurveyQuestionPage(2, "Beverages â€“ Variety, Taste and Presentation")
+            assertEquals(expectedAppDestination, AppDestination.Completion)
+        }
 
-        testSurveyQuestionPage(3, "Quality of Service, Speed and Efficiency")
+    private fun ComposeContentTestRule.testAndFillQuestionAnswers() {
+        testSurveyQuestionPage(1, "Food â€“ Variety, Taste and Presentation") {
+            onAllNodesWithText("⭐️️")[0].assertIsDisplayed().performClick()
+        }
 
-        testSurveyQuestionPage(4, "Staff- Friendliness and Helpfulness")
+        testSurveyQuestionPage(2, "Beverages â€“ Variety, Taste and Presentation") {
+            onAllNodesWithText("⭐️️")[1].assertIsDisplayed().performClick()
+        }
 
-        testSurveyQuestionPage(5, "Restaurant Design and Atmosphere")
+        testSurveyQuestionPage(3, "Quality of Service, Speed and Efficiency") {
+            onAllNodesWithText("⭐️️")[2].assertIsDisplayed().performClick()
+        }
 
-        testSurveyQuestionPage(6, "Overall Satisfaction")
+        testSurveyQuestionPage(4, "Staff- Friendliness and Helpfulness") {
+            onAllNodesWithText("⭐️️")[3].assertIsDisplayed().performClick()
+        }
 
-        testSurveyQuestionPage(7, "How did you hear about us?")
+        testSurveyQuestionPage(5, "Restaurant Design and Atmosphere") {
+            onAllNodesWithText("❤️")[4].assertIsDisplayed().performClick()
+        }
 
-        testSurveyQuestionPage(8, "How likely is that you would recommend\nScarlett to a friend or colleague?")
+        testSurveyQuestionPage(6, "Overall Satisfaction") {
+            onNodeWithText("\uD83D\uDE42").assertIsDisplayed().performClick() // 🙂
+        }
 
-        testSurveyQuestionPage(9, "Your additional comments are welcomed.")
+        testSurveyQuestionPage(7, "How did you hear about us?") {
+            onNodeWithText("TripAdvisor").assertIsDisplayed().performClick()
+            onNodeWithText("Website").assertIsDisplayed().performClick()
+        }
 
-        testSurveyQuestionPage(10, "Don't miss out on our Exclusive Promotions!")
+        testSurveyQuestionPage(8, "How likely is that you would recommend\nScarlett to a friend or colleague?") {
+            onNodeWithText("6").assertIsDisplayed().performClick()
+        }
 
-        testSurveyQuestionPage(11, "Thank you for taking the time to share your feedback!")
+        testSurveyQuestionPage(9, "Your additional comments are welcomed.") {
+            onNodeWithContentDescription(SurveyFormTextArea).assertIsDisplayed()
+                .performTextInput("all good")
+        }
+
+        testSurveyQuestionPage(10, "Don't miss out on our Exclusive Promotions!") {
+            onNodeWithContentDescription("${SurveyFormTextField}0").assertIsDisplayed()
+                .performTextInput("lucas")
+            onNodeWithContentDescription("${SurveyFormTextField}1").assertIsDisplayed()
+                .performTextInput("0123456789")
+            onNodeWithContentDescription("${SurveyFormTextField}2").assertIsDisplayed()
+                .performTextInput("lucas@nimblehq.co")
+        }
+
+        testSurveyQuestionPage(11, "Thank you for taking the time to share your feedback!") {}
+    }
+
+    @Test
+    fun `when submitting survey answers fails, it shows an error message`() {
+        val expectedError = Throwable("unexpected error")
+        every { mockSubmitSurveyUseCase(any()) } returns flow { throw expectedError }
+
+        initComposable {
+            onNodeWithText(context.getString(R.string.survey_start)).assertIsDisplayed().performClick()
+
+            testAndFillQuestionAnswers()
+
+            onNodeWithText("unexpected error").assertIsDisplayed()
+        }
     }
 
     @Test
@@ -97,10 +145,17 @@ class SurveyScreenTest {
         }
     }
 
-    private fun ComposeContentTestRule.testSurveyQuestionPage(index: Int, questionTitle: String) {
+    private fun ComposeContentTestRule.testSurveyQuestionPage(
+        index: Int,
+        questionTitle: String,
+        fillAnswerAction: () -> Unit
+    ) {
         onNodeWithContentDescription(SurveyCloseButton + index).assertIsDisplayed()
         onNodeWithText("$index/11").assertIsDisplayed()
         onNodeWithText(questionTitle).assertIsDisplayed()
+
+        fillAnswerAction()
+
         if (index < 11) {
             onNodeWithContentDescription(SurveyNextButton + index).assertIsDisplayed().performClick()
         } else {

@@ -26,6 +26,8 @@ import vn.luongvo.kmm.survey.domain.model.QuestionSubmission
 const val SurveyBackButton = "SurveyBackButton"
 const val SurveyCloseButton = "SurveyCloseButton"
 const val SurveyNextButton = "SurveyNextButton"
+const val SurveyFormTextArea = "SurveyFormTextArea"
+const val SurveyFormTextField = "SurveyFormTextField"
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
