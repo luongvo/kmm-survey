@@ -37,7 +37,7 @@ class SurveyRepositoryTest {
             .whenInvokedWith(any(), any())
             .thenReturn(surveyResponses)
 
-        repository.getSurveys(pageNumber = 1, pageSize = 10).test {
+        repository.getSurveys(pageNumber = 1, pageSize = 10, isRefresh = false).test {
             awaitItem() shouldBe surveys
             awaitComplete()
         }
@@ -51,7 +51,7 @@ class SurveyRepositoryTest {
             .whenInvokedWith(any(), any())
             .thenThrow(throwable)
 
-        repository.getSurveys(pageNumber = 1, pageSize = 10).test {
+        repository.getSurveys(pageNumber = 1, pageSize = 10, isRefresh = false).test {
             awaitError() shouldBe throwable
         }
     }

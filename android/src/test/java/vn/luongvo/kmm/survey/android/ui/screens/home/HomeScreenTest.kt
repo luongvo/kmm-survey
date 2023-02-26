@@ -40,7 +40,7 @@ class HomeScreenTest {
     @Before
     fun setup() {
         every { mockGetUserProfileUseCase() } returns flowOf(user)
-        every { mockGetSurveysUseCase(any(), any()) } returns flowOf(surveys)
+        every { mockGetSurveysUseCase(any(), any(), any()) } returns flowOf(surveys)
         every { mockLogOutUseCase() } returns flowOf(Unit)
         every { mockDateFormatter.format(any(), any()) } returns "Thursday, December 29"
 
@@ -94,7 +94,7 @@ class HomeScreenTest {
     @Test
     fun `when getting surveys fails, it shows an error message`() {
         val expectedError = Throwable("unexpected error")
-        every { mockGetSurveysUseCase(any(), any()) } returns flow { throw expectedError }
+        every { mockGetSurveysUseCase(any(), any(), any()) } returns flow { throw expectedError }
 
         initComposable {
             onNodeWithText("unexpected error").assertIsDisplayed()

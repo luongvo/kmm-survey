@@ -29,10 +29,10 @@ class GetSurveysUseCaseTest {
     fun `when calling getSurveys successfully - it returns survey list`() = runTest {
         given(mockRepository)
             .function(mockRepository::getSurveys)
-            .whenInvokedWith(any(), any())
+            .whenInvokedWith(any(), any(), any())
             .thenReturn(flowOf(surveys))
 
-        useCase(pageNumber = 1, pageSize = 10).test {
+        useCase(pageNumber = 1, pageSize = 10, isRefresh = false).test {
             awaitItem() shouldBe surveys
             awaitComplete()
         }
@@ -43,12 +43,12 @@ class GetSurveysUseCaseTest {
         val throwable = Throwable()
         given(mockRepository)
             .function(mockRepository::getSurveys)
-            .whenInvokedWith(any(), any())
+            .whenInvokedWith(any(), any(), any())
             .thenReturn(
                 flow { throw throwable }
             )
 
-        useCase(pageNumber = 1, pageSize = 10).test {
+        useCase(pageNumber = 1, pageSize = 10, isRefresh = false).test {
             awaitError() shouldBe throwable
         }
     }

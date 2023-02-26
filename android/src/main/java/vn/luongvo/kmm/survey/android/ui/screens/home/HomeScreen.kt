@@ -13,7 +13,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.pager.*
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.ui.common.DimmedImageBackground
@@ -36,13 +35,13 @@ fun HomeScreen(
     navigator: (destination: AppDestination) -> Unit
 ) {
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
+    val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
     val error by viewModel.error.collectAsStateWithLifecycle()
     val currentDate by viewModel.currentDate.collectAsStateWithLifecycle()
     val user by viewModel.user.collectAsStateWithLifecycle()
     val surveys by viewModel.surveys.collectAsStateWithLifecycle()
     val appVersion by viewModel.appVersion.collectAsStateWithLifecycle()
 
-    var isRefreshing by remember { mutableStateOf(false) }
     val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -70,13 +69,7 @@ fun HomeScreen(
         user = user,
         surveys = surveys,
         onSurveyClick = { survey -> viewModel.navigateToSurvey(survey?.id.orEmpty()) },
-        onRefresh = {
-            scope.launch {
-                isRefreshing = true
-                delay(1500)
-                isRefreshing = false
-            }
-        },
+        onRefresh = { viewModel.loadData(isRefresh = true) },
         onMenuLogoutClick = { viewModel.logOut() }
     )
 }
