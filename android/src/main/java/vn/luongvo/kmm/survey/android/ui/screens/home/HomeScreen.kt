@@ -1,7 +1,9 @@
 package vn.luongvo.kmm.survey.android.ui.screens.home
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
+import androidx.compose.material.pullrefresh.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -11,6 +13,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.pager.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.ui.common.DimmedImageBackground
@@ -18,6 +21,7 @@ import vn.luongvo.kmm.survey.android.ui.common.RtlModalDrawer
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.ui.preview.*
 import vn.luongvo.kmm.survey.android.ui.screens.home.views.*
+import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.colors
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.android.util.userReadableMessage
@@ -38,6 +42,7 @@ fun HomeScreen(
     val surveys by viewModel.surveys.collectAsStateWithLifecycle()
     val appVersion by viewModel.appVersion.collectAsStateWithLifecycle()
 
+    var isRefreshing by remember { mutableStateOf(false) }
     val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -60,10 +65,18 @@ fun HomeScreen(
         appVersion = appVersion,
         scaffoldState = scaffoldState,
         isLoading = isLoading,
+        isRefreshing = isRefreshing,
         currentDate = currentDate,
         user = user,
         surveys = surveys,
         onSurveyClick = { survey -> viewModel.navigateToSurvey(survey?.id.orEmpty()) },
+        onRefresh = {
+            scope.launch {
+                isRefreshing = true
+                delay(1500)
+                isRefreshing = false
+            }
+        },
         onMenuLogoutClick = { viewModel.logOut() }
     )
 }
@@ -74,10 +87,12 @@ private fun HomeScreenWithDrawer(
     initialDrawerState: DrawerValue = DrawerValue.Closed,
     scaffoldState: ScaffoldState,
     isLoading: Boolean,
+    isRefreshing: Boolean,
     currentDate: String,
     user: UserUiModel?,
     surveys: List<SurveyUiModel>,
     onSurveyClick: (SurveyUiModel?) -> Unit,
+    onRefresh: () -> Unit,
     onMenuLogoutClick: () -> Unit
 ) {
     val drawerState = rememberDrawerState(initialDrawerState)
@@ -100,28 +115,36 @@ private fun HomeScreenWithDrawer(
         HomeScreenContent(
             scaffoldState = scaffoldState,
             isLoading = isLoading,
+            isRefreshing = isRefreshing,
             currentDate = currentDate,
             user = user,
             surveys = surveys,
             onSurveyClick = onSurveyClick,
             onUserAvatarClick = {
                 scope.launch { drawerState.open() }
-            }
+            },
+            onRefresh = onRefresh
         )
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class)
 @Composable
 private fun HomeScreenContent(
     scaffoldState: ScaffoldState,
     isLoading: Boolean,
+    isRefreshing: Boolean,
     currentDate: String,
     user: UserUiModel?,
     surveys: List<SurveyUiModel>,
     onSurveyClick: (SurveyUiModel?) -> Unit,
-    onUserAvatarClick: () -> Unit
+    onUserAvatarClick: () -> Unit,
+    onRefresh: () -> Unit
 ) {
+    val refreshingState = rememberPullRefreshState(
+        refreshing = isRefreshing,
+        onRefresh = onRefresh
+    )
     val pagerState = rememberPagerState()
     var survey by remember { mutableStateOf<SurveyUiModel?>(null) }
 
@@ -135,37 +158,53 @@ private fun HomeScreenContent(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .pullRefresh(refreshingState)
                 .padding(padding)
         ) {
-            HorizontalPager(
-                count = surveys.size,
-                state = pagerState,
-                modifier = Modifier.fillMaxSize()
-            ) { index ->
-                DimmedImageBackground(
-                    imageUrl = surveys[index].coverImageUrl
-                )
+            // pullRefresh needs a vertical scroll component to work
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                item {
+                    Box(modifier = Modifier.fillParentMaxHeight()) {
+                        HorizontalPager(
+                            count = surveys.size,
+                            state = pagerState,
+                            modifier = Modifier.fillMaxSize()
+                        ) { index ->
+                            DimmedImageBackground(
+                                imageUrl = surveys[index].coverImageUrl
+                            )
+                        }
+
+                        HomeHeader(
+                            isLoading = isLoading,
+                            dateTime = currentDate,
+                            user = user,
+                            onUserAvatarClick = onUserAvatarClick,
+                            modifier = Modifier
+                                .statusBarsPadding()
+                                .padding(top = dimensions.paddingSmall)
+                        )
+
+                        HomeFooter(
+                            pagerState = pagerState,
+                            isLoading = isLoading,
+                            survey = survey,
+                            modifier = Modifier
+                                .navigationBarsPadding()
+                                .align(Alignment.BottomCenter)
+                                .padding(bottom = dimensions.paddingHuge),
+                            onSurveyClick = onSurveyClick
+                        )
+                    }
+                }
             }
 
-            HomeHeader(
-                isLoading = isLoading,
-                dateTime = currentDate,
-                user = user,
-                onUserAvatarClick = onUserAvatarClick,
-                modifier = Modifier
-                    .statusBarsPadding()
-                    .padding(top = dimensions.paddingSmall)
-            )
-
-            HomeFooter(
-                pagerState = pagerState,
-                isLoading = isLoading,
-                survey = survey,
-                modifier = Modifier
-                    .navigationBarsPadding()
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = dimensions.paddingHuge),
-                onSurveyClick = onSurveyClick
+            PullRefreshIndicator(
+                refreshing = isRefreshing,
+                state = refreshingState,
+                backgroundColor = colors.pullRefreshBackground,
+                contentColor = colors.pullRefreshContent,
+                modifier = Modifier.align(alignment = Alignment.TopCenter)
             )
         }
     }
@@ -183,10 +222,12 @@ fun HomeScreenPreview(
                 initialDrawerState = drawerState,
                 scaffoldState = rememberScaffoldState(),
                 isLoading = isLoading,
+                isRefreshing = isLoading,
                 currentDate = currentDate,
                 user = user,
                 surveys = surveys,
                 onSurveyClick = {},
+                onRefresh = {},
                 onMenuLogoutClick = {}
             )
         }
