@@ -20,6 +20,7 @@ object Versions {
     const val COMPOSE_ACCOMPANIST = "0.28.0"
     const val COMPOSE_COIL = "2.2.2"
     const val COMPOSE_CONSTRAINT_LAYOUT = "1.0.1"
+    const val COMPOSE_LOTTIE = "6.0.0"
     const val COMPOSE_NUMBERPICKER = "1.0.7"
 
     const val DETEKT = "1.21.0"
@@ -89,6 +90,7 @@ object Dependencies {
         const val COIL_COMPOSE = "io.coil-kt:coil-compose:${Versions.COMPOSE_COIL}"
         const val CONSTRAINT_LAYOUT =
             "androidx.constraintlayout:constraintlayout-compose:${Versions.COMPOSE_CONSTRAINT_LAYOUT}"
+        const val LOTTIE = "com.airbnb.android:lottie-compose:${Versions.COMPOSE_LOTTIE}"
         const val NUMBERPICKER = "com.github.luongvo:Compose-NumberPicker:${Versions.COMPOSE_NUMBERPICKER}"
     }
 

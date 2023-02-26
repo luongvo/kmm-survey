@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">KMM Survey</string>
 
+    <string name="completion_thanks_message">Thanks for taking the survey.</string>
+
     <string name="generic_error">Unexpected error!</string>
     <string name="generic_ok">OK</string>
 

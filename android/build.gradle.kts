@@ -125,6 +125,7 @@ dependencies {
         implementation(ACCOMPANIST_PLACEHOLDER)
         implementation(COIL_COMPOSE)
         implementation(CONSTRAINT_LAYOUT)
+        implementation(LOTTIE)
         implementation(NUMBERPICKER)
     }
     with(Dependencies.Firebase) {
