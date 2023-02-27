@@ -4,21 +4,24 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import vn.luongvo.kmm.survey.android.ui.common.PrimaryTextField
 import vn.luongvo.kmm.survey.android.ui.preview.SurveyDetailParameterProvider
-import vn.luongvo.kmm.survey.android.ui.screens.survey.AnswerInput
-import vn.luongvo.kmm.survey.android.ui.screens.survey.AnswerUiModel
+import vn.luongvo.kmm.survey.android.ui.screens.survey.*
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
+import vn.luongvo.kmm.survey.domain.model.AnswerSubmission
 
 @Composable
 fun TextFields(
     answers: List<AnswerUiModel>,
-    onValueChange: (List<AnswerInput>) -> Unit,
+    onValueChange: (List<AnswerSubmission>) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var values by remember { mutableStateOf(answers.map { AnswerInput(it.id, "") }) }
+    var values by remember { mutableStateOf(answers.map { AnswerSubmission(id = it.id) }) }
 
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(dimensions.paddingSmall),
@@ -27,7 +30,7 @@ fun TextFields(
         items(answers.size) { index ->
             val answer = answers[index]
             var value by remember {
-                mutableStateOf(values.elementAtOrNull(index)?.content.orEmpty())
+                mutableStateOf(values.elementAtOrNull(index)?.answer.orEmpty())
             }
 
             PrimaryTextField(
@@ -35,12 +38,17 @@ fun TextFields(
                 onValueChange = {
                     value = it
                     values = values.toMutableList().apply {
-                        this[index] = AnswerInput(answer.id, it)
+                        this[index] = AnswerSubmission(
+                            id = answer.id,
+                            answer = it
+                        )
                     }
                     onValueChange(values)
                 },
                 placeholder = answer.inputMaskPlaceholder.orEmpty(),
-                isHighlightBackgroundIfNotEmpty = true
+                imeAction = if (index == answers.lastIndex) ImeAction.Done else ImeAction.Next,
+                isHighlightBackgroundIfNotEmpty = true,
+                modifier = Modifier.semantics { contentDescription = "$SurveyFormTextField$index" }
             )
         }
     }

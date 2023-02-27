@@ -7,7 +7,7 @@ data class SurveySubmission(
 
 data class QuestionSubmission(
     val id: String,
-    val answers: List<AnswerSubmission>
+    val answers: MutableList<AnswerSubmission>
 )
 
 data class AnswerSubmission(

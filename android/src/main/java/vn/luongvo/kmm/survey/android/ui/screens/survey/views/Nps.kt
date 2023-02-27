@@ -20,11 +20,12 @@ import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.dimensions
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.shapes
 import vn.luongvo.kmm.survey.android.ui.theme.AppTheme.typography
 import vn.luongvo.kmm.survey.android.ui.theme.White50
+import vn.luongvo.kmm.survey.domain.model.AnswerSubmission
 
 @Composable
 fun Nps(
     answers: List<AnswerUiModel>,
-    onValueChange: (String) -> Unit,
+    onValueChange: (AnswerSubmission) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var selectedIndex by remember { mutableStateOf(0) }
@@ -55,7 +56,12 @@ fun Nps(
                     isSelected = isSelected,
                     onClick = {
                         selectedIndex = index
-                        onValueChange(answer.text)
+                        onValueChange(
+                            AnswerSubmission(
+                                id = answer.id,
+                                answer = answer.text
+                            )
+                        )
                     }
                 )
 
@@ -69,20 +75,17 @@ fun Nps(
                 }
             }
         }
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .padding(top = dimensions.paddingSmall)
-                .constrainAs(descriptionsRef) {
-                    top.linkTo(itemsRef.bottom)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                    width = Dimension.fillToConstraints
-                }
-        ) {
-            NpsDescriptions(answers, selectedIndex)
-        }
+
+        NpsDescriptions(
+            isHalfLeftItemsSelected = selectedIndex <= answers.size / 2,
+            modifier = Modifier.constrainAs(descriptionsRef) {
+                top.linkTo(itemsRef.bottom)
+                bottom.linkTo(parent.bottom)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                width = Dimension.fillToConstraints
+            }
+        )
     }
 }
 
@@ -113,20 +116,24 @@ private fun NpsItem(
 
 @Composable
 private fun NpsDescriptions(
-    answers: List<AnswerUiModel>,
-    selectedIndex: Int
+    isHalfLeftItemsSelected: Boolean,
+    modifier: Modifier = Modifier
 ) {
-    val isHalfLeftItemsSelected = selectedIndex <= answers.size / 2
-    Text(
-        text = stringResource(id = R.string.nps_not_at_all_likely),
-        color = if (isHalfLeftItemsSelected) White else White50,
-        style = typography.body1.copy(fontWeight = FontWeight.Bold),
-    )
-    Text(
-        text = stringResource(id = R.string.nps_extremely_likely),
-        color = if (isHalfLeftItemsSelected.not()) White else White50,
-        style = typography.body1.copy(fontWeight = FontWeight.Bold),
-    )
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier.padding(top = dimensions.paddingSmall)
+    ) {
+        Text(
+            text = stringResource(id = R.string.nps_not_at_all_likely),
+            color = if (isHalfLeftItemsSelected) White else White50,
+            style = typography.body1.copy(fontWeight = FontWeight.Bold),
+        )
+        Text(
+            text = stringResource(id = R.string.nps_extremely_likely),
+            color = if (isHalfLeftItemsSelected.not()) White else White50,
+            style = typography.body1.copy(fontWeight = FontWeight.Bold),
+        )
+    }
 }
 
 @Suppress("MagicNumber")

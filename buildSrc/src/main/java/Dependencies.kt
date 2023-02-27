@@ -20,7 +20,7 @@ object Versions {
     const val COMPOSE_ACCOMPANIST = "0.28.0"
     const val COMPOSE_COIL = "2.2.2"
     const val COMPOSE_CONSTRAINT_LAYOUT = "1.0.1"
-    const val COMPOSE_NUMBERPICKER = "1.0.6"
+    const val COMPOSE_NUMBERPICKER = "1.0.7"
 
     const val DETEKT = "1.21.0"
 
