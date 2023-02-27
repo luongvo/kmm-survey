@@ -27,7 +27,8 @@ class SurveyDetailParameterProvider : PreviewParameterProvider<SurveyDetailParam
                     answers = List(5) {
                         AnswerUiModel(
                             id = it.toString(),
-                            text = (it + 1).toString()
+                            text = (it + 1).toString(),
+                            inputMaskPlaceholder = "Placeholder ${(it + 1)}"
                         )
                     }
                 )
