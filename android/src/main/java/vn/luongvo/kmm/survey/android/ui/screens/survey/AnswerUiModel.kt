@@ -5,11 +5,11 @@ import vn.luongvo.kmm.survey.domain.model.Answer
 data class AnswerUiModel(
     val id: String,
     val text: String,
-    val inputMaskPlaceholder: String
+    val inputMaskPlaceholder: String? = null
 )
 
 fun Answer.toUiModel() = AnswerUiModel(
     id = id,
     text = text.orEmpty(),
-    inputMaskPlaceholder = inputMaskPlaceholder.orEmpty()
+    inputMaskPlaceholder = inputMaskPlaceholder
 )

@@ -39,7 +39,7 @@ fun TextFields(
                     }
                     onValueChange(values)
                 },
-                placeholder = answer.inputMaskPlaceholder,
+                placeholder = answer.inputMaskPlaceholder.orEmpty(),
                 isHighlightBackgroundIfNotEmpty = true
             )
         }
