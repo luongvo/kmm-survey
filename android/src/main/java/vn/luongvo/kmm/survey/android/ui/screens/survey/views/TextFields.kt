@@ -45,7 +45,7 @@ fun TextFields(
                     }
                     onValueChange(values)
                 },
-                placeholder = answer.inputMaskPlaceholder,
+                placeholder = answer.inputMaskPlaceholder.orEmpty(),
                 imeAction = if (index == answers.lastIndex) ImeAction.Done else ImeAction.Next,
                 isHighlightBackgroundIfNotEmpty = true,
                 modifier = Modifier.semantics { contentDescription = "$SurveyFormTextField$index" }

@@ -31,7 +31,7 @@ fun TextArea(
             )
             onValueChange(value)
         },
-        placeholder = answer.inputMaskPlaceholder,
+        placeholder = answer.inputMaskPlaceholder.orEmpty(),
         singleLine = false,
         imeAction = ImeAction.Done,
         modifier = modifier.semantics { contentDescription = SurveyFormTextArea }
