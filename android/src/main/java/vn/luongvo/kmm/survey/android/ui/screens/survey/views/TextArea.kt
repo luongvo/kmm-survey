@@ -24,7 +24,7 @@ fun TextArea(
             value = AnswerInput(answer.id, it)
             onValueChange(value)
         },
-        placeholder = answer.inputMaskPlaceholder,
+        placeholder = answer.inputMaskPlaceholder.orEmpty(),
         singleLine = false,
         modifier = modifier
     )
