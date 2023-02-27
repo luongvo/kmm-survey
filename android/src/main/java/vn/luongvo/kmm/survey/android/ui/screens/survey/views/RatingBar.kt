@@ -1,4 +1,4 @@
-package vn.luongvo.kmm.survey.android.ui.common
+package vn.luongvo.kmm.survey.android.ui.screens.survey.views
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -68,7 +68,10 @@ fun SmileyRatingBar(
         EMOJI_NEUTRAL_FACE,
         EMOJI_SLIGHTLY_SMILING_FACE,
         EMOJI_GRINNING_FACE_WITH_SMILING_EYES
-    )
+    ).apply {
+        // Limit emojis is not over answers
+        take(minOf(size, answers.size))
+    }
     RatingBar(
         modifier = modifier,
         emojis = emojis,
@@ -99,7 +102,7 @@ private fun RatingBar(
             Button(
                 onClick = {
                     selectedIndex = index
-                    onValueChange(answers.getOrNull(selectedIndex)?.text.orEmpty())
+                    onValueChange(answers[index].text)
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color.Transparent

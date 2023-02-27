@@ -34,6 +34,10 @@ private val Typography = Typography(
         fontSize = 28.sp,
         fontWeight = FontWeight.Bold
     ),
+    h6 = TextStyle(
+        fontSize = 20.sp,
+        fontWeight = FontWeight.Bold
+    ),
     button = TextStyle(
         fontSize = 17.sp,
         fontWeight = FontWeight.Bold

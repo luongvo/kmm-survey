@@ -45,50 +45,67 @@ fun SurveyQuestion(
             onClick = onCloseClick
         )
 
-        Column(
+        SurveyQuestionContent(
+            index,
+            count,
+            question,
+            onNextClick,
+            onSubmitClick
+        )
+    }
+}
+
+@Composable
+private fun SurveyQuestionContent(
+    index: Int,
+    count: Int,
+    question: QuestionUiModel,
+    onNextClick: () -> Unit,
+    onSubmitClick: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .statusBarsPadding()
+            .navigationBarsPadding()
+            .fillMaxWidth()
+            .padding(top = 70.dp)
+            .padding(horizontal = dimensions.paddingMedium)
+    ) {
+        Text(
+            text = "$index/$count",
+            color = White50,
+            style = AppTheme.typography.body2
+        )
+        Spacer(modifier = Modifier.height(dimensions.paddingTiny))
+        Text(
+            text = question.text,
+            color = Color.White,
+            style = AppTheme.typography.h4
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        AnswerForm(
+            question = question,
             modifier = Modifier
-                .statusBarsPadding()
-                .navigationBarsPadding()
-                .fillMaxWidth()
-                .padding(top = 70.dp)
-                .padding(horizontal = dimensions.paddingMedium)
-        ) {
-            Text(
-                text = "$index/$count",
-                color = White50,
-                style = AppTheme.typography.body2
-            )
-            Spacer(modifier = Modifier.height(dimensions.paddingTiny))
-            Text(
-                text = question.text,
-                color = Color.White,
-                style = AppTheme.typography.h4
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            AnswerForm(
-                question = question,
+                .align(Alignment.CenterHorizontally)
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        if (index != count) {
+            NextCircleButton(
+                onClick = onNextClick,
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
+                    .align(Alignment.End)
+                    .padding(bottom = dimensions.paddingHuge)
+                    .semantics { contentDescription = SurveyNextButton + index }
             )
-            Spacer(modifier = Modifier.weight(1f))
-            if (index != count) {
-                NextCircleButton(
-                    onClick = onNextClick,
-                    modifier = Modifier
-                        .align(Alignment.End)
-                        .padding(bottom = dimensions.paddingHuge)
-                        .semantics { contentDescription = SurveyNextButton + index }
-                )
-            } else {
-                PrimaryButton(
-                    text = stringResource(id = R.string.survey_submit),
-                    onClick = onSubmitClick,
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .align(Alignment.End)
-                        .padding(bottom = dimensions.paddingHuge)
-                )
-            }
+        } else {
+            PrimaryButton(
+                text = stringResource(id = R.string.survey_submit),
+                onClick = onSubmitClick,
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .align(Alignment.End)
+                    .padding(bottom = dimensions.paddingHuge)
+            )
         }
     }
 }
@@ -115,6 +132,13 @@ private fun AnswerForm(
                 modifier = modifier
             )
             DisplayType.SMILEY -> SmileyRatingBar(
+                answers = answers,
+                onValueChange = {
+                    Timber.d("$displayType -> onValueChange: $it")
+                },
+                modifier = modifier
+            )
+            DisplayType.NPS -> Nps(
                 answers = answers,
                 onValueChange = {
                     Timber.d("$displayType -> onValueChange: $it")
