@@ -119,10 +119,13 @@ dependencies {
         implementation(MATERIAL)
         implementation(NAVIGATION)
         implementation(UI_TOOLING)
-        implementation(COIL_COMPOSE)
+
         implementation(ACCOMPANIST_PAGER)
         implementation(ACCOMPANIST_PAGER_INDICATORS)
         implementation(ACCOMPANIST_PLACEHOLDER)
+        implementation(COIL_COMPOSE)
+        implementation(CONSTRAINT_LAYOUT)
+        implementation(NUMBERPICKER)
     }
     with(Dependencies.Firebase) {
         implementation(platform(FIREBASE_BOM))

@@ -4,7 +4,7 @@ object Versions {
     const val ANDROID_TARGET_SDK_VERSION = 33
 
     const val ANDROID_VERSION_CODE = 1
-    const val ANDROID_VERSION_NAME = "0.4.0"
+    const val ANDROID_VERSION_NAME = "0.5.0"
 
     const val ANDROIDX_ACTIVITY_COMPOSE = "1.5.1"
     const val ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE = "2.6.0-alpha03"
@@ -12,12 +12,15 @@ object Versions {
 
     const val BUILD_KONFIG = "0.13.3"
 
-    const val COMPOSE_ACCOMPANIST = "0.28.0"
-    const val COMPOSE_COIL = "2.2.2"
     const val COMPOSE_COMPILER = "1.3.2"
     const val COMPOSE_MATERIAL = "1.3.1"
     const val COMPOSE_NAVIGATION = "2.5.2"
     const val COMPOSE_UI = "1.3.2"
+
+    const val COMPOSE_ACCOMPANIST = "0.28.0"
+    const val COMPOSE_COIL = "2.2.2"
+    const val COMPOSE_CONSTRAINT_LAYOUT = "1.0.1"
+    const val COMPOSE_NUMBERPICKER = "1.0.7"
 
     const val DETEKT = "1.21.0"
 
@@ -77,12 +80,16 @@ object Dependencies {
         const val UI_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE_UI}"
         const val MATERIAL = "androidx.compose.material:material:${Versions.COMPOSE_MATERIAL}"
         const val NAVIGATION = "androidx.navigation:navigation-compose:${Versions.COMPOSE_NAVIGATION}"
-        const val COIL_COMPOSE = "io.coil-kt:coil-compose:${Versions.COMPOSE_COIL}"
+
         const val ACCOMPANIST_PAGER = "com.google.accompanist:accompanist-pager:${Versions.COMPOSE_ACCOMPANIST}"
         const val ACCOMPANIST_PAGER_INDICATORS =
             "com.google.accompanist:accompanist-pager-indicators:${Versions.COMPOSE_ACCOMPANIST}"
         const val ACCOMPANIST_PLACEHOLDER =
             "com.google.accompanist:accompanist-placeholder:${Versions.COMPOSE_ACCOMPANIST}"
+        const val COIL_COMPOSE = "io.coil-kt:coil-compose:${Versions.COMPOSE_COIL}"
+        const val CONSTRAINT_LAYOUT =
+            "androidx.constraintlayout:constraintlayout-compose:${Versions.COMPOSE_CONSTRAINT_LAYOUT}"
+        const val NUMBERPICKER = "com.github.luongvo:Compose-NumberPicker:${Versions.COMPOSE_NUMBERPICKER}"
     }
 
     object Firebase {

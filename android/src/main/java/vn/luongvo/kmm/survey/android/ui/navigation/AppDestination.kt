@@ -30,4 +30,6 @@ sealed class AppDestination(val route: String = "") {
             destination = "survey/$surveyId"
         }
     }
+
+    object Completion : AppDestination("completion")
 }

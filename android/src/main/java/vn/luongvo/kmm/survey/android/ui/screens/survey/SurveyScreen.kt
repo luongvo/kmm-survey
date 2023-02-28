@@ -15,16 +15,19 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import vn.luongvo.kmm.survey.android.ui.common.*
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
-import vn.luongvo.kmm.survey.android.ui.preview.LoadingParameterProvider
+import vn.luongvo.kmm.survey.android.ui.preview.*
 import vn.luongvo.kmm.survey.android.ui.screens.home.SurveyUiModel
 import vn.luongvo.kmm.survey.android.ui.screens.survey.views.SurveyIntro
 import vn.luongvo.kmm.survey.android.ui.screens.survey.views.SurveyQuestion
 import vn.luongvo.kmm.survey.android.ui.theme.ComposeTheme
 import vn.luongvo.kmm.survey.android.util.userReadableMessage
+import vn.luongvo.kmm.survey.domain.model.QuestionSubmission
 
 const val SurveyBackButton = "SurveyBackButton"
 const val SurveyCloseButton = "SurveyCloseButton"
 const val SurveyNextButton = "SurveyNextButton"
+const val SurveyFormTextArea = "SurveyFormTextArea"
+const val SurveyFormTextField = "SurveyFormTextField"
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -51,11 +54,16 @@ fun SurveyScreen(
         viewModel.getSurveyDetail(id = surveyId)
     }
 
+    LaunchedEffect(viewModel.navigator) {
+        viewModel.navigator.collect { destination -> navigator(destination) }
+    }
+
     SurveyScreenContent(
         scaffoldState = scaffoldState,
         isLoading = isLoading,
         survey = survey,
         onBackClick = { navigator(AppDestination.Up) },
+        onAnswer = { viewModel.saveAnswerForQuestion(it) },
         onSubmitClick = { viewModel.submitSurvey() }
     )
 }
@@ -67,6 +75,7 @@ private fun SurveyScreenContent(
     isLoading: Boolean,
     survey: SurveyUiModel?,
     onBackClick: () -> Unit,
+    onAnswer: (QuestionSubmission) -> Unit,
     onSubmitClick: () -> Unit
 ) {
     val pagerState = rememberPagerState()
@@ -83,9 +92,8 @@ private fun SurveyScreenContent(
                     .fillMaxSize()
                     .padding(padding)
             ) { index ->
-                // TODO use question.displayType instead
                 val questionCount = questions.size - 1
-                if (index == 0) {
+                if (questions[index].displayType == DisplayType.INTRO) {
                     SurveyIntro(
                         survey = survey,
                         onBackClick = onBackClick,
@@ -97,6 +105,7 @@ private fun SurveyScreenContent(
                         count = questionCount,
                         question = questions[index],
                         onCloseClick = onBackClick,
+                        onAnswer = onAnswer,
                         onNextClick = { pagerState.scrollToNextPage(scope) },
                         onSubmitClick = onSubmitClick
                     )
@@ -123,28 +132,18 @@ private fun PagerState.scrollToNextPage(scope: CoroutineScope) {
 @Preview(showSystemUi = true)
 @Composable
 fun SurveyScreenPreview(
-    @PreviewParameter(LoadingParameterProvider::class) isLoading: Boolean
+    @PreviewParameter(SurveyDetailScreenParameterProvider::class) params: SurveyDetailParameterProvider.Params
 ) {
-    ComposeTheme {
-        SurveyScreenContent(
-            scaffoldState = rememberScaffoldState(),
-            isLoading = isLoading,
-            survey = SurveyUiModel(
-                id = "1",
-                title = "Scarlett Bangkok",
-                description = "We'd love to hear from you!",
-                coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_",
-                questions = listOf(
-                    QuestionUiModel(
-                        id = "1",
-                        text = "How fulfilled did you feel during this WFH period?",
-                        coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_l",
-                        answers = null
-                    )
-                )
-            ),
-            onBackClick = {},
-            onSubmitClick = {}
-        )
+    with(params) {
+        ComposeTheme {
+            SurveyScreenContent(
+                scaffoldState = rememberScaffoldState(),
+                isLoading = isLoading,
+                survey = survey,
+                onBackClick = {},
+                onAnswer = {},
+                onSubmitClick = {}
+            )
+        }
     }
 }
