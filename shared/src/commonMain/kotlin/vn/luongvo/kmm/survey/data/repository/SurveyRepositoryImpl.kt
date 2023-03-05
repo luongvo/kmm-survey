@@ -3,6 +3,7 @@ package vn.luongvo.kmm.survey.data.repository
 import kotlinx.coroutines.flow.Flow
 import vn.luongvo.kmm.survey.data.extensions.flowTransform
 import vn.luongvo.kmm.survey.data.local.datasource.SurveyLocalDataSource
+import vn.luongvo.kmm.survey.data.local.model.toSurvey
 import vn.luongvo.kmm.survey.data.remote.datasource.SurveyRemoteDataSource
 import vn.luongvo.kmm.survey.data.remote.model.request.SurveySubmissionRequestBody
 import vn.luongvo.kmm.survey.data.remote.model.response.toSurvey
@@ -23,6 +24,12 @@ class SurveyRepositoryImpl(
         surveyLocalDataSource.saveSurveys(surveys.map { it.toSurveyRealmObject() })
 
         surveys
+    }
+
+    override fun getCachedSurveys(): Flow<List<Survey>> = flowTransform {
+        surveyLocalDataSource
+            .getSurveys()
+            .map { it.toSurvey() }
     }
 
     override fun getSurveyDetail(id: String): Flow<Survey> = flowTransform {

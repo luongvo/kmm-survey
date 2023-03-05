@@ -17,6 +17,7 @@ private const val SurveyPageSize = 10
 class HomeViewModel(
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val getSurveysUseCase: GetSurveysUseCase,
+    private val getCachedSurveysUseCase: GetCachedSurveysUseCase,
     private val logOutUseCase: LogOutUseCase,
     private val dateFormatter: DateFormatter
 ) : BaseViewModel() {
@@ -44,7 +45,18 @@ class HomeViewModel(
             _appVersion.emit("v${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})")
         }
 
+        loadCachedSurveys()
         loadData()
+    }
+
+    private fun loadCachedSurveys() {
+        getCachedSurveysUseCase()
+            .onStart { showLoading() }
+            .onCompletion { hideLoading() }
+            .onEach { surveys ->
+                _surveys.emit(surveys.map { it.toUiModel() })
+            }
+            .launchIn(viewModelScope)
     }
 
     fun loadData(isRefresh: Boolean = false) {
@@ -60,8 +72,17 @@ class HomeViewModel(
             pageSize = SurveyPageSize,
             isRefresh = isRefresh
         )
-            .onStart { if (isRefresh) _isRefreshing.value = true else showLoading() }
-            .onCompletion { if (isRefresh) _isRefreshing.value = false else hideLoading() }
+            .onStart {
+                if (isRefresh) _isRefreshing.value = true
+                else if (_surveys.value.isEmpty()) {
+                    // If there is no cached survey data, shows the shimmer loading when fetching remote data.
+                    showLoading()
+                }
+            }
+            .onCompletion {
+                if (isRefresh) _isRefreshing.value = false
+                else hideLoading()
+            }
             .catch { e -> _error.emit(e) }
             .onEach { surveys ->
                 _surveys.emit(surveys.map { it.toUiModel() })

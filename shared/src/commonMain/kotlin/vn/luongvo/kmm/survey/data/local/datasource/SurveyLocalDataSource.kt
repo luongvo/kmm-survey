@@ -8,6 +8,8 @@ import vn.luongvo.kmm.survey.data.local.model.SurveyRealmObject
 interface SurveyLocalDataSource {
 
     fun saveSurveys(surveys: List<SurveyRealmObject>)
+
+    fun getSurveys(): List<SurveyRealmObject>
 }
 
 class SurveyLocalDataSourceImpl(private val realm: Realm) : SurveyLocalDataSource {
@@ -18,5 +20,9 @@ class SurveyLocalDataSourceImpl(private val realm: Realm) : SurveyLocalDataSourc
                 copyToRealm(it, updatePolicy = UpdatePolicy.ALL)
             }
         }
+    }
+
+    override fun getSurveys(): List<SurveyRealmObject> {
+        return realm.query<SurveyRealmObject>().find()
     }
 }
