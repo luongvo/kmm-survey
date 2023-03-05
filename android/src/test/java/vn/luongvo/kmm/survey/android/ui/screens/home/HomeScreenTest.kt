@@ -31,6 +31,7 @@ class HomeScreenTest {
 
     private val mockGetUserProfileUseCase: GetUserProfileUseCase = mockk()
     private val mockGetSurveysUseCase: GetSurveysUseCase = mockk()
+    private val mockGetCachedSurveysUseCase: GetCachedSurveysUseCase = mockk()
     private val mockLogOutUseCase: LogOutUseCase = mockk()
     private val mockDateFormatter: DateFormatter = mockk()
 
@@ -41,12 +42,14 @@ class HomeScreenTest {
     fun setup() {
         every { mockGetUserProfileUseCase() } returns flowOf(user)
         every { mockGetSurveysUseCase(any(), any(), any()) } returns flowOf(surveys)
+        every { mockGetCachedSurveysUseCase() } returns flowOf(emptyList())
         every { mockLogOutUseCase() } returns flowOf(Unit)
         every { mockDateFormatter.format(any(), any()) } returns "Thursday, December 29"
 
         viewModel = HomeViewModel(
             mockGetUserProfileUseCase,
             mockGetSurveysUseCase,
+            mockGetCachedSurveysUseCase,
             mockLogOutUseCase,
             mockDateFormatter
         )
