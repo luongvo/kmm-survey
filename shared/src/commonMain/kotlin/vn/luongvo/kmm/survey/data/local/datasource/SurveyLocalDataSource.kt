@@ -10,6 +10,8 @@ interface SurveyLocalDataSource {
     fun saveSurveys(surveys: List<SurveyRealmObject>)
 
     fun getSurveys(): List<SurveyRealmObject>
+
+    fun deleteAllSurveys()
 }
 
 class SurveyLocalDataSourceImpl(private val realm: Realm) : SurveyLocalDataSource {
@@ -24,5 +26,12 @@ class SurveyLocalDataSourceImpl(private val realm: Realm) : SurveyLocalDataSourc
 
     override fun getSurveys(): List<SurveyRealmObject> {
         return realm.query<SurveyRealmObject>().find()
+    }
+
+    override fun deleteAllSurveys() {
+        realm.writeBlocking {
+            val surveys = query<SurveyRealmObject>().find()
+            delete(surveys)
+        }
     }
 }

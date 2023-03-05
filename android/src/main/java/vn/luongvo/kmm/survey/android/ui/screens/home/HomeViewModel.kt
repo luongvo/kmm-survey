@@ -51,8 +51,7 @@ class HomeViewModel(
 
     private fun loadCachedSurveys() {
         getCachedSurveysUseCase()
-            .onStart { showLoading() }
-            .onCompletion { hideLoading() }
+            .injectLoading()
             .onEach { surveys ->
                 _surveys.emit(surveys.map { it.toUiModel() })
             }
