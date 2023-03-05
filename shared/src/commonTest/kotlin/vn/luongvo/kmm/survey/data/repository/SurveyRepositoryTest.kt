@@ -56,6 +56,23 @@ class SurveyRepositoryTest {
     }
 
     @Test
+    fun `when calling getSurveys with isRefresh = true - it clears the cache`() = runTest {
+        given(mockRemoteDataSource)
+            .suspendFunction(mockRemoteDataSource::getSurveys)
+            .whenInvokedWith(any(), any())
+            .thenReturn(surveyResponses)
+
+        repository.getSurveys(pageNumber = 1, pageSize = 10, isRefresh = true).test {
+            awaitItem() shouldBe surveys
+            awaitComplete()
+
+            verify(mockLocalDataSource)
+                .function(mockLocalDataSource::clear)
+                .wasInvoked(exactly = 1.time)
+        }
+    }
+
+    @Test
     fun `when calling getSurveys fails - it does not cache and throws the corresponding error`() = runTest {
         val throwable = Throwable()
         given(mockRemoteDataSource)

@@ -17,7 +17,7 @@ class SurveyRepositoryImpl(
 
     override fun getSurveys(pageNumber: Int, pageSize: Int, isRefresh: Boolean): Flow<List<Survey>> = flowTransform {
         if (isRefresh) {
-            surveyLocalDataSource.deleteAllSurveys()
+            surveyLocalDataSource.clear()
         }
 
         val surveys = surveyRemoteDataSource
