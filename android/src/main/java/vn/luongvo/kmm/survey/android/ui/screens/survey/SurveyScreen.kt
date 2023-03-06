@@ -5,6 +5,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -13,6 +14,7 @@ import com.google.accompanist.pager.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
+import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.ui.preview.*
@@ -50,6 +52,21 @@ fun SurveyScreen(
         viewModel.clearError()
     }
 
+    val showConfirmationDialog = remember { mutableStateOf(false) }
+    if (showConfirmationDialog.value) {
+        ConfirmationDialog(
+            title = stringResource(id = R.string.survey_quit_confirmation_title),
+            message = stringResource(id = R.string.survey_quit_confirmation_description),
+            onConfirmButtonClick = {
+                showConfirmationDialog.value = false
+                navigator(AppDestination.Up)
+            },
+            onDismissRequest = {
+                showConfirmationDialog.value = false
+            }
+        )
+    }
+
     LaunchedEffect(Unit) {
         viewModel.getSurveyDetail(id = surveyId)
     }
@@ -62,7 +79,7 @@ fun SurveyScreen(
         scaffoldState = scaffoldState,
         isLoading = isLoading,
         survey = survey,
-        onBackClick = { navigator(AppDestination.Up) },
+        onBackClick = { showConfirmationDialog.value = true },
         onAnswer = { viewModel.saveAnswerForQuestion(it) },
         onSubmitClick = { viewModel.submitSurvey() }
     )
