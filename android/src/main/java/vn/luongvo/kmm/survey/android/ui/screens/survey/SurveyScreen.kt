@@ -1,5 +1,6 @@
 package vn.luongvo.kmm.survey.android.ui.screens.survey
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -53,19 +54,10 @@ fun SurveyScreen(
     }
 
     val showConfirmationDialog = remember { mutableStateOf(false) }
-    if (showConfirmationDialog.value) {
-        ConfirmationDialog(
-            title = stringResource(id = R.string.survey_quit_confirmation_title),
-            message = stringResource(id = R.string.survey_quit_confirmation_description),
-            onConfirmButtonClick = {
-                showConfirmationDialog.value = false
-                navigator(AppDestination.Up)
-            },
-            onDismissRequest = {
-                showConfirmationDialog.value = false
-            }
-        )
-    }
+    ConfirmationDialogHandling(
+        showConfirmationDialog = showConfirmationDialog,
+        onExit = { navigator(AppDestination.Up) }
+    )
 
     LaunchedEffect(Unit) {
         viewModel.getSurveyDetail(id = surveyId)
@@ -83,6 +75,30 @@ fun SurveyScreen(
         onAnswer = { viewModel.saveAnswerForQuestion(it) },
         onSubmitClick = { viewModel.submitSurvey() }
     )
+}
+
+@Composable
+private fun ConfirmationDialogHandling(
+    showConfirmationDialog: MutableState<Boolean>,
+    onExit: () -> Unit,
+) {
+    if (showConfirmationDialog.value) {
+        ConfirmationDialog(
+            title = stringResource(id = R.string.survey_quit_confirmation_title),
+            message = stringResource(id = R.string.survey_quit_confirmation_description),
+            onConfirmButtonClick = {
+                showConfirmationDialog.value = false
+                onExit()
+            },
+            onDismissRequest = {
+                showConfirmationDialog.value = false
+            }
+        )
+    }
+    // Override the system back button
+    BackHandler(true) {
+        showConfirmationDialog.value = true
+    }
 }
 
 @OptIn(ExperimentalPagerApi::class)
