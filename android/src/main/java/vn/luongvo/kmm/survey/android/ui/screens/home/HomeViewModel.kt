@@ -21,6 +21,9 @@ class HomeViewModel(
     private val dateFormatter: DateFormatter
 ) : BaseViewModel() {
 
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing
+
     private val _currentDate = MutableStateFlow("")
     val currentDate: StateFlow<String> = _currentDate
 
@@ -41,6 +44,10 @@ class HomeViewModel(
             _appVersion.emit("v${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})")
         }
 
+        loadData()
+    }
+
+    fun loadData(isRefresh: Boolean = false) {
         getUserProfileUseCase()
             .catch { e -> _error.emit(e) }
             .onEach {
@@ -48,8 +55,13 @@ class HomeViewModel(
             }
             .launchIn(viewModelScope)
 
-        getSurveysUseCase(pageNumber = SurveyStartPageIndex, pageSize = SurveyPageSize)
-            .injectLoading()
+        getSurveysUseCase(
+            pageNumber = SurveyStartPageIndex,
+            pageSize = SurveyPageSize,
+            isRefresh = isRefresh
+        )
+            .onStart { if (isRefresh) _isRefreshing.value = true else showLoading() }
+            .onCompletion { if (isRefresh) _isRefreshing.value = false else hideLoading() }
             .catch { e -> _error.emit(e) }
             .onEach { surveys ->
                 _surveys.emit(surveys.map { it.toUiModel() })

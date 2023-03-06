@@ -2,8 +2,7 @@ package vn.luongvo.kmm.survey.android.ui.screens.home
 
 import app.cash.turbine.test
 import io.kotest.matchers.shouldBe
-import io.mockk.every
-import io.mockk.mockk
+import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
@@ -35,7 +34,7 @@ class HomeViewModelTest {
     @Before
     fun setUp() {
         every { mockGetUserProfileUseCase() } returns flowOf(user)
-        every { mockGetSurveysUseCase(any(), any()) } returns flowOf(surveys)
+        every { mockGetSurveysUseCase(any(), any(), any()) } returns flowOf(surveys)
         every { mockLogOutUseCase() } returns flowOf(Unit)
         every { mockDateFormatter.format(any(), any()) } returns "Thursday, December 29"
 
@@ -91,7 +90,7 @@ class HomeViewModelTest {
     @Test
     fun `when getting surveys fails, it shows the corresponding error`() = runTest {
         val error = Exception()
-        every { mockGetSurveysUseCase(any(), any()) } returns flow { throw error }
+        every { mockGetSurveysUseCase(any(), any(), any()) } returns flow { throw error }
         viewModel.init()
 
         viewModel.error.test {
@@ -105,6 +104,33 @@ class HomeViewModelTest {
 
         viewModel.isLoading.test {
             viewModel.init()
+
+            awaitItem() shouldBe false
+            awaitItem() shouldBe true
+            awaitItem() shouldBe false
+        }
+    }
+
+    @Test
+    fun `when refreshing data, it executes to refresh user profile & surveys data`() = runTest {
+        viewModel.loadData(isRefresh = true)
+
+        verify(exactly = 1) { mockGetUserProfileUseCase() }
+        verify(exactly = 1) {
+            mockGetSurveysUseCase(
+                pageNumber = 1,
+                pageSize = 10,
+                isRefresh = true
+            )
+        }
+    }
+
+    @Test
+    fun `when refreshing data, it shows and hides pullRefresh loading indicator correctly`() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher())
+
+        viewModel.isRefreshing.test {
+            viewModel.loadData(isRefresh = true)
 
             awaitItem() shouldBe false
             awaitItem() shouldBe true

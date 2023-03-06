@@ -6,12 +6,12 @@ import vn.luongvo.kmm.survey.domain.repository.SurveyRepository
 
 interface GetSurveysUseCase {
 
-    operator fun invoke(pageNumber: Int, pageSize: Int): Flow<List<Survey>>
+    operator fun invoke(pageNumber: Int, pageSize: Int, isRefresh: Boolean): Flow<List<Survey>>
 }
 
 class GetSurveysUseCaseImpl(private val repository: SurveyRepository) : GetSurveysUseCase {
 
-    override operator fun invoke(pageNumber: Int, pageSize: Int): Flow<List<Survey>> {
-        return repository.getSurveys(pageNumber = pageNumber, pageSize = pageSize)
+    override operator fun invoke(pageNumber: Int, pageSize: Int, isRefresh: Boolean): Flow<List<Survey>> {
+        return repository.getSurveys(pageNumber = pageNumber, pageSize = pageSize, isRefresh = isRefresh)
     }
 }

@@ -6,7 +6,7 @@ import vn.luongvo.kmm.survey.domain.model.SurveySubmission
 
 interface SurveyRepository {
 
-    fun getSurveys(pageNumber: Int, pageSize: Int): Flow<List<Survey>>
+    fun getSurveys(pageNumber: Int, pageSize: Int, isRefresh: Boolean): Flow<List<Survey>>
 
     fun getSurveyDetail(id: String): Flow<Survey>
 
