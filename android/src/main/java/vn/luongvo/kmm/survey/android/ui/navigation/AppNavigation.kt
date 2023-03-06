@@ -35,7 +35,9 @@ fun AppNavigation(
             )
         }
         composable(AppDestination.Completion) {
-            CompletionScreen()
+            CompletionScreen(
+                navigator = { destination -> navController.navigate(destination) }
+            )
         }
     }
 }
