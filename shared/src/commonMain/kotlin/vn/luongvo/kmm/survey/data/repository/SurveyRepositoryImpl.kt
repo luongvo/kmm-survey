@@ -16,14 +16,13 @@ class SurveyRepositoryImpl(
 ) : SurveyRepository {
 
     override fun getSurveys(pageNumber: Int, pageSize: Int, isRefresh: Boolean): Flow<List<Survey>> = flowTransform {
-        if (isRefresh) {
-            surveyLocalDataSource.clear()
-        }
-
         val surveys = surveyRemoteDataSource
             .getSurveys(pageNumber = pageNumber, pageSize = pageSize)
             .map { it.toSurvey() }
 
+        if (isRefresh) {
+            surveyLocalDataSource.clear()
+        }
         surveyLocalDataSource.saveSurveys(surveys.map { it.toSurveyRealmObject() })
 
         surveys

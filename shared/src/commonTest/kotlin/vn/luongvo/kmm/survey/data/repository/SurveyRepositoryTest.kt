@@ -56,6 +56,24 @@ class SurveyRepositoryTest {
     }
 
     @Test
+    fun `when calling getSurveys fails - it does not cache and throws the corresponding error`() = runTest {
+        val throwable = Throwable()
+        given(mockRemoteDataSource)
+            .suspendFunction(mockRemoteDataSource::getSurveys)
+            .whenInvokedWith(any(), any())
+            .thenThrow(throwable)
+
+        repository.getSurveys(pageNumber = 1, pageSize = 10, isRefresh = false).test {
+            awaitError() shouldBe throwable
+
+            verify(mockLocalDataSource)
+                .function(mockLocalDataSource::saveSurveys)
+                .with(any())
+                .wasInvoked(exactly = 0.time)
+        }
+    }
+
+    @Test
     fun `when calling getSurveys with isRefresh = true - it clears the cache`() = runTest {
         given(mockRemoteDataSource)
             .suspendFunction(mockRemoteDataSource::getSurveys)
@@ -73,19 +91,18 @@ class SurveyRepositoryTest {
     }
 
     @Test
-    fun `when calling getSurveys fails - it does not cache and throws the corresponding error`() = runTest {
+    fun `when calling getSurveys fails with isRefresh = true - it does not clear the cache`() = runTest {
         val throwable = Throwable()
         given(mockRemoteDataSource)
             .suspendFunction(mockRemoteDataSource::getSurveys)
             .whenInvokedWith(any(), any())
             .thenThrow(throwable)
 
-        repository.getSurveys(pageNumber = 1, pageSize = 10, isRefresh = false).test {
+        repository.getSurveys(pageNumber = 1, pageSize = 10, isRefresh = true).test {
             awaitError() shouldBe throwable
 
             verify(mockLocalDataSource)
-                .function(mockLocalDataSource::saveSurveys)
-                .with(any())
+                .function(mockLocalDataSource::clear)
                 .wasInvoked(exactly = 0.time)
         }
     }
