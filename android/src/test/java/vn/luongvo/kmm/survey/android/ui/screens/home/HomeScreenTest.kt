@@ -5,12 +5,12 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.*
-import org.junit.Assert.assertEquals
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import vn.luongvo.kmm.survey.android.R
@@ -108,7 +108,7 @@ class HomeScreenTest {
     fun `when clicking on the Next button on each survey, it navigates to the Survey screen`() = initComposable {
         onNodeWithContentDescription(HomeSurveyDetail).performClick()
 
-        assertEquals(expectedAppDestination, AppDestination.Survey)
+        expectedAppDestination shouldBe AppDestination.Survey
     }
 
     private fun initComposable(testBody: ComposeContentTestRule.() -> Unit) {

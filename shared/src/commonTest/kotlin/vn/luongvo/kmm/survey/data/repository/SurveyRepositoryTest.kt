@@ -18,6 +18,7 @@ import vn.luongvo.kmm.survey.test.Fake.surveys
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
+@Suppress("TooManyFunctions", "LargeClass")
 @ExperimentalCoroutinesApi
 class SurveyRepositoryTest {
 
