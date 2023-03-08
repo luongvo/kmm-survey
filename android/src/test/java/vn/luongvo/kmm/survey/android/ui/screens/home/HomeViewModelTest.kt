@@ -5,12 +5,12 @@ import io.kotest.matchers.shouldBe
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.*
 import org.junit.*
 import vn.luongvo.kmm.survey.android.BuildConfig
 import vn.luongvo.kmm.survey.android.test.CoroutineTestRule
+import vn.luongvo.kmm.survey.android.test.Fake.cachedSurveys
 import vn.luongvo.kmm.survey.android.test.Fake.surveys
 import vn.luongvo.kmm.survey.android.test.Fake.user
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
@@ -26,6 +26,7 @@ class HomeViewModelTest {
 
     private val mockGetUserProfileUseCase: GetUserProfileUseCase = mockk()
     private val mockGetSurveysUseCase: GetSurveysUseCase = mockk()
+    private val mockGetCachedSurveysUseCase: GetCachedSurveysUseCase = mockk()
     private val mockLogOutUseCase: LogOutUseCase = mockk()
     private val mockDateFormatter: DateFormatter = mockk()
 
@@ -35,12 +36,14 @@ class HomeViewModelTest {
     fun setUp() {
         every { mockGetUserProfileUseCase() } returns flowOf(user)
         every { mockGetSurveysUseCase(any(), any(), any()) } returns flowOf(surveys)
+        every { mockGetCachedSurveysUseCase() } returns emptyFlow()
         every { mockLogOutUseCase() } returns flowOf(Unit)
         every { mockDateFormatter.format(any(), any()) } returns "Thursday, December 29"
 
         viewModel = HomeViewModel(
             mockGetUserProfileUseCase,
             mockGetSurveysUseCase,
+            mockGetCachedSurveysUseCase,
             mockLogOutUseCase,
             mockDateFormatter
         )
@@ -79,6 +82,17 @@ class HomeViewModelTest {
     }
 
     @Test
+    fun `when loading the Home screen, it loads the cache correctly`() = runTest {
+        every { mockGetSurveysUseCase(any(), any(), any()) } returns emptyFlow()
+        every { mockGetCachedSurveysUseCase() } returns flowOf(cachedSurveys)
+        viewModel.init()
+
+        viewModel.surveys.test {
+            expectMostRecentItem() shouldBe cachedSurveys.map { it.toUiModel() }
+        }
+    }
+
+    @Test
     fun `when getting surveys successfully, it shows the survey list`() = runTest {
         viewModel.init()
 
@@ -99,7 +113,23 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `When getting surveys, it shows and hides loading correctly`() = runTest {
+    fun `When getting surveys remotely with no cached data, it shows and hides loading correctly`() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher())
+
+        viewModel.isLoading.test {
+            viewModel.init()
+
+            awaitItem() shouldBe false
+            awaitItem() shouldBe true
+            awaitItem() shouldBe false
+            awaitItem() shouldBe true
+            awaitItem() shouldBe false
+        }
+    }
+
+    @Test
+    fun `When getting surveys remotely with cached data, it does not show loading`() = runTest {
+        every { mockGetCachedSurveysUseCase() } returns flowOf(cachedSurveys)
         Dispatchers.setMain(StandardTestDispatcher())
 
         viewModel.isLoading.test {

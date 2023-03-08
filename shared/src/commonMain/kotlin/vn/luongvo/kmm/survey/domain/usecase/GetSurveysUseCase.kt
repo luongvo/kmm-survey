@@ -5,7 +5,6 @@ import vn.luongvo.kmm.survey.domain.model.Survey
 import vn.luongvo.kmm.survey.domain.repository.SurveyRepository
 
 interface GetSurveysUseCase {
-
     operator fun invoke(pageNumber: Int, pageSize: Int, isRefresh: Boolean): Flow<List<Survey>>
 }
 

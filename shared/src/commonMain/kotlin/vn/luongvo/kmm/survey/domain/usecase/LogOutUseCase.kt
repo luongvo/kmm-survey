@@ -5,7 +5,6 @@ import vn.luongvo.kmm.survey.domain.repository.AuthRepository
 import vn.luongvo.kmm.survey.domain.repository.UserRepository
 
 interface LogOutUseCase {
-
     operator fun invoke(): Flow<Unit>
 }
 

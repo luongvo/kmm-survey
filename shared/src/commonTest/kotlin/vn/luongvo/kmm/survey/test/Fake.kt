@@ -5,6 +5,8 @@ import co.nimblehq.jsonapi.model.JsonApiError
 import co.nimblehq.jsonapi.model.JsonApiException
 import com.goncalossilva.resources.Resource
 import kotlinx.serialization.json.Json
+import vn.luongvo.kmm.survey.data.local.model.SurveyRealmObject
+import vn.luongvo.kmm.survey.data.local.model.toSurvey
 import vn.luongvo.kmm.survey.data.remote.model.response.*
 
 object Fake {
@@ -34,6 +36,17 @@ object Fake {
         decodeFromJsonApiString("src/commonTest/resources/surveys.json")
 
     val surveys = surveyResponses.map { it.toSurvey() }
+
+    val surveySurveyRealmObjects: List<SurveyRealmObject> = listOf(
+        SurveyRealmObject(
+            id = "id",
+            title = "title",
+            description = "description",
+            coverImageUrl = "coverImageUrl"
+        )
+    )
+
+    val cachedSurveys = surveySurveyRealmObjects.map { it.toSurvey() }
 
     val surveyDetailResponse: SurveyResponse =
         decodeFromJsonApiString("src/commonTest/resources/survey_detail.json")

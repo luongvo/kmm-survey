@@ -11,6 +11,7 @@ buildscript {
         classpath(Dependencies.Kotlin.KOTLIN_GRADLE_PLUGIN)
         classpath(Dependencies.Kotlin.KOTLIN_SERIALIZATION)
         classpath(Dependencies.Firebase.GOOGLE_SERVICES)
+        classpath(Dependencies.Storage.REALM_GRADLE_PLUGIN)
     }
 }
 

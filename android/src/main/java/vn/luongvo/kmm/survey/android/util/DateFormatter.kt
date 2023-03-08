@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 interface DateFormatter {
-
     fun format(date: Date, dateFormat: String): String
 }
 

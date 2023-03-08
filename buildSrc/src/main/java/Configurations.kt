@@ -34,6 +34,8 @@ object Plugins {
     const val KSP = "com.google.devtools.ksp"
 
     const val MULTIPLATFORM = "multiplatform"
+
+    const val REALM = "io.realm.kotlin"
 }
 
 object XcodeConfiguration {

@@ -48,5 +48,15 @@ object Fake {
         )
     )
 
+    val cachedSurveys = listOf(
+        Survey(
+            id = "1",
+            title = "Scarlett Bangkok",
+            description = "We'd love to hear from you!",
+            coverImageUrl = "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_",
+            questions = null
+        )
+    )
+
     val surveyDetail = decodeFromJsonApiString<SurveyResponse>("survey_detail.json").toSurvey()
 }

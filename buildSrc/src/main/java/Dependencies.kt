@@ -50,6 +50,8 @@ object Versions {
 
     const val NAPIER = "2.6.1"
 
+    const val REALM = "1.6.1"
+
     const val SETTINGS = "1.0.0-RC"
 
     const val TIMBER = "4.7.1"
@@ -119,7 +121,10 @@ object Dependencies {
         const val JSON_API = "co.nimblehq.jsonapi:core:${Versions.JSON_API}"
     }
 
-    object Settings {
+    object Storage {
+        const val REALM_GRADLE_PLUGIN = "io.realm.kotlin:gradle-plugin:${Versions.REALM}"
+        const val REALM_CORE = "io.realm.kotlin:library-base:${Versions.REALM}"
+
         const val SETTINGS = "com.russhwolf:multiplatform-settings:${Versions.SETTINGS}"
     }
 

@@ -4,7 +4,6 @@ import vn.luongvo.kmm.survey.data.remote.ApiClient
 import vn.luongvo.kmm.survey.data.remote.model.response.UserResponse
 
 interface UserRemoteDataSource {
-
     suspend fun getUserProfile(): UserResponse
 
     fun clearClientTokenConfig()

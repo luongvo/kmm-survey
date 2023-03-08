@@ -8,7 +8,6 @@ private const val ACCESS_TOKEN_KEY = "accessToken"
 private const val REFRESH_TOKEN_KEY = "refreshToken"
 
 interface TokenLocalDataSource {
-
     fun saveToken(token: Token)
 
     fun clear()

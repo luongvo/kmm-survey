@@ -11,6 +11,7 @@ plugins {
     id(Plugins.KOVER)
     id(Plugins.KSP).version(Versions.KSP)
     id(Plugins.KOTLINX_RESOURCES).version(Versions.KOTLINX_RESOURCES)
+    id(Plugins.REALM)
 }
 
 kotlin {
@@ -48,7 +49,8 @@ kotlin {
                     implementation(AUTH)
                     implementation(JSON_API)
                 }
-                implementation(Dependencies.Settings.SETTINGS)
+                implementation(Dependencies.Storage.SETTINGS)
+                implementation(Dependencies.Storage.REALM_CORE)
                 implementation(Dependencies.Log.NAPIER)
             }
         }

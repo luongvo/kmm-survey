@@ -5,7 +5,6 @@ import vn.luongvo.kmm.survey.data.remote.model.request.*
 import vn.luongvo.kmm.survey.data.remote.model.response.TokenResponse
 
 interface AuthRemoteDataSource {
-
     suspend fun logIn(body: LoginRequestBody): TokenResponse
 
     suspend fun refreshToken(body: RefreshTokenRequestBody): TokenResponse

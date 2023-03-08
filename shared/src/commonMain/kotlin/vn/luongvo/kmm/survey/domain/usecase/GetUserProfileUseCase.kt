@@ -5,7 +5,6 @@ import vn.luongvo.kmm.survey.domain.model.User
 import vn.luongvo.kmm.survey.domain.repository.UserRepository
 
 interface GetUserProfileUseCase {
-
     operator fun invoke(): Flow<User>
 }
 
