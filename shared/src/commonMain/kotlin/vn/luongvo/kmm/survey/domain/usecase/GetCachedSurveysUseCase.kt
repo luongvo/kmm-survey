@@ -5,7 +5,6 @@ import vn.luongvo.kmm.survey.domain.model.Survey
 import vn.luongvo.kmm.survey.domain.repository.SurveyRepository
 
 interface GetCachedSurveysUseCase {
-
     operator fun invoke(): Flow<List<Survey>>
 }
 

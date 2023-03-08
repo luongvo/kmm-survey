@@ -6,7 +6,6 @@ import io.realm.kotlin.ext.query
 import vn.luongvo.kmm.survey.data.local.model.SurveyRealmObject
 
 interface SurveyLocalDataSource {
-
     fun saveSurveys(surveys: List<SurveyRealmObject>)
 
     fun getSurveys(): List<SurveyRealmObject>

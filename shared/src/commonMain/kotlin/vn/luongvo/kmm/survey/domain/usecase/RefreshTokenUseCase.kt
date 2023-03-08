@@ -6,7 +6,6 @@ import vn.luongvo.kmm.survey.domain.model.Token
 import vn.luongvo.kmm.survey.domain.repository.AuthRepository
 
 interface RefreshTokenUseCase {
-
     operator fun invoke(refreshToken: String): Flow<Token>
 }
 
