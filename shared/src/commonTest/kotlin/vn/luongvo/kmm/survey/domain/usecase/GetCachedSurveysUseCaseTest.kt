@@ -13,42 +13,42 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 @ExperimentalCoroutinesApi
-class GetSurveysUseCaseTest {
+class GetCachedSurveysUseCaseTest {
 
     @Mock
     private val mockRepository = mock(SurveyRepository::class)
 
-    private lateinit var useCase: GetSurveysUseCase
+    private lateinit var useCase: GetCachedSurveysUseCase
 
     @BeforeTest
     fun setUp() {
-        useCase = GetSurveysUseCaseImpl(mockRepository)
+        useCase = GetCachedSurveysUseCaseImpl(mockRepository)
     }
 
     @Test
-    fun `when calling getSurveys successfully - it returns survey list`() = runTest {
+    fun `when calling getCachedSurveys successfully - it returns survey list`() = runTest {
         given(mockRepository)
-            .function(mockRepository::getSurveys)
-            .whenInvokedWith(any(), any(), any())
+            .function(mockRepository::getCachedSurveys)
+            .whenInvoked()
             .thenReturn(flowOf(surveys))
 
-        useCase(pageNumber = 1, pageSize = 10, isRefresh = false).test {
+        useCase().test {
             awaitItem() shouldBe surveys
             awaitComplete()
         }
     }
 
     @Test
-    fun `when calling getSurveys fails - it throws the corresponding error`() = runTest {
+    fun `when calling getCachedSurveys fails - it throws the corresponding error`() = runTest {
         val throwable = Throwable()
         given(mockRepository)
-            .function(mockRepository::getSurveys)
-            .whenInvokedWith(any(), any(), any())
+            .function(mockRepository::getCachedSurveys)
+            .whenInvoked()
             .thenReturn(
                 flow { throw throwable }
             )
 
-        useCase(pageNumber = 1, pageSize = 10, isRefresh = false).test {
+        useCase().test {
             awaitError() shouldBe throwable
         }
     }

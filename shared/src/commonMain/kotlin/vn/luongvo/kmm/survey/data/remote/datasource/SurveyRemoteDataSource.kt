@@ -5,7 +5,6 @@ import vn.luongvo.kmm.survey.data.remote.model.request.SurveySubmissionRequestBo
 import vn.luongvo.kmm.survey.data.remote.model.response.SurveyResponse
 
 interface SurveyRemoteDataSource {
-
     suspend fun getSurveys(pageNumber: Int, pageSize: Int): List<SurveyResponse>
 
     suspend fun getSurveyDetail(id: String): SurveyResponse

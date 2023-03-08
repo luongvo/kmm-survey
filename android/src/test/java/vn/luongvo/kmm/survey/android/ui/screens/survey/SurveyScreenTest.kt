@@ -5,12 +5,12 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.*
-import org.junit.Assert.assertEquals
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import vn.luongvo.kmm.survey.android.R
@@ -60,7 +60,7 @@ class SurveyScreenTest {
 
             testAndFillQuestionAnswers()
 
-            assertEquals(expectedAppDestination, AppDestination.Completion)
+            expectedAppDestination shouldBe AppDestination.Completion
         }
 
     private fun ComposeContentTestRule.testAndFillQuestionAnswers() {
@@ -129,11 +129,20 @@ class SurveyScreenTest {
     }
 
     @Test
-    fun `when clicking on the Back button, it navigates back to the Home screen`() = initComposable {
-        onNodeWithContentDescription(SurveyBackButton).performClick()
+    fun `when clicking on the Back button, it shows the confirmation dialog to navigate back to the Home screen`() =
+        initComposable {
+            onNodeWithContentDescription(SurveyBackButton).performClick()
+            onNodeWithText(context.getString(R.string.generic_no)).performClick()
 
-        assertEquals(expectedAppDestination, AppDestination.Up)
-    }
+            // Cancel and stay on the Survey screen
+            expectedAppDestination shouldBe null
+
+            onNodeWithContentDescription(SurveyBackButton).performClick()
+            onNodeWithText(context.getString(R.string.generic_yes)).performClick()
+
+            // Navigate back to the Home screen
+            expectedAppDestination shouldBe AppDestination.Up
+        }
 
     @Test
     fun `when getting survey detail fails, it shows an error message`() {

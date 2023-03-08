@@ -17,9 +17,13 @@ private const val SurveyPageSize = 10
 class HomeViewModel(
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val getSurveysUseCase: GetSurveysUseCase,
+    private val getCachedSurveysUseCase: GetCachedSurveysUseCase,
     private val logOutUseCase: LogOutUseCase,
     private val dateFormatter: DateFormatter
 ) : BaseViewModel() {
+
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing
 
     private val _currentDate = MutableStateFlow("")
     val currentDate: StateFlow<String> = _currentDate
@@ -41,6 +45,20 @@ class HomeViewModel(
             _appVersion.emit("v${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})")
         }
 
+        loadCachedSurveys()
+        loadData()
+    }
+
+    private fun loadCachedSurveys() {
+        getCachedSurveysUseCase()
+            .injectLoading()
+            .onEach { surveys ->
+                _surveys.emit(surveys.map { it.toUiModel() })
+            }
+            .launchIn(viewModelScope)
+    }
+
+    fun loadData(isRefresh: Boolean = false) {
         getUserProfileUseCase()
             .catch { e -> _error.emit(e) }
             .onEach {
@@ -48,8 +66,22 @@ class HomeViewModel(
             }
             .launchIn(viewModelScope)
 
-        getSurveysUseCase(pageNumber = SurveyStartPageIndex, pageSize = SurveyPageSize)
-            .injectLoading()
+        getSurveysUseCase(
+            pageNumber = SurveyStartPageIndex,
+            pageSize = SurveyPageSize,
+            isRefresh = isRefresh
+        )
+            .onStart {
+                if (isRefresh) _isRefreshing.value = true
+                else if (_surveys.value.isEmpty()) {
+                    // If there is no cached survey data, shows the shimmer loading when fetching remote data.
+                    showLoading()
+                }
+            }
+            .onCompletion {
+                if (isRefresh) _isRefreshing.value = false
+                else hideLoading()
+            }
             .catch { e -> _error.emit(e) }
             .onEach { surveys ->
                 _surveys.emit(surveys.map { it.toUiModel() })

@@ -4,7 +4,7 @@ object Versions {
     const val ANDROID_TARGET_SDK_VERSION = 33
 
     const val ANDROID_VERSION_CODE = 1
-    const val ANDROID_VERSION_NAME = "0.5.0"
+    const val ANDROID_VERSION_NAME = "0.6.0"
 
     const val ANDROIDX_ACTIVITY_COMPOSE = "1.5.1"
     const val ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE = "2.6.0-alpha03"
@@ -20,6 +20,7 @@ object Versions {
     const val COMPOSE_ACCOMPANIST = "0.28.0"
     const val COMPOSE_COIL = "2.2.2"
     const val COMPOSE_CONSTRAINT_LAYOUT = "1.0.1"
+    const val COMPOSE_LOTTIE = "6.0.0"
     const val COMPOSE_NUMBERPICKER = "1.0.7"
 
     const val DETEKT = "1.21.0"
@@ -48,6 +49,8 @@ object Versions {
     const val MOCKK = "1.13.3"
 
     const val NAPIER = "2.6.1"
+
+    const val REALM = "1.6.1"
 
     const val SETTINGS = "1.0.0-RC"
 
@@ -89,6 +92,7 @@ object Dependencies {
         const val COIL_COMPOSE = "io.coil-kt:coil-compose:${Versions.COMPOSE_COIL}"
         const val CONSTRAINT_LAYOUT =
             "androidx.constraintlayout:constraintlayout-compose:${Versions.COMPOSE_CONSTRAINT_LAYOUT}"
+        const val LOTTIE = "com.airbnb.android:lottie-compose:${Versions.COMPOSE_LOTTIE}"
         const val NUMBERPICKER = "com.github.luongvo:Compose-NumberPicker:${Versions.COMPOSE_NUMBERPICKER}"
     }
 
@@ -117,7 +121,10 @@ object Dependencies {
         const val JSON_API = "co.nimblehq.jsonapi:core:${Versions.JSON_API}"
     }
 
-    object Settings {
+    object Storage {
+        const val REALM_GRADLE_PLUGIN = "io.realm.kotlin:gradle-plugin:${Versions.REALM}"
+        const val REALM_CORE = "io.realm.kotlin:library-base:${Versions.REALM}"
+
         const val SETTINGS = "com.russhwolf:multiplatform-settings:${Versions.SETTINGS}"
     }
 

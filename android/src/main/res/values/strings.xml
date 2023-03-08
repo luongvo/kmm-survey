@@ -2,8 +2,12 @@
 <resources>
     <string name="app_name">KMM Survey</string>
 
+    <string name="completion_thanks_message">Thanks for taking the survey.</string>
+
     <string name="generic_error">Unexpected error!</string>
+    <string name="generic_no">No</string>
     <string name="generic_ok">OK</string>
+    <string name="generic_yes">Yes</string>
 
     <string name="home_logout">Logout</string>
     <string name="home_today">Today</string>
@@ -18,4 +22,6 @@
 
     <string name="survey_start">Start Survey</string>
     <string name="survey_submit">Submit</string>
+    <string name="survey_quit_confirmation_description">Are you sure you want to quit the survey?</string>
+    <string name="survey_quit_confirmation_title">Warning</string>
 </resources>

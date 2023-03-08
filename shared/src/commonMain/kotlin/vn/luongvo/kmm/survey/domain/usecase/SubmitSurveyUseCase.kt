@@ -5,7 +5,6 @@ import vn.luongvo.kmm.survey.domain.model.SurveySubmission
 import vn.luongvo.kmm.survey.domain.repository.SurveyRepository
 
 interface SubmitSurveyUseCase {
-
     operator fun invoke(submission: SurveySubmission): Flow<Unit>
 }
 

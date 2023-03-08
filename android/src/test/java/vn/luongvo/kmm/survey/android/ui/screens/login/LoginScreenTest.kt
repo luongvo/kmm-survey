@@ -5,12 +5,12 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.*
-import org.junit.Assert.assertEquals
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import vn.luongvo.kmm.survey.android.R
@@ -68,7 +68,7 @@ class LoginScreenTest {
         every { mockIsLoggedInUseCase() } returns flowOf(true)
         initComposable {
             waitForIdle()
-            assertEquals(expectedAppDestination, AppDestination.Home)
+            expectedAppDestination shouldBe AppDestination.Home
         }
     }
 
@@ -80,7 +80,7 @@ class LoginScreenTest {
         onNodeWithContentDescription(LoginPasswordField).performTextInput("12345678")
         onNodeWithContentDescription(LoginButton).performClick()
 
-        assertEquals(expectedAppDestination, AppDestination.Home)
+        expectedAppDestination shouldBe AppDestination.Home
     }
 
     @Test

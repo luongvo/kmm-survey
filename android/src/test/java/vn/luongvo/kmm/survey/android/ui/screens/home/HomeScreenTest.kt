@@ -5,12 +5,12 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.*
-import org.junit.Assert.assertEquals
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import vn.luongvo.kmm.survey.android.R
@@ -31,6 +31,7 @@ class HomeScreenTest {
 
     private val mockGetUserProfileUseCase: GetUserProfileUseCase = mockk()
     private val mockGetSurveysUseCase: GetSurveysUseCase = mockk()
+    private val mockGetCachedSurveysUseCase: GetCachedSurveysUseCase = mockk()
     private val mockLogOutUseCase: LogOutUseCase = mockk()
     private val mockDateFormatter: DateFormatter = mockk()
 
@@ -40,13 +41,15 @@ class HomeScreenTest {
     @Before
     fun setup() {
         every { mockGetUserProfileUseCase() } returns flowOf(user)
-        every { mockGetSurveysUseCase(any(), any()) } returns flowOf(surveys)
+        every { mockGetSurveysUseCase(any(), any(), any()) } returns flowOf(surveys)
+        every { mockGetCachedSurveysUseCase() } returns flowOf(emptyList())
         every { mockLogOutUseCase() } returns flowOf(Unit)
         every { mockDateFormatter.format(any(), any()) } returns "Thursday, December 29"
 
         viewModel = HomeViewModel(
             mockGetUserProfileUseCase,
             mockGetSurveysUseCase,
+            mockGetCachedSurveysUseCase,
             mockLogOutUseCase,
             mockDateFormatter
         )
@@ -94,7 +97,7 @@ class HomeScreenTest {
     @Test
     fun `when getting surveys fails, it shows an error message`() {
         val expectedError = Throwable("unexpected error")
-        every { mockGetSurveysUseCase(any(), any()) } returns flow { throw expectedError }
+        every { mockGetSurveysUseCase(any(), any(), any()) } returns flow { throw expectedError }
 
         initComposable {
             onNodeWithText("unexpected error").assertIsDisplayed()
@@ -105,7 +108,7 @@ class HomeScreenTest {
     fun `when clicking on the Next button on each survey, it navigates to the Survey screen`() = initComposable {
         onNodeWithContentDescription(HomeSurveyDetail).performClick()
 
-        assertEquals(expectedAppDestination, AppDestination.Survey)
+        expectedAppDestination shouldBe AppDestination.Survey
     }
 
     private fun initComposable(testBody: ComposeContentTestRule.() -> Unit) {

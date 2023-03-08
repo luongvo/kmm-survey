@@ -1,10 +1,12 @@
 package vn.luongvo.kmm.survey.android.ui.screens.survey
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -13,6 +15,7 @@ import com.google.accompanist.pager.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
+import vn.luongvo.kmm.survey.android.R
 import vn.luongvo.kmm.survey.android.ui.common.*
 import vn.luongvo.kmm.survey.android.ui.navigation.AppDestination
 import vn.luongvo.kmm.survey.android.ui.preview.*
@@ -50,6 +53,12 @@ fun SurveyScreen(
         viewModel.clearError()
     }
 
+    val showConfirmationDialog = remember { mutableStateOf(false) }
+    ConfirmationDialogHandling(
+        showConfirmationDialog = showConfirmationDialog,
+        onExit = { navigator(AppDestination.Up) }
+    )
+
     LaunchedEffect(Unit) {
         viewModel.getSurveyDetail(id = surveyId)
     }
@@ -62,10 +71,34 @@ fun SurveyScreen(
         scaffoldState = scaffoldState,
         isLoading = isLoading,
         survey = survey,
-        onBackClick = { navigator(AppDestination.Up) },
+        onBackClick = { showConfirmationDialog.value = true },
         onAnswer = { viewModel.saveAnswerForQuestion(it) },
         onSubmitClick = { viewModel.submitSurvey() }
     )
+}
+
+@Composable
+private fun ConfirmationDialogHandling(
+    showConfirmationDialog: MutableState<Boolean>,
+    onExit: () -> Unit,
+) {
+    if (showConfirmationDialog.value) {
+        ConfirmationDialog(
+            title = stringResource(id = R.string.survey_quit_confirmation_title),
+            message = stringResource(id = R.string.survey_quit_confirmation_description),
+            onConfirmButtonClick = {
+                showConfirmationDialog.value = false
+                onExit()
+            },
+            onDismissRequest = {
+                showConfirmationDialog.value = false
+            }
+        )
+    }
+    // Override the system back button
+    BackHandler(true) {
+        showConfirmationDialog.value = true
+    }
 }
 
 @OptIn(ExperimentalPagerApi::class)
