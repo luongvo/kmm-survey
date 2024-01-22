@@ -54,30 +54,25 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Run unit tests with Kover
-        run: ./gradlew koverMergedXmlReport
-
-      - name: Upload coverage to codecov
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-          files: ./build/reports/kover/merged/xml/report.xml
-          flags: unittests # optional
-          fail_ci_if_error: false
-          verbose: true
-
       - uses: chkfung/android-version-actions@v1.1
         with:
           gradlePath: android/build.gradle.kts
           versionCode: ${{ github.run_number }}
 
-      - name: Build Production release APK
-        run: ./gradlew assembleProductionRelease
+      - name: Build the Production App Bundle
+        run: ./gradlew bundleProductionRelease
 
-      - name: Deploy staging to Firebase
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
+      - name: Read the current version
+        id: version
+        run: echo "version=$(perl -nle 'print $1 if /ANDROID_VERSION_NAME = \"(.*)\"$/' buildSrc/src/main/java/Dependencies.kt)" >> $GITHUB_OUTPUT
+
+      - name: Upload the Android Production bundle to the Play Store
+        uses: r0adkll/upload-google-play@v1
         with:
-          appId: '1:835959262689:android:cfc4c7eb6425a49c0896a0'
-          serviceCredentialsFileContent: ${{ secrets.FIREBASE_DISTRIBUTION_CREDENTIAL_JSON }}
-          groups: nimble
-          file: android/build/outputs/apk/production/release/android-production-release.apk
+          releaseFiles: android/build/outputs/bundle/productionRelease/android-production-release.aab
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: vn.luongvo.kmm.survey.android
+          releaseName: ${{ steps.version.outputs.version }}
+          track: internal
+          status: draft
+          whatsNewDirectory: .github/workflows/whatsnew
